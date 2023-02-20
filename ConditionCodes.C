@@ -41,6 +41,7 @@ ConditionCodes * ConditionCodes::getInstance() {
  */
 bool ConditionCodes::getConditionCode(int32_t ccNum, bool & error) {
    	if (ccNum == ZF || ccNum == OF || ccNum == SF) {
+		error = false;
 		return Tools::getBits(codes, ccNum, ccNum);	
 	}
 	error = true;
