@@ -11,9 +11,8 @@ ConditionCodes * ConditionCodes::ccInstance = NULL;
  * ConditionCodes constructor
  * initialize the codes field to 0
  */
-ConditionCodes::ConditionCodes()
-{
-
+ConditionCodes::ConditionCodes() {
+	codes = 0;
 }
 
 /**
@@ -24,9 +23,9 @@ ConditionCodes::ConditionCodes()
  *
  * @return ccInstance
  */
-ConditionCodes * ConditionCodes::getInstance()
-{
-   return NULL;
+ConditionCodes * ConditionCodes::getInstance() {
+	if (ccInstance == NULL) ccInstance = new ConditionCodes();
+	return ccInstance;
 }
 
 /*
@@ -40,11 +39,12 @@ ConditionCodes * ConditionCodes::getInstance()
  * @return error is set to true if ccNum is out of range and
  *         false otherwise
  */
-bool ConditionCodes::getConditionCode(int32_t ccNum, bool & error)
-{
-   //Use your getBits in Tools.C.
-   //Don't use "magic" numbers.
-   return false;
+bool ConditionCodes::getConditionCode(int32_t ccNum, bool & error) {
+   	if (ccNum == ZF || ccNum == OF || ccNum == SF) {
+		return Tools::getBits(codes, ccNum, ccNum);	
+	}
+	error = true;
+	return false;	
 }
 
 /*
@@ -59,20 +59,20 @@ bool ConditionCodes::getConditionCode(int32_t ccNum, bool & error)
  * @return error is set to true if ccNum is out of range and
  *         false otherwise
  */
-void ConditionCodes::setConditionCode(bool value, int32_t ccNum, 
-                                      bool & error)
-{
-   //Use your setBits and clearBits in Tools.C. 
-   //Don't use "magic" numbers in your code.
-   return;
+void ConditionCodes::setConditionCode(bool value, int32_t ccNum, bool & error) {
+	if (ccNum == ZF || ccNum == OF || ccNum == SF) {
+		if (value == 0 || value == 1) {
+			if (value) Tools::setBits(codes, ccNum, ccNum);	
+			else Tools::clearBits(codes, ccNum, ccNum);	
+		}
+	} else error = true;
 }
 
 /*
  * dump
  * outputs the values of the condition codes
  */
-void ConditionCodes::dump()
-{
+void ConditionCodes::dump() {
    int32_t zf = Tools::getBits(codes, ZF, ZF);
    int32_t sf = Tools::getBits(codes, SF, SF);
    int32_t of = Tools::getBits(codes, OF, OF);
