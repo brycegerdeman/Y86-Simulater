@@ -6,16 +6,14 @@
 //regInstance will be initialized to the single RegisterFile
 //object that is created
 RegisterFile * RegisterFile::regInstance = NULL;
-int32_t[] regArray = new int32_t[16];
+uint64_t reg[16];
+
 /**
  * RegisterFile constructor
  * initialize the contents of the reg array to 0
  */
-RegisterFile::RegisterFile()
-{
-	for (int i = 0; i < 15; i++) {
-		regArray[i] = 0;
-	}			
+RegisterFile::RegisterFile() {
+	for (int i = 0; i < 15; i++) { reg[i] = 0; }			
 }
 
 /**
@@ -26,13 +24,9 @@ RegisterFile::RegisterFile()
  * @return regInstance, the pointer to the single RegisterFile
  *         instance
  */
-RegisterFile * RegisterFile::getInstance()
-{
-	if (regInstance == NULL) {
-	
-		regInstance = new RegisterFile();
-			return regInstance;
-	}
+RegisterFile * RegisterFile::getInstance() {
+	if (regInstance == NULL) regInstance = new RegisterFile();
+	return regInstance;
 }
 
 /**
@@ -47,9 +41,13 @@ RegisterFile * RegisterFile::getInstance()
  * @returns reg[regNumber] if regNumber is valid, otherwise 0
  * @returns sets error to false if regNumber is valid, otherwise true
 */
-uint64_t RegisterFile::readRegister(int32_t regNumber, bool & error)
-{
-   return 0;
+uint64_t RegisterFile::readRegister(int32_t regNumber, bool & error) {
+	if (regNumber >= 0 || regNumber <= 15) {
+		error = false;
+		return reg[regNumber];
+	}
+	error = true;
+	return 0;
 }
 
 /**
@@ -61,18 +59,18 @@ uint64_t RegisterFile::readRegister(int32_t regNumber, bool & error)
  * @param number of register to be modified (index into reg array)
  * @returns sets error to false if regNumber is valid and true otherwise
  */
-void RegisterFile::writeRegister(uint64_t value, int32_t regNumber, 
-                                 bool & error)
-{
-   return;
+void RegisterFile::writeRegister(uint64_t value, int32_t regNumber, bool & error) {
+   	if (regNumber >= 0 || regNumber <= 15) {
+		error = false;
+		reg[regNumber] = value;
+	} else error = true;
 }
 
 /**
  * dump
  * output the contents of the reg array
  */
-void RegisterFile::dump()
-{
+void RegisterFile::dump() {
    std::string rnames[15] = {"%rax: ", "%rcx: ", "%rdx: ",  "%rbx: ",
                              "%rsp: ", "%rbp: ", "%rsi: ",  "%rdi: ", 
                              "% r8: ", "% r9: ", "%r10: ",  "%r11: ",

@@ -25,7 +25,6 @@ RegisterFile.o: RegisterFile.h Tools.h
 RegisterFileTester.o: RegisterFileTester.h RegisterFile.h
 
 run:
-	make clean
 	make lab4
 	./run.sh	
 
