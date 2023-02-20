@@ -11,8 +11,8 @@ Memory * Memory::memInstance = NULL;
  * Memory constructor
  * initializes the mem array to 0
  */
-Memory::Memory()
-{
+Memory::Memory() {
+	for (int i = 0; i < MEMSIZE; i++) { mem[i] = 0; }
 }
 
 /**
@@ -22,9 +22,9 @@ Memory::Memory()
  *
  * @return memInstance
  */
-Memory * Memory::getInstance()
-{
-   return NULL;
+Memory * Memory::getInstance() {
+	if (memInstance == NULL) memInstance = new Memory(); 
+	return memInstance;
 }
 
 /**
@@ -38,9 +38,13 @@ Memory * Memory::getInstance()
  * @return returns 64-bit word at the specified address or 0 if the
  *         access is not aligned or out of range
  */
-uint64_t Memory::getLong(int32_t address, bool & imem_error)
-{
-   return 0;
+uint64_t Memory::getLong(int32_t address, bool & imem_error) {
+	if (address % 8 == 0 && (address >= 0 && address < MEMSIZE)) {
+		imem_error = false;
+		return mem[address];
+	} 
+	imem_error = true;
+	return 0;
 }
 
 /**
@@ -53,9 +57,8 @@ uint64_t Memory::getLong(int32_t address, bool & imem_error)
  * @return imem_error is set to true or false
  * @return byte at specified address or 0 if the address is out of range
  */
-uint8_t Memory::getByte(int32_t address, bool & imem_error)
-{
-   return 0;
+uint8_t Memory::getByte(int32_t address, bool & imem_error) {
+		
 }
 
 /**
@@ -69,9 +72,8 @@ uint8_t Memory::getByte(int32_t address, bool & imem_error)
  * @param address of 64-bit word; access must be aligned (address % 8 == 0)
  * @return imem_error is set to true or false
  */
-void Memory::putLong(uint64_t value, int32_t address, bool & imem_error)
-{
-   return;
+void Memory::putLong(uint64_t value, int32_t address, bool & imem_error) {
+	
 }
 
 /**
@@ -85,9 +87,8 @@ void Memory::putLong(uint64_t value, int32_t address, bool & imem_error)
  * @return imem_error is set to true or false
  */
 
-void Memory::putByte(uint8_t value, int32_t address, bool & imem_error)
-{
-   return;
+void Memory::putByte(uint8_t value, int32_t address, bool & imem_error) {
+	
 }
 
 /**
@@ -97,8 +98,7 @@ void Memory::putByte(uint8_t value, int32_t address, bool & imem_error)
  * a * after a line to indicate that the values in memory up to the next
  * line displayed are identical.
  */
-void Memory::dump()
-{
+void Memory::dump() {
    uint64_t prevLine[4] = {0, 0, 0, 0};
    uint64_t currLine[4] = {0, 0, 0, 0};
    int32_t i;
