@@ -1,29 +1,34 @@
 CC = g++
 CFLAGS = -c -Wall -g -std=c++11 -I ../include
-INC = ../include
-OBJ = BubbleSort.o QuickSort.o MergeSort.o Sort.o List.o
+OBJ = lab4.o Tools.o Memory.o RegisterFile.o MemoryTester.o RegisterFileTester.o \
+ConditionCodes.o ConditionCodesTester.o 
 
 .C.o:
 	$(CC) $(CFLAGS) $< -o $@
 
-sortProg: $(OBJ)
+lab4: $(OBJ)
 
-sortProg.o: $(INC)/BubbleSort.h $(INC)/QuickSort.h $(INC)/MergeSort.h $(INC)/Sort.h\
-$(INC)/List.h
+Memory.o: Memory.h Tools.h
 
-Sort.o: $(INC)/Sort.h
+Tools.o: Tools.h
 
-BubbleSort.o: $(INC)/Sort.h $(INC)/BubbleSort.h 
+lab4.o:	Memory.h RegisterFile.h MemoryTester.h RegisterFileTester.h ConditionCodes.h ConditionCodesTester.h 
 
-QuickSort.o: $(INC)/Sort.h $(INC)/QuickSort.h
+MemoryTester.o: MemoryTest.h Memory.h
 
-MergeSort.o: $(INC)/Sort.h $(INC)/MergeSort.h
+ConditionCodes.o: ConditionCodes.h Tools.h
 
-List.o: $(INC)/Sort.h $(INC)/List.h
+ConditionCodesTester.o: ConditionCodesTester.h ConditionCodes.h
 
-install:
-	make sortProg
-	mv sortProg ../bin
+RegisterFile.o: RegisterFile.h Tools.h
+
+RegisterFileTester.o: RegisterFileTester.h RegisterFile.h
+
+run:
+	make clean
+	make lab4
+	./run.sh	
 
 clean:
+	rm $(OBJ) lab4
 	rm -f *.o
