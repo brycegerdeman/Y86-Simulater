@@ -6,13 +6,16 @@
 //regInstance will be initialized to the single RegisterFile
 //object that is created
 RegisterFile * RegisterFile::regInstance = NULL;
-
+int32_t[] regArray = new int32_t[16];
 /**
  * RegisterFile constructor
  * initialize the contents of the reg array to 0
  */
 RegisterFile::RegisterFile()
 {
+	for (int i = 0; i < 15; i++) {
+		regArray[i] = 0;
+	}			
 }
 
 /**
@@ -25,7 +28,11 @@ RegisterFile::RegisterFile()
  */
 RegisterFile * RegisterFile::getInstance()
 {
-   return NULL;
+	if (regInstance == NULL) {
+	
+		regInstance = new RegisterFile();
+			return regInstance;
+	}
 }
 
 /**
