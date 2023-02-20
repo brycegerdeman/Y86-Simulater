@@ -62,10 +62,9 @@ bool ConditionCodes::getConditionCode(int32_t ccNum, bool & error) {
  */
 void ConditionCodes::setConditionCode(bool value, int32_t ccNum, bool & error) {
 	if (ccNum == ZF || ccNum == OF || ccNum == SF) {
-		if (value == 0 || value == 1) {
-			if (value) Tools::setBits(codes, ccNum, ccNum);	
-			else Tools::clearBits(codes, ccNum, ccNum);	
-		}
+		error = false;
+		if (value) codes = Tools::setBits(codes, ccNum, ccNum);	
+		else codes = Tools::clearBits(codes, ccNum, ccNum);	
 	} else error = true;
 }
 
