@@ -1,18 +1,29 @@
 CC = g++
-CFLAGS = -g -c -Wall -std=c++11 -O0
-OBJ = lab4.o MemoryTester.o Memory.o Tools.o RegisterFile.o \
-RegisterFileTester.o ConditionCodes.o ConditionCodesTester.o
+CFLAGS = -c -Wall -g -std=c++11 -I ../include
+INC = ../include
+OBJ = BubbleSort.o QuickSort.o MergeSort.o Sort.o List.o
 
 .C.o:
 	$(CC) $(CFLAGS) $< -o $@
 
-lab4: $(OBJ)
+sortProg: $(OBJ)
+
+sortProg.o: $(INC)/BubbleSort.h $(INC)/QuickSort.h $(INC)/MergeSort.h $(INC)/Sort.h\
+$(INC)/List.h
+
+Sort.o: $(INC)/Sort.h
+
+BubbleSort.o: $(INC)/Sort.h $(INC)/BubbleSort.h 
+
+QuickSort.o: $(INC)/Sort.h $(INC)/QuickSort.h
+
+MergeSort.o: $(INC)/Sort.h $(INC)/MergeSort.h
+
+List.o: $(INC)/Sort.h $(INC)/List.h
+
+install:
+	make sortProg
+	mv sortProg ../bin
 
 clean:
-	rm $(OBJ) lab4
-
-run:
-	make clean
-	make lab4
-	./run.sh
-
+	rm -f *.o
