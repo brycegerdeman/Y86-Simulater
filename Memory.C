@@ -58,7 +58,12 @@ uint64_t Memory::getLong(int32_t address, bool & imem_error) {
  * @return byte at specified address or 0 if the address is out of range
  */
 uint8_t Memory::getByte(int32_t address, bool & imem_error) {
-		
+	if (address >= 0 && address < MEMSIZE)) {
+		imem_error = false;
+		return mem[address];
+	} 
+	imem_error = true;
+	return 0;	
 }
 
 /**
@@ -88,7 +93,10 @@ void Memory::putLong(uint64_t value, int32_t address, bool & imem_error) {
  */
 
 void Memory::putByte(uint8_t value, int32_t address, bool & imem_error) {
-	
+	if (address >= 0 && address < MEMSIZE)) {
+		imem_error = false;
+		mem[address] = value;
+	} else imem_error = true;
 }
 
 /**
