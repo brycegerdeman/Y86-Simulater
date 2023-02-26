@@ -43,8 +43,9 @@ uint64_t Memory::getLong(int32_t address, bool & imem_error) {
 	if (address % BYTE_SIZE == 0 && (address >= 0 && address < MEMSIZE)) {
 		imem_error = false;
 		uint64_t output = 0;
-		for(int i = address; i < address + BYTE_SIZE; i++){
-			output = Tools::copyBits(mem[i], output, 0, i * BYTE_SIZE, BYTE_SIZE);  
+		for (int i = 0; i < BYTE_SIZE; i++) {
+			output = Tools::copyBits(mem[address + i], 
+				output, 0, i * BYTE_SIZE, BYTE_SIZE);  
 		}
 		printf("%lx/n", output);
 		return output; 
@@ -87,16 +88,11 @@ void Memory::putLong(uint64_t value, int32_t address, bool & imem_error) {
 	uint8_t BYTE_SIZE = 8;
 	if (address % BYTE_SIZE == 0 && (address >= 0 && address < MEMSIZE)) {
 		imem_error = false;
-		uint64_t output = 0;
-		for(int i = address; i < address + BYTE_SIZE; i++){
-			output = Tools::copyBits(mem[i], output, 0, i * BYTE_SIZE, BYTE_SIZE);  
+		for (int i = 0; i < BYTE_SIZE; i++) {
+			mem[address + i] = Tools::getByte(value, i); 	
 		}
-		printf("%lx/n", output);
-		return output; 
 	} 
-	imem_error = true;
-	return 0;
-
+	else imem_error = true;
 }
 
 /**
