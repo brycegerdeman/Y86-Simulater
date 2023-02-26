@@ -47,7 +47,6 @@ uint64_t Memory::getLong(int32_t address, bool & imem_error) {
 			output = Tools::copyBits(mem[address + i], 
 				output, 0, i * BYTE_SIZE, BYTE_SIZE);  
 		}
-		printf("%lx/n", output);
 		return output; 
 	} 
 	imem_error = true;
