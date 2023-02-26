@@ -39,9 +39,15 @@ Memory * Memory::getInstance() {
  *         access is not aligned or out of range
  */
 uint64_t Memory::getLong(int32_t address, bool & imem_error) {
-	if (address % 8 == 0 && (address >= 0 && address < MEMSIZE)) {
+	uint8_t BYTE_SIZE = 8;
+	if (address % BYTE_SIZE == 0 && (address >= 0 && address < MEMSIZE)) {
 		imem_error = false;
-		return mem[address];
+		uint64_t output = 0;
+		for(int i = address; i < address + BYTE_SIZE; i++){
+			output = Tools::copyBits(mem[i], output, 0, i * BYTE_SIZE, BYTE_SIZE);  
+		}
+		printf("%lx/n", output);
+		return output; 
 	} 
 	imem_error = true;
 	return 0;
@@ -58,7 +64,7 @@ uint64_t Memory::getLong(int32_t address, bool & imem_error) {
  * @return byte at specified address or 0 if the address is out of range
  */
 uint8_t Memory::getByte(int32_t address, bool & imem_error) {
-	if (address >= 0 && address < MEMSIZE)) {
+	if (address >= 0 && address < MEMSIZE) {
 		imem_error = false;
 		return mem[address];
 	} 
@@ -93,7 +99,7 @@ void Memory::putLong(uint64_t value, int32_t address, bool & imem_error) {
  */
 
 void Memory::putByte(uint8_t value, int32_t address, bool & imem_error) {
-	if (address >= 0 && address < MEMSIZE)) {
+	if (address >= 0 && address < MEMSIZE) {
 		imem_error = false;
 		mem[address] = value;
 	} else imem_error = true;
