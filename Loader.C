@@ -18,8 +18,7 @@
  * then loaded is set to true.
  */
 //This method is complete and does not need to be modified.  
-Loader::Loader(int argc, char * argv[])
-{
+Loader::Loader(int argc, char * argv[]) {
    std::ifstream inf;  //input file stream for reading from file
    int lineNumber = 1;
    lastAddress = -1;
@@ -59,8 +58,9 @@ Loader::Loader(int argc, char * argv[])
  * @return true, if the line has an address on it
  *         false, otherwise
  */
-bool Loader::hasAddress(std::string line)
-{
+bool Loader::hasAddress(std::string line) {
+	if (line.std::string::at(0) == 0) return true;
+	return false;	
 }
 
 /*
@@ -76,8 +76,9 @@ bool Loader::hasAddress(std::string line)
  * @return true, if the line has data in it
  *         false, otherwise
  */
-bool Loader::hasData(std::string line)
-{
+bool Loader::hasData(std::string line) {
+	if (line.std::string::at(DATABEGIN) != " ") return true;
+	return false;	
 }
 
 /*
@@ -89,8 +90,12 @@ bool Loader::hasData(std::string line)
  * @return true, if the line is long enough and has a | in index COMMENT
  *         false, otherwise
  */
-bool Loader::hasComment(std::string line)
-{
+bool Loader::hasComment(std::string line) {
+	if (std::string::length(line) >= COMMENT) &&
+	   (line.std::string::at(COMMENT) == "|") { 
+		return true;
+	}
+	return false;
 }
 
 /*
@@ -103,12 +108,18 @@ bool Loader::hasComment(std::string line)
  *               a .yo file. The line contains an address and
  *               a variable number of bytes of data (at least one)
  */
-void Loader::loadLine(std::string line)
-{
-   //Hints:
-   //Use the convert method to convert the characters
-   //that represent the address into a number.
-   //Also, use the convert method for each byte of data.
+void Loader::loadLine(std::string line) {
+	//Hints:
+	//Use the convert method to convert the characters
+	//that represent the address into a number.
+	//Also, use the convert method for each byte of data.
+	if (hasAddress(line) && hasData(line) return;
+ 
+	lineLenght = std::string::length(line);	
+	for (int i = 0; i < lineLength/2; i++) {
+		Memory::getInstance->putByte(convert(line, i, 2), 
+			lastAddress + i, imem_error);
+	}			
 }
 
 /*
@@ -124,9 +135,9 @@ void Loader::loadLine(std::string line)
  * @param start - starting index in line
  * @param len - represents the number of characters to retrieve
  */
-int32_t Loader::convert(std::string line, int32_t start, int32_t len)
-{
-   //Hint: you need something to convert a string to an int such as strtol 
+int32_t Loader::convert(std::string line, int32_t start, int32_t len) {
+  	std::string subString = line.std::string::substr(start, len); 
+	return std::string::strtoll(subString, &subString, 16);	
 }
 
 /*
@@ -138,8 +149,7 @@ int32_t Loader::convert(std::string line, int32_t start, int32_t len)
  * @return true, if the line has errors 
  *         false, otherwise
  */
-bool Loader::hasErrors(std::string line)
-{
+bool Loader::hasErrors(std::string line) {
    //checking for errors in a particular order can significantly 
    //simplify your code
    //1) line is at least COMMENT characters long and contains a '|' in 
@@ -195,8 +205,7 @@ bool Loader::hasErrors(std::string line)
  * @param line - input line from the .yo file
  * @return numDBytes is set to the number of data bytes on the line
  */
-bool Loader::errorData(std::string line, int32_t & numDBytes)
-{
+bool Loader::errorData(std::string line, int32_t & numDBytes) {
    //Hint: use isxdigit and isSpaces
 }
 
@@ -209,8 +218,7 @@ bool Loader::errorData(std::string line, int32_t & numDBytes)
  * @param line - input line from a .yo input file
  * @return true if the address is not properly formed and false otherwise
  */
-bool Loader::errorAddr(std::string line)
-{
+bool Loader::errorAddr(std::string line) {
    //Hint: use isxdigit
 }
 
@@ -226,16 +234,15 @@ bool Loader::errorAddr(std::string line)
  * @return true, if the characters in index from start to end are spaces
  *         false, otherwise
  */
-bool Loader::isSpaces(std::string line, int32_t start, int32_t end)
-{
+bool Loader::isSpaces(std::string line, int32_t start, int32_t end) {
+
 }
 
 /*
  * isLoaded
  * getter for the private loaded data member
  */
-bool Loader::isLoaded()
-{
+bool Loader::isLoaded() {
    return loaded;  
 }
 
@@ -248,16 +255,10 @@ bool Loader::isLoaded()
  * @return true - if the filename is improperly formed
  *         false - otherwise
  */
-bool Loader::badFile(std::string filename)
-{
-   //Hint: use std::string length method and C strcmp (or std::string find
-   //      or std::string at or ...)
-	char extCheck[] = ".yo";
+bool Loader::badFile(std::string filename) {
+	std::string ext = ".yo";
 	int strLen = std::string::length(filename);
 	if (strLen < 4) return false;
-
-	for (int i = 0; i < 3; i++) {
-		if (extCheck[i] != filename.std::string::at(strLen - 2 + i)) return false;				
-	}		
-  	return true;
+  	std::string subString = line.std::string::substr(strLen - 2, 3); 
+	return ext.compare(subString); 
 }
