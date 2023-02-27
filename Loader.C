@@ -254,7 +254,7 @@ bool Loader::badFile(std::string filename)
    //      or std::string at or ...)
 	char extCheck[] = ".yo";
 	int strLen = std::string::length(filename);
-	if (strLen - 3 < 4) return false;
+	if (strLen < 4) return false;
 
 	for (int i = 0; i < 3; i++) {
 		if (extCheck[i] != filename.std::string::at(strLen - 2 + i)) return false;				
