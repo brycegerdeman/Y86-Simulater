@@ -7,9 +7,9 @@ OBJ = lab5.o Tools.o Memory.o ConditionCodes.o RegisterFile.o Loader.o
 
 lab5: $(OBJ)
 
-lab5.o: 
+lab5.o: Memory.h RegisterFile.h ConditionCodes.h Loader.h
 
-Loader.o: Loader.h
+Loader.o: Loader.h Memory.h
 
 Tools.o: Tools.h
 
