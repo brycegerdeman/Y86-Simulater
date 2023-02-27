@@ -2,145 +2,255 @@
 #include <fstream>
 #include <string.h>
 #include <ctype.h>
-#include "Debug.h" 
-#include "Memory.h"
-#include "String.h"
+#include <stdint.h>
 #include "Loader.h"
+#include "Memory.h"
 
-//These are the constants used by the
-//printErrMsg method.
-#define USAGE 0          /* missing command line argument */ 
-#define BADFILE 1        /* file has wrong suffix */
-#define OPENERR 2        /* file doesn't open */
-#define BADDATA 3        /* bad data record */
-#define BADCOM 4         /* bad comment record */
-#define NUMERRS 5
-
-//useful defines to avoid magic numbers
-#define ADDRBEGIN 2      /* beginning and ending indices for address */
+#define ADDRBEGIN 2
 #define ADDREND 4
-#define DATABEGIN 7      /* beginning index for data bytes */ 
-#define COMMENT 28       /* location of | */
-#define MAXBYTES 10      /* max data bytes in a data record */
+#define DATABEGIN 7
+#define COMMENT 28
 
 /* 
  * Loader
- * Initializes the private data members
+ * opens up the file named in argv[0] and loads the
+ * contents into memory. If the file is able to be loaded,
+ * then loaded is set to true.
  */
-Loader::Loader(int argc, char * argv[], Memory * mem)
+//This method is complete and does not need to be modified.  
+Loader::Loader(int argc, char * argv[])
 {
-   //this method is COMPLETE
-   this->lastAddress = -1;   //keep track of last mem byte written to for error checking
-   this->mem = mem;          //memory instance
-   this->inputFile = NULL;   
-   if (argc > 1) inputFile = new String(argv[1]);  //input file name
-}
+   std::ifstream inf;  //input file stream for reading from file
+   int lineNumber = 1;
+   lastAddress = -1;
+   loaded = false;
 
-/*
- * printErrMsg
- * Prints an error message and returns false (load failed)
- * If the line number is not -1, it also prints the line where error occurred
- *
- * which - indicates error number
- * lineNumber - number of line in input file on which error occurred (if applicable)
- * line - line on which error occurred (if applicable)
- */
-bool Loader::printErrMsg(int32_t which, int32_t lineNumber, String * line)
-{
-   //this method is COMPLETE
-   static char * errMsg[NUMERRS] = 
-   {
-      (char *) "Usage: yess <file.yo>\n",                       //USAGE
-      (char *) "Input file name must end with .yo extension\n", //BADFILE
-      (char *) "File open failed\n",                            //OPENERR
-      (char *) "Badly formed data record\n",                    //BADDATA
-      (char *) "Badly formed comment record\n",                 //BADCOM
-   };   
-   if (which >= NUMERRS)
-   {
-      std::cout << "Unknown error: " << which << "\n";
-   } else
-   {
-      std::cout << errMsg[which]; 
-      if (lineNumber != -1 && line != NULL)
-      {
-         std::cout << "Error on line " << std::dec << lineNumber
-              << ": " << line->get_stdstr() << std::endl;
-      }
-   } 
-   return false; //load fails
-}
+   //if no file name given or filename badly formed, return without loading
+   if (argc < 2 || badFile(argv[1])) return;  
+   inf.open(argv[1]);
 
-/*
- * openFile
- * The name of the file is in the data member openFile (could be NULL if
- * no command line argument provided)
- * Checks to see if the file name is well-formed and can be opened
- * If there is an error, it prints an error message and returns false.
- * Otherwise, the file is opened and the function returns false
- *
- * modifies inf data member (file handle) if file is opened
- */
-bool Loader::openFile()
-{
-   //TODO
-
-   //If the user didn't supply a command line argument (inputFile is NULL)
-   //then print the USAGE error message and return false
-   
-   //If the filename is badly formed (doesn't end in a .yo)
-   //then print the BADFILE error message and return false
-   
-   //open the file using an std::ifstream open
-   //if the file can't be opened then print the OPENERR message 
-   //and return false
-
-
-   return true;  //file name is good and file open succeeded
-}
-
-/*
- * load 
- * Opens the .yo file
- * Reads the lines in the file line by line and
- * loads the data bytes in data records into the Memory
- * If a line has an error in it, then NONE of the line will be
- * loaded into memory and the load function will return false
- *
- * Returns true if load succeeded (no errors in the input) 
- * and false otherwise
-*/   
-bool Loader::load()
-{
-   if (!openFile()) return false;
-
+   //if file can't be opened, return without loading
+   if (!inf.is_open()) return;  
+  
    std::string line;
-   int lineNumber = 1;  //needed if an error is found
    while (getline(inf, line))
    {
-      //create a String to contain the std::string
-      //Now, all accesses to the input line MUST be via your
-      //String class methods
-      String inputLine(line);
-
-      //if the line is a data record with errors
-      //then print the BADDATA error message and return false
-      //
-      //if the line is a comment record with errors
-      //then print the BADCOM error message and return false
-      //
-      //Otherwise, load any data on the line into
-      //memory
-      //
-      //Don't do all of this work in this method!
-      //Break the work up into multiple single purpose methods
-
-      //increment the line number for next iteration
+      if (hasErrors(line))
+      {
+         std::cout << "Error on line " << std::dec << lineNumber 
+              << ": " << line << std::endl;
+         return;
+      }
+      if (hasAddress(line) && hasData(line)) loadLine(line);
       lineNumber++;
    }
-
-   return true;  //load succeeded
+   loaded = true;
 }
 
-//add helper methods here and to Loader.h
+/*
+ * hasAddress
+ * returns true if the line passed in has an address on it.
+ * A line that has an address has a '0' in column 0.
+ * It is assumed that the address has already been checked to
+ * make sure it is properly formed.
+ *
+ * @param line - a string containing a line of valid input from 
+ *               a .yo file
+ * @return true, if the line has an address on it
+ *         false, otherwise
+ */
+bool Loader::hasAddress(std::string line)
+{
+}
 
+/*
+ * hasData
+ * returns true if the line passed in has data on it.
+ * A line that has data does not contain a space
+ * at index DATABEGIN.
+ * It is assumed that the data has already been checked to
+ * make sure it is properly formed.
+ *
+ * @param line - a string containing a line of valid input from 
+ *               a .yo file
+ * @return true, if the line has data in it
+ *         false, otherwise
+ */
+bool Loader::hasData(std::string line)
+{
+}
+
+/*
+ * hasComment
+ * returns true if line is at least COMMENT in length and 
+ * line has a | at index COMMENT.
+ * 
+ * @param line - a string containing a line from a .yo file
+ * @return true, if the line is long enough and has a | in index COMMENT
+ *         false, otherwise
+ */
+bool Loader::hasComment(std::string line)
+{
+}
+
+/*
+ * loadLine
+ * The line that is passed in contains an address and data.
+ * This method loads that data into memory byte by byte
+ * using the Memory::getInstance->putByte method.
+ *
+ * @param line - a string containing a line of valid input from 
+ *               a .yo file. The line contains an address and
+ *               a variable number of bytes of data (at least one)
+ */
+void Loader::loadLine(std::string line)
+{
+   //Hints:
+   //Use the convert method to convert the characters
+   //that represent the address into a number.
+   //Also, use the convert method for each byte of data.
+}
+
+/*
+ * convert
+ * takes "len" characters from the line starting at character "start"
+ * and converts them to a number, assuming they represent hex characters.
+ * For example, if len is 2 and line[start] is '1' and 
+ * line[start + 1] is 'a' then this function returns 26.
+ * This function assumes that the line is long enough to hold the desired
+ * characters and that the characters represent hex values.
+ *
+ * @param line - string of characters
+ * @param start - starting index in line
+ * @param len - represents the number of characters to retrieve
+ */
+int32_t Loader::convert(std::string line, int32_t start, int32_t len)
+{
+   //Hint: you need something to convert a string to an int such as strtol 
+}
+
+/*
+ * hasErrors
+ * Returns true if the line file has errors in it and false
+ * otherwise.
+ *
+ * @param line - a string that contains a line from a .yo file
+ * @return true, if the line has errors 
+ *         false, otherwise
+ */
+bool Loader::hasErrors(std::string line)
+{
+   //checking for errors in a particular order can significantly 
+   //simplify your code
+   //1) line is at least COMMENT characters long and contains a '|' in 
+   //   column COMMENT. If not, return true
+   //   Hint: use hasComment
+   //
+   //2) check whether line has an address.  If it doesn't,
+   //   return result of isSpaces (line must be all spaces up
+   //   to the | character)
+   //   Hint: use hasAddress and isSpaces
+   //
+   //3) return true if the address is invalid
+   //   Hint: use errorAddress 
+   //
+   //4) check whether the line has data. If it doesn't
+   //   return result of isSpaces (line must be all spaces from
+   //   after the address up to the | character)
+   //   Hint: use hasData and isSpaces
+   //
+   //5) if you get past 4), line has an address and data. Check to
+   //   make sure the data is valid using errorData
+   //   Hint: use errorData
+   //
+   //6) if you get past 5), line has a valid address and valid data.
+   //   Make sure that the address on this line is > the last address
+   //   stored to (lastAddress is a private data member)
+   //   Hint: use convert to convert address to a number and compare
+   //   to lastAddress
+   //
+   //7) Make sure that the last address of the data to be stored
+   //   by this line doesn't exceed the memory size
+   //   Hint: use numDBytes as set by errorData, MEMSIZE in Memory.h,
+   //         and addr returned by convert
+
+   // if control reaches here, no errors found
+   return false;
+}
+
+/*
+ * errorData
+ * Called when the line contains data. It returns true if the data
+ * in the line is invalid. 
+ *
+ * Valid data consists of characters in the range
+ * '0' .. '9','a' ... 'f', and 'A' .. 'F' (valid hex digits). 
+ * The data digits start at index DATABEGIN.
+ * The hex digits come in pairs, thus there must be an even number of them.
+ * In addition, the characters after the last hex digit up to the
+ * '|' character at index COMMENT must be spaces. 
+ * If these conditions are met, errorData returns false, else errorData
+ * returns true.
+ *
+ * @param line - input line from the .yo file
+ * @return numDBytes is set to the number of data bytes on the line
+ */
+bool Loader::errorData(std::string line, int32_t & numDBytes)
+{
+   //Hint: use isxdigit and isSpaces
+}
+
+/*
+ * errorAddr
+ * This function is called when the line contains an address in order
+ * to check whether the address is properly formed.  An address must be of
+ * this format: 0xHHH: where HHH are valid hex digits.
+ * 
+ * @param line - input line from a .yo input file
+ * @return true if the address is not properly formed and false otherwise
+ */
+bool Loader::errorAddr(std::string line)
+{
+   //Hint: use isxdigit
+}
+
+/* 
+ * isSpaces
+ * This function checks that characters in the line starting at 
+ * index start and ending at index end are all spaces.
+ * This can be used to check for errors
+ *
+ * @param line - string containing a line from a .yo file
+ * @param start - starting index
+ * @param end - ending index
+ * @return true, if the characters in index from start to end are spaces
+ *         false, otherwise
+ */
+bool Loader::isSpaces(std::string line, int32_t start, int32_t end)
+{
+}
+
+/*
+ * isLoaded
+ * getter for the private loaded data member
+ */
+bool Loader::isLoaded()
+{
+   return loaded;  
+}
+
+/*
+ * badFile
+ * returns true if the name of the file passed in is an improperly 
+ * formed .yo filename. A properly formed .yo file name is at least
+ * four characters in length and ends with a .yo extension.
+ *
+ * @return true - if the filename is improperly formed
+ *         false - otherwise
+ */
+bool Loader::badFile(std::string filename)
+{
+   //Hint: use std::string length method and C strcmp (or std::string find
+   //      or std::string at or ...)
+   return true;
+}
