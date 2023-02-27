@@ -77,7 +77,7 @@ bool Loader::hasAddress(std::string line) {
  *         false, otherwise
  */
 bool Loader::hasData(std::string line) {
-	if (line.std::string::at(DATABEGIN) != " ") return true;
+	if (line.std::string::at(DATABEGIN) == ' ') return true;
 	return false;	
 }
 
@@ -91,8 +91,8 @@ bool Loader::hasData(std::string line) {
  *         false, otherwise
  */
 bool Loader::hasComment(std::string line) {
-	if (std::string::length(line) >= COMMENT) &&
-	   (line.std::string::at(COMMENT) == "|") { 
+	if (line.length() >= COMMENT &&
+	   line.std::string::at(COMMENT) == '|') { 
 		return true;
 	}
 	return false;
@@ -113,11 +113,11 @@ void Loader::loadLine(std::string line) {
 	//Use the convert method to convert the characters
 	//that represent the address into a number.
 	//Also, use the convert method for each byte of data.
-	if (hasAddress(line) && hasData(line) return;
+	if (hasAddress(line) && hasData(line)) return;
  
-	lineLenght = std::string::length(line);	
+	int lineLength = line.length(); 
 	for (int i = 0; i < lineLength/2; i++) {
-		Memory::getInstance->putByte(convert(line, i, 2), 
+		Memory::getInstance()->putByte(convert(line, i, 2), 
 			lastAddress + i, imem_error);
 	}			
 }
@@ -137,7 +137,7 @@ void Loader::loadLine(std::string line) {
  */
 int32_t Loader::convert(std::string line, int32_t start, int32_t len) {
   	std::string subString = line.std::string::substr(start, len); 
-	return std::string::strtoll(subString, &subString, 16);	
+	return stoi(subString, NULL , 16);	
 }
 
 /*
@@ -207,6 +207,7 @@ bool Loader::hasErrors(std::string line) {
  */
 bool Loader::errorData(std::string line, int32_t & numDBytes) {
    //Hint: use isxdigit and isSpaces
+   	return false;
 }
 
 /*
@@ -220,6 +221,7 @@ bool Loader::errorData(std::string line, int32_t & numDBytes) {
  */
 bool Loader::errorAddr(std::string line) {
    //Hint: use isxdigit
+   	return false;
 }
 
 /* 
@@ -236,6 +238,7 @@ bool Loader::errorAddr(std::string line) {
  */
 bool Loader::isSpaces(std::string line, int32_t start, int32_t end) {
 
+   	return false;
 }
 
 /*
@@ -257,8 +260,8 @@ bool Loader::isLoaded() {
  */
 bool Loader::badFile(std::string filename) {
 	std::string ext = ".yo";
-	int strLen = std::string::length(filename);
+	int strLen = filename.length();
 	if (strLen < 4) return false;
-  	std::string subString = line.std::string::substr(strLen - 2, 3); 
+  	std::string subString = filename.std::string::substr(strLen - 2, 3); 
 	return ext.compare(subString); 
 }
