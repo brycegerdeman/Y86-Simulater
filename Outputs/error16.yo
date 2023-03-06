@@ -14,7 +14,7 @@
 0x038: 30f71800000000000000 | main:	irmovq array,%rdi	
 0x042: 30f60400000000000000 | 	irmovq $4,%rsi
 0x04c: 805600000000000000   | 	call rsum		# rsum(array, 4)
-0x055:a90                   | 	space should follow the colon
+0x055: 90                   | 	ret
                             | 
                             | /* $begin rsum-ys */
                             | # long rsum(long *start, long count)
@@ -37,6 +37,6 @@
                             | /* $end rsum-ys */
                             | 
                             | # The stack starts here and grows to lower addresses
-0x200:                      | 	.pos 0x200		
-0x200:                      | stack:	 
-                            | 
+0x200:                      | 	.pos 0x200 (line below is too short)		
+0x200:            
+0xfff: 90                   | put a nop in last byte of memory (for testing)

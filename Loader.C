@@ -77,7 +77,7 @@ bool Loader::hasAddress(std::string line) {
  *         false, otherwise
  */
 bool Loader::hasData(std::string line) {
-	if (line.std::string::at(DATABEGIN) == ' ') return true;
+	if (line.std::string::at(DATABEGIN) != ' ') return true;
 	return false;	
 }
 
@@ -109,15 +109,10 @@ bool Loader::hasComment(std::string line) {
  *               a variable number of bytes of data (at least one)
  */
 void Loader::loadLine(std::string line) {
-	//Hints:
-	//Use the convert method to convert the characters
-	//that represent the address into a number.
-	//Also, use the convert method for each byte of data.
-	if (hasAddress(line) && hasData(line)) return;
-
 	bool uh = false; 
 	int lineLength = line.length(); 
-	for (int i = 0; i < lineLength/2; i++) {
+	int i = DATABEGIN;
+	while (line.std::string::at(i) == ' ') {
 		lastAddress++;
 		Memory::getInstance()->putByte(convert(line, i, 2), lastAddress, uh);
 	}			
@@ -156,6 +151,7 @@ bool Loader::hasErrors(std::string line) {
 	//1) line is at least COMMENT characters long and contains a '|' in 
 	//   column COMMENT. If not, return true
 	//   Hint: use hasComment
+/*
 	if (!hasComment()) return true;
 	
 	//2) check whether line has an address.  If it doesn't,
@@ -195,6 +191,7 @@ bool Loader::hasErrors(std::string line) {
 
 	// if control reaches here, no errors found
 	return false;
+*/
 }
 
 /*
@@ -216,12 +213,12 @@ bool Loader::hasErrors(std::string line) {
  */
 bool Loader::errorData(std::string line, int32_t & numDBytes) {
    	//Hint: use isxdigit and isSpaces
-	int DATAEND = (numDBytes * 2) + DATABEGIN
+	int DATAEND = (numDBytes * 2) + DATABEGIN;
 
 	if ((DATAEND - DATABEGIN) % 2 != 0) return true;
 
 	for (int i = DATABEGIN; i < DATAEND; i++) {
-		if (!isxdigit(line.std::string::at(i)) return true;
+		if (!isxdigit(line.std::string::at(i))) return true;
 	} 
 
 	if (!isSpaces(line, DATAEND, COMMENT)) return true;
