@@ -112,8 +112,10 @@ void Loader::loadLine(std::string line) {
 	bool uh = false; 
 	int i = DATABEGIN;
 	lastAddress = convert(line, ADDRBEGIN, 3);
+	
 	while (line.std::string::at(i) != ' ') {
-		Memory::getInstance()->putByte(convert(line, i, 2), lastAddress, uh);
+		int value = convert(line, i, 2);
+		Memory::getInstance()->putByte(value, lastAddress, uh);
 		i += 2;	
 		lastAddress++;
 	}			
