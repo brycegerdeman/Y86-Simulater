@@ -283,9 +283,9 @@ bool Loader::isLoaded() {
  */
 bool Loader::badFile(std::string filename) {
 	int strLen = filename.length();
-	if (strLen < 4) return false;
+	if (strLen < 4) return true;
 
 	std::string ext = ".yo";
   	std::string subString = filename.std::string::substr(strLen - 2, 3); 
-	return (!ext.compare(subString)); 
+	return (ext.compare(subString)); 
 }
