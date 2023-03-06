@@ -114,11 +114,12 @@ void Loader::loadLine(std::string line) {
 	//that represent the address into a number.
 	//Also, use the convert method for each byte of data.
 	if (hasAddress(line) && hasData(line)) return;
- 
+
+	bool uh = false; 
 	int lineLength = line.length(); 
 	for (int i = 0; i < lineLength/2; i++) {
-		Memory::getInstance()->putByte(convert(line, i, 2), 
-			lastAddress + i, imem_error);
+		lastAddress++;
+		Memory::getInstance()->putByte(convert(line, i, 2), lastAddress, uh);
 	}			
 }
 
@@ -137,7 +138,7 @@ void Loader::loadLine(std::string line) {
  */
 int32_t Loader::convert(std::string line, int32_t start, int32_t len) {
   	std::string subString = line.std::string::substr(start, len); 
-	return stoi(subString, NULL , 16);	
+	return stoul(subString, NULL, 16);	
 }
 
 /*
@@ -150,42 +151,50 @@ int32_t Loader::convert(std::string line, int32_t start, int32_t len) {
  *         false, otherwise
  */
 bool Loader::hasErrors(std::string line) {
-   //checking for errors in a particular order can significantly 
-   //simplify your code
-   //1) line is at least COMMENT characters long and contains a '|' in 
-   //   column COMMENT. If not, return true
-   //   Hint: use hasComment
-   //
-   //2) check whether line has an address.  If it doesn't,
-   //   return result of isSpaces (line must be all spaces up
-   //   to the | character)
-   //   Hint: use hasAddress and isSpaces
-   //
-   //3) return true if the address is invalid
-   //   Hint: use errorAddress 
-   //
-   //4) check whether the line has data. If it doesn't
-   //   return result of isSpaces (line must be all spaces from
-   //   after the address up to the | character)
-   //   Hint: use hasData and isSpaces
-   //
-   //5) if you get past 4), line has an address and data. Check to
-   //   make sure the data is valid using errorData
-   //   Hint: use errorData
-   //
-   //6) if you get past 5), line has a valid address and valid data.
-   //   Make sure that the address on this line is > the last address
-   //   stored to (lastAddress is a private data member)
-   //   Hint: use convert to convert address to a number and compare
-   //   to lastAddress
-   //
-   //7) Make sure that the last address of the data to be stored
-   //   by this line doesn't exceed the memory size
-   //   Hint: use numDBytes as set by errorData, MEMSIZE in Memory.h,
-   //         and addr returned by convert
+	//checking for errors in a particular order can significantly 
+	//simplify your code
+	//1) line is at least COMMENT characters long and contains a '|' in 
+	//   column COMMENT. If not, return true
+	//   Hint: use hasComment
+	if (!hasComment()) return true;
+	
+	//2) check whether line has an address.  If it doesn't,
+	//   return result of isSpaces (line must be all spaces up
+	//   to the | character)
+	//   Hint: use hasAddress and isSpaces
+	if (!hasAddress()) return isSpaces(line, 0, COMMENT);	
 
-   // if control reaches here, no errors found
-   return false;
+	//3) return true if the address is invalid
+	//   Hint: use errorAddress 
+	return errorAddress();
+
+	//4) check whether the line has data. If it doesn't
+	//   return result of isSpaces (line must be all spaces from
+	//   after the address up to the | character)
+	//   Hint: use hasData and isSpaces
+	if (!hasData()) return isSpaces(line, DATABEGIN, COMMENT);
+
+	//5) if you get past 4), line has an address and data. Check to
+	//   make sure the data is valid using errorData
+	//   Hint: use errorData
+	return errorData();	
+	
+
+	//6) if you get past 5), line has a valid address and valid data.
+	//   Make sure that the address on this line is > the last address
+	//   stored to (lastAddress is a private data member)
+	//   Hint: use convert to convert address to a number and compare
+	//   to lastAddress
+
+
+	//7) Make sure that the last address of the data to be stored
+	//   by this line doesn't exceed the memory size
+	//   Hint: use numDBytes as set by errorData, MEMSIZE in Memory.h,
+	//         and addr returned by convert
+
+
+	// if control reaches here, no errors found
+	return false;
 }
 
 /*
@@ -206,7 +215,17 @@ bool Loader::hasErrors(std::string line) {
  * @return numDBytes is set to the number of data bytes on the line
  */
 bool Loader::errorData(std::string line, int32_t & numDBytes) {
-   //Hint: use isxdigit and isSpaces
+   	//Hint: use isxdigit and isSpaces
+	int DATAEND = (numDBytes * 2) + DATABEGIN
+
+	if ((DATAEND - DATABEGIN) % 2 != 0) return true;
+
+	for (int i = DATABEGIN; i < DATAEND; i++) {
+		if (!isxdigit(line.std::string::at(i)) return true;
+	} 
+
+	if (!isSpaces(line, DATAEND, COMMENT)) return true;
+		
    	return false;
 }
 
@@ -220,7 +239,8 @@ bool Loader::errorData(std::string line, int32_t & numDBytes) {
  * @return true if the address is not properly formed and false otherwise
  */
 bool Loader::errorAddr(std::string line) {
-   //Hint: use isxdigit
+   	//Hint: use isxdigit
+   	
    	return false;
 }
 
@@ -237,8 +257,10 @@ bool Loader::errorAddr(std::string line) {
  *         false, otherwise
  */
 bool Loader::isSpaces(std::string line, int32_t start, int32_t end) {
-
-   	return false;
+	for (int i = start; i < end; i++) {
+		if (line.std::string::at(i) != ' ') return false;
+	}	
+   	return true;
 }
 
 /*
@@ -246,7 +268,7 @@ bool Loader::isSpaces(std::string line, int32_t start, int32_t end) {
  * getter for the private loaded data member
  */
 bool Loader::isLoaded() {
-   return loaded;  
+   	return loaded;  
 }
 
 /*
