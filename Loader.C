@@ -111,9 +111,11 @@ bool Loader::hasComment(std::string line) {
 void Loader::loadLine(std::string line) {
 	bool uh = false; 
 	int i = DATABEGIN;
+	lastAddress = convert(line, ADDRBEGIN, 3);
 	while (line.std::string::at(i) != ' ') {
-		lastAddress++;
 		Memory::getInstance()->putByte(convert(line, i, 2), lastAddress, uh);
+		i += 2;	
+		lastAddress++;
 	}			
 }
 
@@ -191,6 +193,7 @@ bool Loader::hasErrors(std::string line) {
 	// if control reaches here, no errors found
 	return false;
 */
+return false;
 }
 
 /*
