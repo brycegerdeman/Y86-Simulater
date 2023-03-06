@@ -110,9 +110,8 @@ bool Loader::hasComment(std::string line) {
  */
 void Loader::loadLine(std::string line) {
 	bool uh = false; 
-	int lineLength = line.length(); 
 	int i = DATABEGIN;
-	while (line.std::string::at(i) == ' ') {
+	while (line.std::string::at(i) != ' ') {
 		lastAddress++;
 		Memory::getInstance()->putByte(convert(line, i, 2), lastAddress, uh);
 	}			
@@ -278,9 +277,10 @@ bool Loader::isLoaded() {
  *         false - otherwise
  */
 bool Loader::badFile(std::string filename) {
-	std::string ext = ".yo";
 	int strLen = filename.length();
 	if (strLen < 4) return false;
+
+	std::string ext = ".yo";
   	std::string subString = filename.std::string::substr(strLen - 2, 3); 
-	return ext.compare(subString); 
+	return (!ext.compare(subString)); 
 }
