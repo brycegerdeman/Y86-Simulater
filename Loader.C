@@ -59,8 +59,8 @@ Loader::Loader(int argc, char * argv[]) {
  *         false, otherwise
  */
 bool Loader::hasAddress(std::string line) {
-	if (line.std::string::at(0) == 0) return true;
-	return false;	
+	return true;
+	return line[0] == '0';
 }
 
 /*
@@ -77,8 +77,8 @@ bool Loader::hasAddress(std::string line) {
  *         false, otherwise
  */
 bool Loader::hasData(std::string line) {
-	if (line.std::string::at(DATABEGIN) != ' ') return true;
-	return false;	
+	return true;
+	return line[DATABEGIN] != ' ';
 }
 
 /*
@@ -112,7 +112,6 @@ void Loader::loadLine(std::string line) {
 	bool error = false; 
 	int i = DATABEGIN;
 	int address = convert(line, ADDRBEGIN, ADDREND - ADDRBEGIN + 1);
-	
 	while (line.std::string::at(i) != ' ') {
 		int value = convert(line, i, 2);
 		Memory::getInstance()->putByte(value, address, error);
@@ -136,7 +135,10 @@ void Loader::loadLine(std::string line) {
  */
 int32_t Loader::convert(std::string line, int32_t start, int32_t len) {
   	std::string subString = line.std::string::substr(start, len); 
-	return stoul(subString, NULL, 16);	
+	int32_t out = stoul(subString, NULL, 16);	
+	return out;
+
+		
 }
 
 /*
