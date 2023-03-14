@@ -109,15 +109,15 @@ bool Loader::hasComment(std::string line) {
  *               a variable number of bytes of data (at least one)
  */
 void Loader::loadLine(std::string line) {
-	bool uh = false; 
+	bool error = false; 
 	int i = DATABEGIN;
-	lastAddress = convert(line, ADDRBEGIN, 3);
+	int address = convert(line, ADDRBEGIN, ADDREND - ADDRBEGIN + 1);
 	
 	while (line.std::string::at(i) != ' ') {
 		int value = convert(line, i, 2);
-		Memory::getInstance()->putByte(value, lastAddress, uh);
+		Memory::getInstance()->putByte(value, address, error);
 		i += 2;	
-		lastAddress++;
+		address++;
 	}			
 }
 
@@ -149,6 +149,7 @@ int32_t Loader::convert(std::string line, int32_t start, int32_t len) {
  *         false, otherwise
  */
 bool Loader::hasErrors(std::string line) {
+	return false;
 	//checking for errors in a particular order can significantly 
 	//simplify your code
 	//1) line is at least COMMENT characters long and contains a '|' in 
@@ -284,7 +285,7 @@ bool Loader::isLoaded() {
 bool Loader::badFile(std::string filename) {
 	int strLen = filename.length();
 	std::string ext = ".yo";
-  	std::string subString = filename.std::string::substr(strLen - 2, 3); 
+  	std::string subString = filename.std::string::substr(strLen - 3, 3); 
 	if ((ext.compare(subString) == 0) && (strLen >= 4)) return false;
 	return true; 
 }
