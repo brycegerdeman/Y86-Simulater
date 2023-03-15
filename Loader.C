@@ -59,7 +59,6 @@ Loader::Loader(int argc, char * argv[]) {
  *         false, otherwise
  */
 bool Loader::hasAddress(std::string line) {
-	return true;
 	return line[0] == '0';
 }
 
@@ -77,7 +76,6 @@ bool Loader::hasAddress(std::string line) {
  *         false, otherwise
  */
 bool Loader::hasData(std::string line) {
-	return true;
 	return line[DATABEGIN] != ' ';
 }
 
@@ -137,8 +135,6 @@ int32_t Loader::convert(std::string line, int32_t start, int32_t len) {
   	std::string subString = line.std::string::substr(start, len); 
 	int32_t out = stoul(subString, NULL, 16);	
 	return out;
-
-		
 }
 
 /*
