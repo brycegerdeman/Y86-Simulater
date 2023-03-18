@@ -239,6 +239,7 @@ bool Loader::errorData(std::string line, int32_t & numDBytes) {
  * @return true if the address is not properly formed and false otherwise
  */
 bool Loader::errorAddr(std::string line) {
+	if (isSpaces(line, 0, COMMENT)) return false;
    	if (line[0] != '0') return true;
    	if (line[1] != 'x') return true;
    	if (line[5] != ':') return true;
