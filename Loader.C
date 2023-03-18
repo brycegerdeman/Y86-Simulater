@@ -170,7 +170,7 @@ bool Loader::hasErrors(std::string line) {
 	//   return result of isSpaces (line must be all spaces from
 	//   after the address up to the | character)
 	//   Hint: use hasData and isSpaces
-	//if (!hasData(line)) return isSpaces(line, DATABEGIN, COMMENT);
+	if (!hasData(line) && !isSpaces(line, DATABEGIN, COMMENT)) return true;
 
 	//5) if you get past 4), line has an address and data. Check to
 	//   make sure the data is valid using errorData
@@ -216,6 +216,7 @@ bool Loader::hasErrors(std::string line) {
  * @return numDBytes is set to the number of data bytes on the line
  */
 bool Loader::errorData(std::string line, int32_t & numDBytes) {
+	//if (isSpaces(line, 0, COMMENT)) return false;
 	int DATAEND = (numDBytes * 2) + DATABEGIN;
 
 	if ((DATAEND - DATABEGIN) % 2 != 0) return true;
