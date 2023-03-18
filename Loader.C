@@ -175,9 +175,8 @@ bool Loader::hasErrors(std::string line) {
 	//5) if you get past 4), line has an address and data. Check to
 	//   make sure the data is valid using errorData
 	//   Hint: use errorData
-	//int32_t numD = 0;
-	//return errorData(line, numD);	
-	
+	int32_t numDBytes = 0;
+	if (errorData(line, numDBytes)) return true;	
 
 	//6) if you get past 5), line has a valid address and valid data.
 	//   Make sure that the address on this line is > the last address
@@ -217,16 +216,19 @@ bool Loader::hasErrors(std::string line) {
  */
 bool Loader::errorData(std::string line, int32_t & numDBytes) {
 	//if (isSpaces(line, 0, COMMENT)) return false;
-	int DATAEND = (numDBytes * 2) + DATABEGIN;
+	int length = 0;
+	for (int i = DATABEGIN; i < COMMENT; i++) {
+		if (line[i] != ' ') length++;	
+	}	
+	
+	if (length % 2 != 0) return true;
 
-	if ((DATAEND - DATABEGIN) % 2 != 0) return true;
-
-	for (int i = DATABEGIN; i < DATAEND; i++) {
-		if (!isxdigit(line.std::string::at(i))) return true;
+	for (int i = DATABEGIN; i < DATABEGIN + length; i++) {
+		if (!isxdigit(line[i])) return true;
 	} 
 
-	if (!isSpaces(line, DATAEND, COMMENT)) return true;
-		
+	if (!isSpaces(line, DATABEGIN + length, COMMENT)) return true; 
+
    	return false;
 }
 
