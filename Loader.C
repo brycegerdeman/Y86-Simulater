@@ -147,35 +147,36 @@ int32_t Loader::convert(std::string line, int32_t start, int32_t len) {
  *         false, otherwise
  */
 bool Loader::hasErrors(std::string line) {
-	return false;
 	//checking for errors in a particular order can significantly 
 	//simplify your code
 	//1) line is at least COMMENT characters long and contains a '|' in 
 	//   column COMMENT. If not, return true
 	//   Hint: use hasComment
-/*
-	if (!hasComment()) return true;
+	if (!hasComment(line)) return true;
 	
 	//2) check whether line has an address.  If it doesn't,
 	//   return result of isSpaces (line must be all spaces up
 	//   to the | character)
 	//   Hint: use hasAddress and isSpaces
-	if (!hasAddress()) return isSpaces(line, 0, COMMENT);	
+	if (!hasAddress(line)) {
+		if (isSpaces(line, 0, COMMENT) == false) return true;	
+	}	
 
 	//3) return true if the address is invalid
 	//   Hint: use errorAddress 
-	return errorAddress();
+	//if (errorAddr(line)) return true;
 
 	//4) check whether the line has data. If it doesn't
 	//   return result of isSpaces (line must be all spaces from
 	//   after the address up to the | character)
 	//   Hint: use hasData and isSpaces
-	if (!hasData()) return isSpaces(line, DATABEGIN, COMMENT);
+	//if (!hasData(line)) return isSpaces(line, DATABEGIN, COMMENT);
 
 	//5) if you get past 4), line has an address and data. Check to
 	//   make sure the data is valid using errorData
 	//   Hint: use errorData
-	return errorData();	
+	//int32_t numD = 0;
+	//return errorData(line, numD);	
 	
 
 	//6) if you get past 5), line has a valid address and valid data.
@@ -183,18 +184,18 @@ bool Loader::hasErrors(std::string line) {
 	//   stored to (lastAddress is a private data member)
 	//   Hint: use convert to convert address to a number and compare
 	//   to lastAddress
+	
 
 
 	//7) Make sure that the last address of the data to be stored
 	//   by this line doesn't exceed the memory size
 	//   Hint: use numDBytes as set by errorData, MEMSIZE in Memory.h,
 	//         and addr returned by convert
+	
 
 
 	// if control reaches here, no errors found
 	return false;
-*/
-return false;
 }
 
 /*
@@ -215,7 +216,6 @@ return false;
  * @return numDBytes is set to the number of data bytes on the line
  */
 bool Loader::errorData(std::string line, int32_t & numDBytes) {
-   	//Hint: use isxdigit and isSpaces
 	int DATAEND = (numDBytes * 2) + DATABEGIN;
 
 	if ((DATAEND - DATABEGIN) % 2 != 0) return true;
@@ -239,8 +239,11 @@ bool Loader::errorData(std::string line, int32_t & numDBytes) {
  * @return true if the address is not properly formed and false otherwise
  */
 bool Loader::errorAddr(std::string line) {
-   	//Hint: use isxdigit
-   	
+   	if (line[0] != '0') return true;
+   	if (line[1] != 'x') return true;
+   	for (int i = 2; i < 5; i++) {
+		if (isxdigit(line[i]) == false) return true;
+	}	 
    	return false;
 }
 
@@ -258,7 +261,7 @@ bool Loader::errorAddr(std::string line) {
  */
 bool Loader::isSpaces(std::string line, int32_t start, int32_t end) {
 	for (int i = start; i < end; i++) {
-		if (line.std::string::at(i) != ' ') return false;
+		if (line[i] != ' ') return false;
 	}	
    	return true;
 }
