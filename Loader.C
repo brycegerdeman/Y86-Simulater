@@ -164,7 +164,7 @@ bool Loader::hasErrors(std::string line) {
 
 	//3) return true if the address is invalid
 	//   Hint: use errorAddress 
-	//if (errorAddr(line)) return true;
+	if (errorAddr(line)) return true;
 
 	//4) check whether the line has data. If it doesn't
 	//   return result of isSpaces (line must be all spaces from
@@ -241,6 +241,8 @@ bool Loader::errorData(std::string line, int32_t & numDBytes) {
 bool Loader::errorAddr(std::string line) {
    	if (line[0] != '0') return true;
    	if (line[1] != 'x') return true;
+   	if (line[5] != ':') return true;
+   	if (line[6] != ' ') return true;
    	for (int i = 2; i < 5; i++) {
 		if (isxdigit(line[i]) == false) return true;
 	}	 
