@@ -183,8 +183,15 @@ bool Loader::hasErrors(std::string line) {
 	//   stored to (lastAddress is a private data member)
 	//   Hint: use convert to convert address to a number and compare
 	//   to lastAddress
-	
+	if (!isSpaces(line, 0, COMMENT)) { 
+		int address = convert(line, ADDRBEGIN, ADDREND - ADDRBEGIN + 1);
 
+		if (lastAddress >= address) return true;
+		
+		lastAddress = address; 
+		lastAddress += numDBytes - 1;		
+		if (address + numDBytes > MEMSIZE) return true;
+	}
 
 	//7) Make sure that the last address of the data to be stored
 	//   by this line doesn't exceed the memory size
@@ -215,7 +222,6 @@ bool Loader::hasErrors(std::string line) {
  * @return numDBytes is set to the number of data bytes on the line
  */
 bool Loader::errorData(std::string line, int32_t & numDBytes) {
-	//if (isSpaces(line, 0, COMMENT)) return false;
 	int length = 0;
 	for (int i = DATABEGIN; i < COMMENT; i++) {
 		if (line[i] != ' ') length++;	
@@ -229,6 +235,7 @@ bool Loader::errorData(std::string line, int32_t & numDBytes) {
 
 	if (!isSpaces(line, DATABEGIN + length, COMMENT)) return true; 
 
+	numDBytes = length / 2;
    	return false;
 }
 
