@@ -1,6 +1,7 @@
 
 //size of memory
-#define MEMSIZE 0x1000
+#define MEMSIZE 0x1000 
+
 class Memory 
 {
    private:
