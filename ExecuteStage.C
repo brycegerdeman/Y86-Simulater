@@ -13,31 +13,33 @@
 #include "Debug.h"
 
 /*
- * doClockLow:
- * Performs the Fetch stage combinational logic that is performed when
- * the clock edge is low.
- *
- * @param: pregs - array of the pipeline register sets (F, D, E, M, W instances)
- * @param: stages - array of stages (FetchStage, DecodeStage, ExecuteStage,
- *         MemoryStage, WritebackStage instances)
+ * doClockLow
  */
 bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	E * ereg = (E *) pregs[EREG];	
 	M * mreg = (M *) pregs[MREG];	
-	uint64_t icode = 0, Cnd = 0, valE = 0, valA = 0, dstE = 0, dstM = 0;	
+	uint64_t icode = 0, ifun = 0, valC = 0, valA = 0, valB = 0, 
+		dstE = 0, dstM = 0, srcA = 0, srcB = 0;
 	uint64_t stat = SAOK;
-	
-	
+
+	stat = ereg->getstat()->getOutput();
+	ifun = ereg->getifun()->getOutput();
+	valC = ereg->getvalC()->getOutput();
+	valA = ereg->getvalA()->getOutput();
+	valB = ereg->getvalB()->getOutput();
+	valE = ereg->getvalE()->getOutput();
+	dstE = ereg->getdstE()->getOutput();
+	dstM = ereg->getdstM()->getOutput();
+	srcA = ereg->getsrcA()->getOutput();
+	srcB = ereg->getsrcA()->getOutput();
+		
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
 	return false;
 }
 
 
-/* doClockHigh
- * applies the appropriate control signal to the F
- * and D register intances
- *
- * @param: pregs - array of the pipeline register (F, D, E, M, W instances)
+/* 
+ * doClockHigh
  */
 void ExecuteStage::doClockHigh(PipeReg ** pregs) {
 	M * mreg = (M *) pregs[MREG];	
@@ -51,6 +53,9 @@ void ExecuteStage::doClockHigh(PipeReg ** pregs) {
 	mreg->getdstM()->normal();
 }
 
+/* 
+ * setMInput
+ */
 void ExecuteStage::setMInput(M * mreg, uint64_t stat, uint64_t icode, uint64_t Cnd, 
 	uint64_t valE, uint64_t valA, uint64_t dstE, uint64_t dstM) {
 	mreg->getstat()->setInput(stat);	
