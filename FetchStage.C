@@ -22,8 +22,7 @@
  * @param: stages - array of stages (FetchStage, DecodeStage, ExecuteStage,
  *         MemoryStage, WritebackStage instances)
  */
-bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages)
-{
+bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
    F * freg = (F *) pregs[FREG];
    D * dreg = (D *) pregs[DREG];
    uint64_t f_pc = 0, icode = 0, ifun = 0, valC = 0, valP = 0;
@@ -50,8 +49,7 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages)
  *
  * @param: pregs - array of the pipeline register (F, D, E, M, W instances)
  */
-void FetchStage::doClockHigh(PipeReg ** pregs)
-{
+void FetchStage::doClockHigh(PipeReg ** pregs) {
    F * freg = (F *) pregs[FREG];
    D * dreg = (D *) pregs[DREG];
 

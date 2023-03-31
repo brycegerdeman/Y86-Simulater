@@ -3,10 +3,7 @@
 #include "RegisterFile.h"
 #include "PipeRegField.h"
 #include "PipeReg.h"
-#include "F.h"
-#include "D.h"
 #include "M.h"
-#include "W.h"
 #include "E.h"
 #include "Stage.h"
 #include "ExecuteStage.h"
@@ -19,20 +16,13 @@
 bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	E * ereg = (E *) pregs[EREG];	
 	M * mreg = (M *) pregs[MREG];	
-	uint64_t icode = 0, ifun = 0, valC = 0, valA = 0, valB = 0, 
-		dstE = 0, dstM = 0, srcA = 0, srcB = 0;
-	uint64_t stat = SAOK;
+	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0, valE = 0, 
+		dstE = 0, dstM = 0;
 
 	stat = ereg->getstat()->getOutput();
-	ifun = ereg->getifun()->getOutput();
-	valC = ereg->getvalC()->getOutput();
+	icode = ereg->geticode()->getOutput();
 	valA = ereg->getvalA()->getOutput();
-	valB = ereg->getvalB()->getOutput();
-	valE = ereg->getvalE()->getOutput();
-	dstE = ereg->getdstE()->getOutput();
 	dstM = ereg->getdstM()->getOutput();
-	srcA = ereg->getsrcA()->getOutput();
-	srcB = ereg->getsrcA()->getOutput();
 		
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
 	return false;

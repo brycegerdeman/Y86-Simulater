@@ -3,8 +3,6 @@
 #include "RegisterFile.h"
 #include "PipeRegField.h"
 #include "PipeReg.h"
-#include "F.h"
-#include "D.h"
 #include "M.h"
 #include "W.h"
 #include "Stage.h"
@@ -19,11 +17,10 @@
 bool MemoryStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	M * mreg = (M *) pregs[MREG];
 	W * wreg = (W *) pregs[WREG];
-	uint64_t icode = 0, Cnd = 0, valE = 0, valA = 0, dstE = 0, dstM = 0;
-	uint64_t stat = SAOK;
+	uint64_t stat = SAOK, icode = 0, valE = 0, valM = 0, dstE = 0, dstM = 0;
 
+	stat = mreg->getstat(); 
 	icode = mreg->geticode(); 
-	Cnd = mreg->getCnd(); 
 	valE = mreg->getvalE(); 
 	valA = mreg->getvalA(); 
 	dstE = mreg->getdstE(); 

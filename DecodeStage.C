@@ -6,8 +6,6 @@
 #include "PipeReg.h"
 #include "D.h"
 #include "E.h"
-#include "M.h"
-#include "W.h"
 #include "Stage.h"
 #include "ExecuteStage.h"
 #include "MemoryStage.h"
@@ -27,13 +25,25 @@ bool DecodeStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 		 valA = 0, valB = 0;
    	uint64_t dstE = RNONE, dstM = RNONE, srcA = RNONE, srcB = RNONE;
 
-setEInput(ereg, stat, icode, ifun, valC, valA, valB, dstE, dstM, srcA, srcB);
+	setEInput(ereg, stat, icode, ifun, valC, valA, valB, dstE, dstM, srcA, srcB);
 	return false;
 }
 
 
 void DecodeStage::doClockHigh(PipeReg ** pregs) {
-	return;
+	D * dreg = (D *) pregs[DREG];
+	E * ereg = (E *) pregs[EREG];
+	
+	ereg->getstat()->normal();
+   	ereg->geticode()->normal();
+   	ereg->getifun()->normal();
+	ereg->getvalC()->normal();
+	ereg->getvalA()->normal();
+	ereg->getvalB()->normal();
+	ereg->getdstE()->normal();
+	ereg->getdstM()->normal();
+	ereg->getsrcA()->normal();
+	ereg->getsrcB()->normal();
 }
 
 void DecodeStage::setEInput(E * ereg, uint64_t stat, uint64_t icode, 
