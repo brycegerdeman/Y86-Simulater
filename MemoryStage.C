@@ -19,14 +19,13 @@ bool MemoryStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	W * wreg = (W *) pregs[WREG];
 	uint64_t stat = SAOK, icode = 0, valE = 0, valM = 0, dstE = 0, dstM = 0;
 
-	stat = mreg->getstat(); 
-	icode = mreg->geticode(); 
-	valE = mreg->getvalE(); 
-	valA = mreg->getvalA(); 
-	dstE = mreg->getdstE(); 
-	dstM = mreg->getdstM(); 
+	stat = mreg->getstat()->getOutput(); 
+	icode = mreg->geticode()->getOutput(); 
+	valE = mreg->getvalE()->getOutput(); 
+	dstE = mreg->getdstE()->getOutput(); 
+	dstM = mreg->getdstM()->getOutput();
 
-	setWInput(wreg, stat, icode, valE, valA, dstE, dstM);
+	setWInput(wreg, stat, icode, valE, valM, dstE, dstM);
 	return false;
 }
 
@@ -48,7 +47,7 @@ void MemoryStage::doClockHigh(PipeReg ** pregs) {
  * setWInput
  */
 void MemoryStage::setWInput(W * wreg, uint64_t stat, uint64_t icode, uint64_t valE, 
-	uint64_t valM, dstE, uint64_t dstM) {
+	uint64_t valM, uint64_t dstE, uint64_t dstM) {
 	wreg->getstat()->setInput(stat);
 	wreg->geticode()->setInput(icode);
 	wreg->getvalE()->setInput(valE);
