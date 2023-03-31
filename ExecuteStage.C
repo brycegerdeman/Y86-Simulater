@@ -7,6 +7,7 @@
 #include "D.h"
 #include "M.h"
 #include "W.h"
+#include "E.h"
 #include "Stage.h"
 #include "ExecuteStage.h"
 #include "Status.h"

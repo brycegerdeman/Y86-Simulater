@@ -1,14 +1,16 @@
 #include <string>
 #include <cstdint>
+#include "Instructions.h"
 #include "RegisterFile.h"
 #include "PipeRegField.h"
 #include "PipeReg.h"
-#include "F.h"
 #include "D.h"
+#include "E.h"
 #include "M.h"
 #include "W.h"
-#include "E.h"
 #include "Stage.h"
+#include "ExecuteStage.h"
+#include "MemoryStage.h"
 #include "DecodeStage.h"
 #include "Status.h"
 #include "Debug.h"
@@ -40,11 +42,11 @@ void DecodeStage::setEInput(E * ereg, uint64_t stat, uint64_t icode,
 	ereg->getstat()->setInput(stat);
    	ereg->geticode()->setInput(icode);
    	ereg->getifun()->setInput(ifun);
-	ereg->getvalC()->setvalC(valC);
-	ereg->getvalA()->setvalA(valA);
-	ereg->getvalB()->setvalB(valB);
-	ereg->getdstE()->setdstE(dstE);
-	ereg->getdstM()->setdstM(dstM);
-	ereg->getsrcA()->setsrcA(srcA);
-	ereg->getsrcB()->setsrcA(srcB);
+	ereg->getvalC()->setInput(valC);
+	ereg->getvalA()->setInput(valA);
+	ereg->getvalB()->setInput(valB);
+	ereg->getdstE()->setInput(dstE);
+	ereg->getdstM()->setInput(dstM);
+	ereg->getsrcA()->setInput(srcA);
+	ereg->getsrcB()->setInput(srcB);
 }
