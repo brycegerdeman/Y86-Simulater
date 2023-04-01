@@ -107,7 +107,7 @@ void FetchStage::PCincrement() {
 /*
  * selectPC
  */ 
-void FetchStage::selectPC(F * f, M * m, W * w) {
+uint64_t FetchStage::selectPC(F * f, M * m, W * w) {
 	uint64_t M_valA = m->getvalA()->getOutput();
 	uint64_t M_Cnd = m->getCnd()->getOutput();
 	uint64_t M_icode = m->geticode()->getOutput();
@@ -117,34 +117,38 @@ void FetchStage::selectPC(F * f, M * m, W * w) {
 
 	uint64_t F_predPC = f->getpredPC()->getOutput();
 
+	uint64_t f_pc = 0;
 	if (M_icode == IJXX && !M_Cnd) f_pc = M_valA; 
 	else if (W_icode == IRET) f_pc = W_valM;	
 	else f_pc = F_predPC;	
+	return f_pc;
 }
 
 /*
  * needRegIds
  */
-void FetchStage::needRegIds(uint64_t f_icode) {
-	need_regids = (f_icode == IRRMOVQ) || (f_icode == IOPQ) ||
-		      (f_icode == IPUSHQ) || (f_icode == IPOPQ) ||
-		      (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
-		      (f_icode == IMRMOVQ);
+bool FetchStage::needRegIds(uint64_t f_icode) {
+	return (f_icode == IRRMOVQ) || (f_icode == IOPQ) ||
+	       (f_icode == IPUSHQ) || (f_icode == IPOPQ) ||
+	       (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
+	       (f_icode == IMRMOVQ);
 }
 
 /*
  * needValC
  */
-void FetchStage::needValC(uint64_t f_icode) {
-	need_valC = (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
-		    (f_icode == IMRMOVQ) || (f_icode == IJXX) ||
-	            (f_icode == ICALL);
+bool FetchStage::needValC(uint64_t f_icode) {
+	return (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
+	       (f_icode == IMRMOVQ) || (f_icode == IJXX) ||
+	       (f_icode == ICALL);
 }
 
 /*
  * predictPC
  */
-void FetchStage::predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP) {
+uint64_t FetchStage::predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP) {
+	uint64_t f_predPC = 0;
 	if (f_icode == IJXX || f_icode == ICALL) f_predPC = f_valC;
 	else f_predPC = f_valP;
+	return f_predPC;
 }

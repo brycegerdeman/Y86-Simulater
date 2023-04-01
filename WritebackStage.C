@@ -9,6 +9,7 @@
 #include "Status.h"
 #include "Debug.h"
 
+#define HALT 0x0
 
 /*
  * doClockLow
@@ -18,7 +19,6 @@ bool WritebackStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	uint64_t icode = wreg->geticode()->getOutput();	
 	return (icode == HALT);
 }
-
 
 /* 
  * doClockHigh

@@ -18,15 +18,13 @@ class FetchStage: public Stage {
                      uint64_t rA, uint64_t rB,
                      uint64_t valC, uint64_t valP);
    public:
-	 
-
         bool doClockLow(PipeReg ** pregs, Stage ** stages);
         void doClockHigh(PipeReg ** pregs);
 
 	void PCincrement();
 	void PredictPC();
-	void selectPC(F * f, M * m, W * w);
-	void needRegIds(uint64_t f_icode);
-	void needValC(uint64_t f_icode);
-	void predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP); 
+	uint64_t selectPC(F * f, M * m, W * w);
+	bool needRegIds(uint64_t f_icode);
+	bool needValC(uint64_t f_icode);
+	uint64_t predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP); 
 };
