@@ -109,13 +109,16 @@ void PCincrement(uint64_t f_pc) {
  */ 
 void selectPC(F * f, M * m, W * w) {
 	uint64_t M_valA = m->getvalA()->getOutput();
-	uint64_t M_valA = m->getCnd()->getOutput();
+	uint64_t M_Cnd = m->getCnd()->getOutput();
 	uint64_t M_icode = m->geticode()->getOutput();
+
 	uint64_t W_icode = w->geticode()->getOutput();
+	uint64_t W_valM = w->getvalM()->getOutput();
+
 	uint64_t F_predPC = f->getpredPC()->getOutput();
 
-	if (M_icode == 0x70 && !M_Cnd) f_pc = M_valA; 
-	else if (W_icode == 0x90) f_pc = W_icode;	
+	if (M_icode == IJXX && !M_Cnd) f_pc = M_valA; 
+	else if (W_icode == IRET) f_pc = W_valM;	
 	else f_pc = F_predPC;	
 }
 
@@ -123,25 +126,25 @@ void selectPC(F * f, M * m, W * w) {
  * needRegIds
  */
 void needRegIds(uint64_t f_icode) {
-	need_regids = (f_icode == 0x20) || (f_icode == 0x60) ||
-		      (f_icode == 0xA0) || (f_icode == 0xB0) ||
-		      (f_icode == 0x30) || (f_icode == 0x40) ||
-		      (f_icode == 0x50);
+	need_regids = (f_icode == IRRMOVQ) || (f_icode == IOPQ) ||
+		      (f_icode == IPUSHQ) || (f_icode == IPOPQ) ||
+		      (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
+		      (f_icode == IMRMOVQ);
 }
 
 /*
  * needValC
  */
 void needValC(uint64_t f_icode) {
-	need_valC = (f_icode == 0x30) || (f_icode == 0x40) ||
-		    (f_icode == 0x50) || (f_icode == 0x70) ||
-	            (f_icode == 0x80);
+	need_valC = (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
+		    (f_icode == IMRMOVQ) || (f_icode == IJXX) ||
+	            (f_icode == ICALL);
 }
 
 /*
  * predictPC
  */
 void predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP) {
-	if (f_icode == 0x70 || f_icode == 0x80) f_predPC = f_valC;
+	if (f_icode == IJXX || f_icode == ICALL) f_predPC = f_valC;
 	else f_predPC = f_valP;
 }
