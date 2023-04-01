@@ -108,26 +108,38 @@ void PCincrement() {
  * selectPC
  */ 
 void selectPC(F * f, M * m, W * w) {
-		
+	uint64_t M_valA = m->getcnd()->getOutput();
+	uint64_t W_icode = w->geticode()->getOutput();
+	uint64_t F_predPC = f->getpredPC()->getOutput();
+
+	if (IJXX &&  M_valA) f_pc = M_valA; 
+	else if (W_icode == IRET ) f_pc = W_icode;	
+	else f_pc = F_predPC;	
 }
 
 /*
  * needRegIds
  */
 void needRegIds(uint64_t f_icode) {
-
+	need_regids = (f_icode == IRRMOVQ) || (f_icode == IOPQ) ||
+		      (f_icode == IPUSHQ) || (f_icode == IPOPQ) ||
+		      (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
+		      (f_icode == IMRMOVQ);
 }
 
 /*
  * needValC
  */
 void needValC(uint64_t f_icode) {
-
+	need_valC = (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
+		    (f_icode == IMRMOVQ) || (f_icode == IJXX) ||
+	            (f_icode == ICALL);
 }
 
 /*
  * predictPC
  */
 void predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP) {
-
+	if (f_icode == IJXX || f_icode == ICALL) f_predPC = f_valC;
+	else f_predPC = f_valP;
 }
