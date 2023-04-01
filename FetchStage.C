@@ -98,14 +98,18 @@ void FetchStage::setDInput(D * dreg, uint64_t stat, uint64_t icode,
  * PredictPC
  */ 
 uint64_t FetchStage::PredictPC(uint64_t valP, uint64_t icode, uint64_t valC) {
-		
+	if (icode == IJXX || icode == ICALL) return valC;	
+	return valP;		
 }
 
 /*
  * PCincrement
  */ 
 uint64_t FetchStage::PCincrement(uint64_t f_pc, bool needRegIds, bool needValC) {
-		
+	if (needRegIds && needValC) return f_pc + 10;
+	if (!needRegIds && needValC) return f_pc + 9;	
+	if (needRegIds && !needValC) return f_pc + 2;	
+	return f_pc + 1;		
 }
 
 /*
