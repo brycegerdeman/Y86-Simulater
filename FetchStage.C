@@ -100,7 +100,7 @@ void FetchStage::PredictPC() {
 /*
  * PCincrement
  */ 
-void FetchStage::PCincrement(uint64_t f_pc) {
+void FetchStage::PCincrement() {
 		
 }
 
