@@ -93,21 +93,21 @@ void FetchStage::setDInput(D * dreg, uint64_t stat, uint64_t icode,
 /*
  * PredictPC
  */ 
-void PredictPC() {
+void FetchStage::PredictPC() {
 		
 }
 
 /*
  * PCincrement
  */ 
-void PCincrement(uint64_t f_pc) {
+void FetchStage::PCincrement(uint64_t f_pc) {
 		
 }
 
 /*
  * selectPC
  */ 
-void selectPC(F * f, M * m, W * w) {
+void FetchStage::selectPC(F * f, M * m, W * w) {
 	uint64_t M_valA = m->getvalA()->getOutput();
 	uint64_t M_Cnd = m->getCnd()->getOutput();
 	uint64_t M_icode = m->geticode()->getOutput();
@@ -125,7 +125,7 @@ void selectPC(F * f, M * m, W * w) {
 /*
  * needRegIds
  */
-void needRegIds(uint64_t f_icode) {
+void FetchStage::needRegIds(uint64_t f_icode) {
 	need_regids = (f_icode == IRRMOVQ) || (f_icode == IOPQ) ||
 		      (f_icode == IPUSHQ) || (f_icode == IPOPQ) ||
 		      (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
@@ -135,7 +135,7 @@ void needRegIds(uint64_t f_icode) {
 /*
  * needValC
  */
-void needValC(uint64_t f_icode) {
+void FetchStage::needValC(uint64_t f_icode) {
 	need_valC = (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
 		    (f_icode == IMRMOVQ) || (f_icode == IJXX) ||
 	            (f_icode == ICALL);
@@ -144,7 +144,7 @@ void needValC(uint64_t f_icode) {
 /*
  * predictPC
  */
-void predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP) {
+void FetchStage::predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP) {
 	if (f_icode == IJXX || f_icode == ICALL) f_predPC = f_valC;
 	else f_predPC = f_valP;
 }
