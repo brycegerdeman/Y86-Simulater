@@ -49,7 +49,11 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
    uint64_t byte1 = mem->getByte(f_pc + 1, imem_error);
    if (need_regId) getRegIds(byte1, rA, rB);
 
-   if (need_valC) valC = buildValC(mem, f_pc + 2, imem_error);
+   uint8_t bytes[LONGSIZE];
+   for (int i = 0; i < LONGSIZE; i++) {
+       bytes[0] = mem->getByte(f_pc + 2 + i, imem_error);
+   }
+   if (need_valC) valC = buildValC(bytes);
 
    valP = PCincrement(f_pc, need_regId, need_valC);
    freg->getpredPC()->setInput(predictPC(valP, icode, valC));
@@ -173,11 +177,7 @@ bool FetchStage::needValC(uint64_t f_icode) {
 /*
  * buildValC
  */
-uint64_t FetchStage::buildValC(Memory * mem, uint64_t byte, bool &imem_error) {
-	uint64_t bytes[LONGSIZE];
-	for (int i = 0; i < LONGSIZE; i++) {
-		bytes[i] = mem->getByte(byte + i, imem_error);	
-	}
+uint64_t FetchStage::buildValC(uint8_t bytes[LONGSIZE]) {
 	return Tools::buildLong(bytes);
 }
 

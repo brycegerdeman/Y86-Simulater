@@ -1,5 +1,3 @@
-//class to perform the combinational logic of
-//the Fetch stage
 class FetchStage: public Stage {
    private:
         void setDInput(D * dreg, uint64_t stat, uint64_t icode, uint64_t ifun, 
@@ -17,5 +15,5 @@ class FetchStage: public Stage {
 	void getRegIds(uint64_t word, uint64_t &rA, uint64_t &rB); 
 
 	bool needValC(uint64_t f_icode);
-	uint64_t buildValC(Memory * mem, uint64_t byte, bool &imem_error); 
+	uint64_t buildValC(uint8_t bytes[8]);
 };
