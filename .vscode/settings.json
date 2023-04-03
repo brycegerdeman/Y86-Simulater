@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "ExecuteStage.C": "cpp",
+        "WritebackStage.C": "cpp"
+    }
+}
