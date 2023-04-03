@@ -7,9 +7,9 @@
 #include "W.h"
 #include "WritebackStage.h"
 #include "Status.h"
+#include "Instructions.h"
 #include "Debug.h"
 
-#define HALT 0x0
 
 /*
  * doClockLow
@@ -17,7 +17,7 @@
 bool WritebackStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	W * wreg = (W *) pregs[WREG];
 	uint64_t icode = wreg->geticode()->getOutput();	
-	return (icode == HALT);
+	return (icode == IHALT);
 }
 
 /* 

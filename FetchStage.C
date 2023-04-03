@@ -8,6 +8,7 @@
 #include "M.h"
 #include "W.h"
 #include "Stage.h"
+#include "Instructions.h"
 #include "FetchStage.h"
 #include "Status.h"
 #include "Debug.h"
@@ -112,6 +113,7 @@ uint64_t FetchStage::PCincrement(uint64_t f_pc, bool needRegIds, bool needValC) 
 	return f_pc + 1;		
 }
 
+
 /*
  * selectPC
  */ 
@@ -160,3 +162,4 @@ uint64_t FetchStage::predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_val
 	else f_predPC = f_valP;
 	return f_predPC;
 }
+
