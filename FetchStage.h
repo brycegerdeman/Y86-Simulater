@@ -17,5 +17,5 @@ class FetchStage: public Stage {
 	void getRegIds(uint64_t word, uint64_t &rA, uint64_t &rB); 
 
 	bool needValC(uint64_t f_icode);
-	uint64_t buildValC(uint64_t word);
+	uint64_t buildValC(Memory * mem, uint64_t byte, bool &imem_error); 
 };

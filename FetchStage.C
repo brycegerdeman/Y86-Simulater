@@ -38,18 +38,18 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
    bool imem_error = false;
 
    f_pc = selectPC(freg, mreg, wreg); 
-   uint64_t byte = mem->getByte(f_pc, imem_error);
+   uint64_t byte0 = mem->getByte(f_pc, imem_error);
 
-   icode = Tools::getBits(byte, 4, 7);
-   ifun = Tools::getBits(byte, 0, 3);
+   icode = Tools::getBits(byte0, 4, 7);
+   ifun = Tools::getBits(byte0, 0, 3);
    need_regId = needRegIds(icode);
    need_valC = needValC(icode);
 
 
-   uint64_t word = mem->getLong(f_pc, imem_error);
-   if (need_regId) getRegIds(word, rA, rB);
-   if (need_valC) valC = buildValC(word);
+   uint64_t byte1 = mem->getByte(f_pc + 1, imem_error);
+   if (need_regId) getRegIds(byte1, rA, rB);
 
+   if (need_valC) valC = buildValC(mem, f_pc + 2, imem_error);
 
    valP = PCincrement(f_pc, need_regId, need_valC);
    freg->getpredPC()->setInput(predictPC(valP, icode, valC));
@@ -153,8 +153,9 @@ bool FetchStage::needRegIds(uint64_t f_icode) {
 /*
  * getRegIds
  */
-void FetchStage::getRegIds(uint64_t word, uint64_t &rA, uint64_t &rB) {
-	
+void FetchStage::getRegIds(uint64_t byte1, uint64_t &rA, uint64_t &rB) {
+	rA = Tools::getBits(byte1, 0, 3);
+	rB = Tools::getBits(byte1, 4, 7);
 }
 
 
@@ -172,7 +173,11 @@ bool FetchStage::needValC(uint64_t f_icode) {
 /*
  * buildValC
  */
-uint64_t FetchStage::buildValC(uint64_t word) {
-	return 0;
+uint64_t FetchStage::buildValC(Memory * mem, uint64_t byte, bool &imem_error) {
+	uint64_t bytes[LONGSIZE];
+	for (int i = 0; i < LONGSIZE; i++) {
+		bytes[i] = mem->getByte(byte + i, imem_error);	
+	}
+	return Tools::buildLong(bytes);
 }
 
