@@ -9,9 +9,11 @@
 #include "W.h"
 #include "Stage.h"
 #include "Instructions.h"
+#include "Tools.h"
 #include "FetchStage.h"
 #include "Status.h"
 #include "Debug.h"
+#include "Memory.h"
 
 
 /*
@@ -28,11 +30,20 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
    M * mreg = (M *) pregs[MREG];
    W * wreg = (W *) pregs[WREG];
    D * dreg = (D *) pregs[DREG];
-   uint64_t f_pc = 0, icode = 0, ifun = 0, valC = 0, valP = 0;
+   uint64_t f_pc = selectPC(freg, mreg, wreg), 
+      icode = 0, ifun = 0, valC = 0, valP = 0;
    uint64_t rA = RNONE, rB = RNONE, stat = SAOK;
 
-   f_pc = selectPC(freg, mreg, wreg);
+   Memory * mem = mem->getInstance();
+   bool memmer = false;
+
+   uint64_t byte = mem->getByte(f_pc, memmer);
+   icode = Tools::getBits(byte, 4, 7);
+   ifun = Tools::getBits(byte, 0, 3);
+
+   //f_pc = selectPC(freg, mreg, wreg);
    valP = PCincrement(f_pc, needRegIds(icode), needValC(icode));
+
   
    //The value passed to setInput below will need to be changed
    freg->getpredPC()->setInput(predictPC(valP, icode, valC));
