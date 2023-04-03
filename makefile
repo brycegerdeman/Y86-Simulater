@@ -1,4 +1,4 @@
-	CC = g++
+CC = g++
 CFLAGS = -g -c -Wall -std=c++11
 OBJ = yess.o Tools.o RegisterFile.o Loader.o \
 ConditionCodes.o Memory.o PipeRegField.o FetchStage.o  F.o \

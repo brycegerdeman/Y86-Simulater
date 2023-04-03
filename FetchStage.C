@@ -25,20 +25,13 @@
  */
 bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
    F * freg = (F *) pregs[FREG];
+   M * mreg = (M *) pregs[MREG];
+   W * wreg = (W *) pregs[WREG];
    D * dreg = (D *) pregs[DREG];
    uint64_t f_pc = 0, icode = 0, ifun = 0, valC = 0, valP = 0;
    uint64_t rA = RNONE, rB = RNONE, stat = SAOK;
 
-   //code missing here to select the value of the PC
-   //and fetch the instruction from memory
-   //Fetching the instruction will allow the icode, ifun,
-   //rA, rB, and valC to be set.
-   //The lab assignment describes what methods need to be
-   //written.
-   M * mreg = (M *) pregs[MREG];
-   W * wreg = (W *) pregs[WREG];
    f_pc = selectPC(freg, mreg, wreg);
-
    valP = PCincrement(f_pc, needRegIds(icode), needValC(icode));
   
    //The value passed to setInput below will need to be changed
@@ -100,7 +93,7 @@ void FetchStage::setDInput(D * dreg, uint64_t stat, uint64_t icode,
  */ 
 uint64_t FetchStage::PredictPC(uint64_t valP, uint64_t icode, uint64_t valC) {
 	if (icode == IJXX || icode == ICALL) return valC;	
-	return valP;		
+	return valP;			
 }
 
 /*
