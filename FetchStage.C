@@ -54,7 +54,7 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	if (need_valC) {
 		uint8_t bytes[LONGSIZE];
 		for (int i = 0; i < LONGSIZE; i++) {
-			bytes[0] = mem->getByte(f_pc + 2 + i, imem_error);
+			bytes[i] = mem->getByte(f_pc + 2 + i, imem_error);
 		}	
 		valC = buildValC(bytes);
 	}
