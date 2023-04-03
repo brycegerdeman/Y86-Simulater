@@ -30,25 +30,30 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
    M * mreg = (M *) pregs[MREG];
    W * wreg = (W *) pregs[WREG];
    D * dreg = (D *) pregs[DREG];
-   uint64_t f_pc = selectPC(freg, mreg, wreg), 
-      icode = 0, ifun = 0, valC = 0, valP = 0;
+   uint64_t f_pc = 0, icode = 0, ifun = 0, valC = 0, valP = 0;
    uint64_t rA = RNONE, rB = RNONE, stat = SAOK;
-
+   bool need_regId = false, need_valC = false;
+   
    Memory * mem = mem->getInstance();
-   bool memmer = false;
+   bool imem_error = false;
 
-   uint64_t byte = mem->getByte(f_pc, memmer);
+   f_pc = selectPC(freg, mreg, wreg); 
+   uint64_t byte = mem->getByte(f_pc, imem_error);
+
    icode = Tools::getBits(byte, 4, 7);
    ifun = Tools::getBits(byte, 0, 3);
+   need_regId = needRegIds(icode);
+   need_valC = needValC(icode);
 
-   //f_pc = selectPC(freg, mreg, wreg);
-   valP = PCincrement(f_pc, needRegIds(icode), needValC(icode));
 
-  
-   //The value passed to setInput below will need to be changed
+   uint64_t word = mem->getLong(f_pc, imem_error);
+   if (need_regId) getRegIds(word, rA, rB);
+   if (need_valC) valC = buildValC(word);
+
+
+   valP = PCincrement(f_pc, need_regId, need_valC);
    freg->getpredPC()->setInput(predictPC(valP, icode, valC));
 
-   //provide the input values for the D register
    setDInput(dreg, stat, icode, ifun, rA, rB, valC, valP);
    return false;
 }
@@ -117,7 +122,6 @@ uint64_t FetchStage::PCincrement(uint64_t f_pc, bool needRegIds, bool needValC) 
 	return f_pc + 1;		
 }
 
-
 /*
  * selectPC
  */ 
@@ -147,11 +151,28 @@ bool FetchStage::needRegIds(uint64_t f_icode) {
 }
 
 /*
+ * getRegIds
+ */
+void FetchStage::getRegIds(uint64_t word, uint64_t &rA, uint64_t &rB) {
+	
+}
+
+
+
+
+/*
  * needValC
  */
 bool FetchStage::needValC(uint64_t f_icode) {
 	return (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
 	       (f_icode == IMRMOVQ) || (f_icode == IJXX) ||
 	       (f_icode == ICALL);
+}
+
+/*
+ * buildValC
+ */
+uint64_t FetchStage::buildValC(uint64_t word) {
+	return 0;
 }
 
