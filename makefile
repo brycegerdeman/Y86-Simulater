@@ -29,7 +29,7 @@ DecodeStage.o: DecodeStage.h
 
 ExecuteStage.o: ExecuteStage.h
 
-MemoryStage.o: MemoryStage.h
+MemoryStage.o: MemoryStage.h 
 
 WritebackStage.o: WritebackStage.h
 
