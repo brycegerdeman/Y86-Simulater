@@ -59,3 +59,9 @@ void ExecuteStage::setMInput(M * mreg, uint64_t stat, uint64_t icode, uint64_t C
 	mreg->getdstM()->setInput(dstM);	
 }
 
+void ExecuteStage::setvalE(E * ereg, M * mreg, uint64_t &valE) {
+	valE = ereg->getvalC()->getOutput();
+	mreg->getvalE()->setInput(valE);
+} 
+
+
