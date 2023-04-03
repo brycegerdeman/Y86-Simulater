@@ -91,7 +91,7 @@ void FetchStage::setDInput(D * dreg, uint64_t stat, uint64_t icode,
 /*
  * PredictPC
  */ 
-uint64_t FetchStage::PredictPC(uint64_t valP, uint64_t icode, uint64_t valC) {
+uint64_t FetchStage::predictPC(uint64_t valP, uint64_t icode, uint64_t valC) {
 	if (icode == IJXX || icode == ICALL) return valC;	
 	return valP;			
 }
@@ -142,15 +142,5 @@ bool FetchStage::needValC(uint64_t f_icode) {
 	return (f_icode == IIRMOVQ) || (f_icode == IRMMOVQ) ||
 	       (f_icode == IMRMOVQ) || (f_icode == IJXX) ||
 	       (f_icode == ICALL);
-}
-
-/*
- * predictPC
- */
-uint64_t FetchStage::predictPC(uint64_t f_icode, uint64_t f_valC, uint64_t f_valP) {
-	uint64_t f_predPC = 0;
-	if (f_icode == IJXX || f_icode == ICALL) f_predPC = f_valC;
-	else f_predPC = f_valP;
-	return f_predPC;
 }
 
