@@ -4,7 +4,7 @@ F: predPC: 000
 D: stat: 1 icode: 0 ifun: 0 rA: f rB: f valC: 0000000000000000 valP: 001
 E: stat: 1 icode: 1 ifun: 0 valC: 0000000000000000 valA: 0000000000000000
 E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 0 dstM: f
+M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
 W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
 ZF: 0 SF: 0 OF: 0
@@ -21,8 +21,8 @@ F: predPC: 000
 D: stat: 1 icode: 0 ifun: 0 rA: f rB: f valC: 0000000000000000 valP: 001
 E: stat: 1 icode: 0 ifun: 0 valC: 0000000000000000 valA: 0000000000000000
 E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 0 dstM: f
-W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: 0 dstM: f
+M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
+W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -38,8 +38,8 @@ F: predPC: 000
 D: stat: 1 icode: 0 ifun: 0 rA: f rB: f valC: 0000000000000000 valP: 001
 E: stat: 1 icode: 0 ifun: 0 valC: 0000000000000000 valA: 0000000000000000
 E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 0 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 0 dstM: f
-W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: 0 dstM: f
+M: stat: 1 icode: 0 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
+W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -55,8 +55,8 @@ F: predPC: 000
 D: stat: 1 icode: 0 ifun: 0 rA: f rB: f valC: 0000000000000000 valP: 001
 E: stat: 1 icode: 0 ifun: 0 valC: 0000000000000000 valA: 0000000000000000
 E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 0 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 0 dstM: f
-W: stat: 1 icode: 0 valE: 0000000000000000 valM: 0000000000000000 dstE: 0 dstM: f
+M: stat: 1 icode: 0 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
+W: stat: 1 icode: 0 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -72,8 +72,8 @@ F: predPC: 000
 D: stat: 1 icode: 0 ifun: 0 rA: f rB: f valC: 0000000000000000 valP: 001
 E: stat: 1 icode: 0 ifun: 0 valC: 0000000000000000 valA: 0000000000000000
 E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 0 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 0 dstM: f
-W: stat: 1 icode: 0 valE: 0000000000000000 valM: 0000000000000000 dstE: 0 dstM: f
+M: stat: 1 icode: 0 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
+W: stat: 1 icode: 0 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000

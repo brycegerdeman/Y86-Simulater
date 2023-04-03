@@ -120,11 +120,9 @@ uint64_t FetchStage::selectPC(F * f, M * m, W * w) {
 
 	uint64_t F_predPC = f->getpredPC()->getOutput();
 
-	uint64_t f_pc = 0;
-	if (M_icode == IJXX && !M_Cnd) f_pc = M_valA; 
-	else if (W_icode == IRET) f_pc = W_valM;	
-	else f_pc = F_predPC;	
-	return f_pc;
+	if (M_icode == IJXX && !M_Cnd) return M_valA; 
+	if (W_icode == IRET) return W_valM;	
+	return F_predPC;	
 }
 
 /*

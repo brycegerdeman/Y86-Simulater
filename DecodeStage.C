@@ -7,8 +7,6 @@
 #include "D.h"
 #include "E.h"
 #include "Stage.h"
-//#include "ExecuteStage.h"
-//#include "MemoryStage.h"
 #include "DecodeStage.h"
 #include "Status.h"
 #include "Debug.h"
