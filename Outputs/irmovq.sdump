@@ -45,7 +45,7 @@ At end of cycle 2:
 F: predPC: 015
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 1 valC: 0000000000000002 valP: 015
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000001 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
+E: valB: 0000000000000000 dstE: 0 dstM: f srcA: f srcB: f
 M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
 W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
@@ -66,8 +66,8 @@ At end of cycle 3:
 F: predPC: 01f
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 2 valC: 0000000000000003 valP: 01f
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000002 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 1 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 0 dstM: f
 W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
 ZF: 0 SF: 0 OF: 0
@@ -87,9 +87,9 @@ At end of cycle 4:
 F: predPC: 029
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 3 valC: 0000000000000004 valP: 029
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000003 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 2 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 1 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 0 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -108,9 +108,9 @@ At end of cycle 5:
 F: predPC: 033
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 4 valC: 0000000000000005 valP: 033
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000004 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 3 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 2 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 1 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -129,9 +129,9 @@ At end of cycle 6:
 F: predPC: 03d
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 5 valC: 0000000000000006 valP: 03d
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000005 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 4 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 3 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 2 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -150,9 +150,9 @@ At end of cycle 7:
 F: predPC: 047
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 6 valC: 0000000000000007 valP: 047
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000006 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 5 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 4 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 3 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -171,9 +171,9 @@ At end of cycle 8:
 F: predPC: 051
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 7 valC: 0000000000000008 valP: 051
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000007 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 6 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 5 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 4 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -192,9 +192,9 @@ At end of cycle 9:
 F: predPC: 05b
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 8 valC: 0000000000000009 valP: 05b
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000008 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 7 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 6 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 5 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -213,9 +213,9 @@ At end of cycle 10:
 F: predPC: 065
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 9 valC: 000000000000000a valP: 065
 E: stat: 1 icode: 3 ifun: 0 valC: 0000000000000009 valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 8 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 7 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 6 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -234,9 +234,9 @@ At end of cycle 11:
 F: predPC: 06f
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: a valC: 000000000000000b valP: 06f
 E: stat: 1 icode: 3 ifun: 0 valC: 000000000000000a valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: 9 dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 8 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 7 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -255,9 +255,9 @@ At end of cycle 12:
 F: predPC: 079
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: b valC: 000000000000000c valP: 079
 E: stat: 1 icode: 3 ifun: 0 valC: 000000000000000b valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: a dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: 9 dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 8 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -276,9 +276,9 @@ At end of cycle 13:
 F: predPC: 083
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: c valC: 000000000000000d valP: 083
 E: stat: 1 icode: 3 ifun: 0 valC: 000000000000000c valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: b dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: a dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: 9 dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -297,9 +297,9 @@ At end of cycle 14:
 F: predPC: 08d
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: d valC: 000000000000000e valP: 08d
 E: stat: 1 icode: 3 ifun: 0 valC: 000000000000000d valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: c dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: b dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: a dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -318,9 +318,9 @@ At end of cycle 15:
 F: predPC: 097
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: e valC: 000000000000000f valP: 097
 E: stat: 1 icode: 3 ifun: 0 valC: 000000000000000e valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: d dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: c dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: b dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -339,9 +339,9 @@ At end of cycle 16:
 F: predPC: 098
 D: stat: 1 icode: 0 ifun: 0 rA: f rB: f valC: 0000000000000000 valP: 098
 E: stat: 1 icode: 3 ifun: 0 valC: 000000000000000f valA: 0000000000000000
-E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+E: valB: 0000000000000000 dstE: e dstM: f srcA: f srcB: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: d dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: c dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -361,8 +361,8 @@ F: predPC: 099
 D: stat: 1 icode: 0 ifun: 0 rA: f rB: f valC: 0000000000000000 valP: 099
 E: stat: 1 icode: 0 ifun: 0 valC: 0000000000000000 valA: 0000000000000000
 E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
-M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: e dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: d dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
@@ -383,7 +383,7 @@ D: stat: 1 icode: 0 ifun: 0 rA: f rB: f valC: 0000000000000000 valP: 09a
 E: stat: 1 icode: 0 ifun: 0 valC: 0000000000000000 valA: 0000000000000000
 E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
 M: stat: 1 icode: 0 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
-W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
+W: stat: 1 icode: 3 valE: 0000000000000000 valM: 0000000000000000 dstE: e dstM: f
 
 ZF: 0 SF: 0 OF: 0
 %rax: 0000000000000000 %rcx: 0000000000000000 %rdx: 0000000000000000 %rbx: 0000000000000000
