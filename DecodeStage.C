@@ -57,3 +57,36 @@ void DecodeStage::setEInput(E * ereg, uint64_t stat, uint64_t icode,
 	ereg->getsrcA()->setInput(srcA);
 	ereg->getsrcB()->setInput(srcB);
 }
+
+uint64_t DecodeStage::getsrcA(uint64_t icode, uint64_t rA){
+	if (icode == IRRMOVQ || icode == IRMMOVQ || icode == IOPQ || icode == IPUSHQ) return rA;
+	if (icode == IPOPQ || icode == IRET) return RSP;
+	return RNONE;
+}
+
+uint64_t DecodeStage::getsrcB(uint64_t icode, uint64_t rB){
+	if (icode == IOPQ || icode == IRMMOVQ || icode == IMRMOVQ) return rB;
+	if (icode == IPUSHQ || icode == IPOPQ || icode == ICALL || icode == IRET) return RSP;
+	return RNONE;
+}
+
+uint64_t DecodeStage::getdstE(uint64_t icode, uint64_t rB){
+	if (icode == IRRMOVQ || icode == IIRMOVQ || icode == IOPQ) return rB;
+	if (icode == IPUSHQ || icode == IPOPQ || icode == ICALL || icode == IRET) return RSP;
+	return RNONE;
+}
+
+uint64_t DecodeStage::getdstM(uint64_t icode, uint64_t rA){
+	if (icode == IMRMOVQ || icode == IPOPQ) return rA;
+	return RNONE;
+}
+
+uint64_t DecodeStage::fwdsrcA(uint64_t rA, D * dreg){
+	dreg->getrA()->setInput(rA);
+}
+
+uint64_t DecodeStage::fwdsrcB(uint64_t rB, D * dreg){
+	dreg->getrB()->setInput(rB);
+}
+
+
