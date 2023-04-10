@@ -18,14 +18,25 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	E * ereg = (E *) pregs[EREG];	
 	M * mreg = (M *) pregs[MREG];	
 	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0, valE = 0, 
-		dstE = 0, dstM = 0;
+		dstE = 0, dstM = 0, valC = 0, valB = 0, ifun = 0;
+	uint64_t aluA = 0, aluB = 0, alufun = 0, cc = 0;
 
 	stat = ereg->getstat()->getOutput();
 	icode = ereg->geticode()->getOutput();
+	ifun = ereg->getifun()->getOutput();
 	valA = ereg->getvalA()->getOutput();
+	valB = ereg->getvalB()->getOutput();
+	valC = ereg->getvalC()->getOutput();
 	dstM = ereg->getdstM()->getOutput();
 	dstE = ereg->getdstE()->getOutput();
+
 	setvalE(ereg, mreg, valE);
+
+	aluA = getaluA(icode, valA, valC);
+	aluB = getaluB(icode, valB);
+	alufun = getalufun(icode, ifun);
+	cc = setcc(icode);
+
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
 	return false;
 }
