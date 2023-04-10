@@ -37,7 +37,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	aluA = getaluA(icode, valA, valC);
 	aluB = getaluB(icode, valB);
 	alufun = getalufun(icode, ifun);
-	valE = ALU(alufun, aluA, aluB);
+	valE = ALU(icode, alufun, aluA, aluB);
 
 
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
@@ -184,5 +184,5 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 void ExecuteStage::CC(bool value, uint64_t ccNum) {
 	ConditionCodes * codes = codes->getInstance();
 	bool error = false;
-	codes->setConditionCode(value, ccNum, error)
+	codes->setConditionCode(value, ccNum, error);
 }
