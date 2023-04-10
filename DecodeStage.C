@@ -99,13 +99,16 @@ uint64_t DecodeStage::getdstM(uint64_t icode, uint64_t rA){
 
 uint64_t DecodeStage::fwdsrcA(D * dreg, M * mreg, W * wreg, ExecuteStage * xstage, uint64_t srcA, uint64_t valA){
 	if (srcA == xstage->gete_dstE()) return xstage->gete_valE();
-	if (srcA == mreg->getdstE) return mreg->getvalE();
-	if (srcA == wreg->getdstE) return wreg->getvalE();
-	return valA;
+	if (srcA == mreg->getdstE()->getOutput()) return mreg->getvalE()->getOutput();
+	if (srcA == wreg->getdstE()) return wreg->getvalE()->getOutput();
+	return dreg->getrA()->getOutput();
 }
 
-void DecodeStage::fwdsrcB(uint64_t rB, D * dreg, M * mreg, W * wreg, E * ereg){
-	dreg->getrB()->setInput(rB);
+uint64_t DecodeStage::fwdsrcB(D * dreg, M * mreg, W * wreg, ExecuteStage * xstage, uint64_t srcB, uint64_t valB){
+	if (srcB == xstage->gete_dstE()) return xstage->gete_valE();
+	if (srcB == mreg->getdstE()->getOutput()) return mreg->getvalE()->getOutput();
+	if (srcB == wreg->getdstE()->getOutput()) return wreg->getvalE()->getOutput();
+	return dreg->getrB()->getOutput();
 }
 
 
