@@ -13,4 +13,6 @@ class ExecuteStage: public Stage {
         uint64_t getalufun(uint64_t icode, uint64_t ifun);
         bool setcc(uint64_t icode);
         uint64_t getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE);
+        uint64_t ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_t aluB); 
+        void CC(bool value, uint64_t ccNum); 
 };

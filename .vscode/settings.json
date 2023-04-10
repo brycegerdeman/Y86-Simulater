@@ -5,6 +5,8 @@
         "Memory.C": "cpp",
         "MemoryStage.C": "cpp",
         "ExecuteStage.C": "cpp",
-        "DecodeStage.C": "cpp"
+        "DecodeStage.C": "cpp",
+        "ConditionCodes.C": "cpp",
+        "Tools.C": "cpp"
     }
 }

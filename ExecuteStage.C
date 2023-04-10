@@ -5,8 +5,10 @@
 #include "PipeReg.h"
 #include "M.h"
 #include "E.h"
+#include "Tools.h"
 #include "Stage.h"
 #include "Instructions.h"
+#include "ConditionCodes.h"
 #include "ExecuteStage.h"
 #include "Status.h"
 #include "Debug.h"
@@ -19,7 +21,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	M * mreg = (M *) pregs[MREG];	
 	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0, valE = 0, 
 		dstE = 0, dstM = 0, valC = 0, valB = 0, ifun = 0;
-	uint64_t aluA = 0, aluB = 0, alufun = 0, cc = 0;
+	uint64_t aluA = 0, aluB = 0, alufun = 0; 
 
 	stat = ereg->getstat()->getOutput();
 	icode = ereg->geticode()->getOutput();
@@ -35,7 +37,8 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	aluA = getaluA(icode, valA, valC);
 	aluB = getaluB(icode, valB);
 	alufun = getalufun(icode, ifun);
-	cc = setcc(icode);
+	valE = ALU(alufun, aluA, aluB);
+
 
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
 	return false;
@@ -122,4 +125,64 @@ bool ExecuteStage::setcc(uint64_t icode) {
 uint64_t ExecuteStage::getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE) { 
 	if (icode == IRRMOVQ && !Cnd) return RNONE;
 	return dstE;
+}
+
+/*
+ * ALU
+ */
+uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_t aluB) {
+	// ADD
+	if (ifun == 0) {
+		uint64_t out = aluA + aluB; 
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, out < 0);
+			CC(OF, (aluA > 0 && aluB > 0 && out < 0) || 
+				   (aluA < 0 && aluB < 0 && out > 0));
+		}
+		return out;	
+	}
+
+	// SUB
+	if (ifun == 1) {
+		uint64_t out = aluB - aluA; 
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, out < 0);
+			CC(OF, (Tools::sign(out) == Tools::sign(aluA)) && 
+				   (Tools::sign(aluA) != Tools::sign(aluB)));
+		}
+		return out;
+	}
+
+	// AND
+	if (ifun == 2) {
+		uint64_t out = aluA & aluB;
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, out < 0);
+			CC(OF, false);
+		}
+		return out;
+	}
+
+	// XOR
+	if (ifun == 3) {
+		uint64_t out = aluA ^ aluB;
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, out < 0);
+			CC(OF, false);
+		}
+		return out;
+	}
+}
+
+/*
+ * CC
+ */
+void ExecuteStage::CC(bool value, uint64_t ccNum) {
+	ConditionCodes * codes = codes->getInstance();
+	bool error = false;
+	codes->setConditionCode(value, ccNum, error)
 }
