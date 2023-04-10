@@ -19,8 +19,8 @@
 bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	E * ereg = (E *) pregs[EREG];	
 	M * mreg = (M *) pregs[MREG];	
-	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0, valE = 0, 
-		dstE = 0, dstM = 0, valC = 0, valB = 0, ifun = 0;
+	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0,
+	dstM = 0, valC = 0, valB = 0, ifun = 0;
 	uint64_t aluA = 0, aluB = 0, alufun = 0; 
 
 	stat = ereg->getstat()->getOutput();
@@ -132,7 +132,7 @@ uint64_t ExecuteStage::getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE) {
  */
 uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_t aluB) {
 	// ADD
-	if (ifun == 0) {
+	if (ifun == ADDQ) {
 		uint64_t out = aluA + aluB; 
 		if (setcc(icode)) {
 			CC(ZF, out == 0);
@@ -144,7 +144,7 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	}
 
 	// SUB
-	if (ifun == 1) {
+	if (ifun == SUBQ) {
 		uint64_t out = aluB - aluA; 
 		if (setcc(icode)) {
 			CC(ZF, out == 0);
@@ -156,7 +156,7 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	}
 
 	// AND
-	if (ifun == 2) {
+	if (ifun == ANDQ) {
 		uint64_t out = aluA & aluB;
 		if (setcc(icode)) {
 			CC(ZF, out == 0);
@@ -167,7 +167,7 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	}
 
 	// XOR
-	if (ifun == 3) {
+	if (ifun == XORQ) {
 		uint64_t out = aluA ^ aluB;
 		if (setcc(icode)) {
 			CC(ZF, out == 0);
@@ -176,6 +176,8 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 		}
 		return out;
 	}
+
+	return -1;
 }
 
 /*
@@ -185,4 +187,12 @@ void ExecuteStage::CC(bool value, uint64_t ccNum) {
 	ConditionCodes * codes = codes->getInstance();
 	bool error = false;
 	codes->setConditionCode(value, ccNum, error);
+}
+
+uint64_t ExecuteStage::gete_dstE(){
+	return dstE;
+}
+
+uint64_t ExecuteStage::gete_valE(){
+	return valE;
 }

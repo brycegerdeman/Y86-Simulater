@@ -6,8 +6,11 @@
 #include "PipeReg.h"
 #include "D.h"
 #include "E.h"
+#include "W.h"
+#include "M.h"
 #include "Stage.h"
 #include "DecodeStage.h"
+#include "ExecuteStage.h"
 #include "Status.h"
 #include "Debug.h"
 
@@ -94,11 +97,14 @@ uint64_t DecodeStage::getdstM(uint64_t icode, uint64_t rA){
 	return RNONE;
 }
 
-void DecodeStage::fwdsrcA(uint64_t rA, D * dreg){
-	dreg->getrA()->setInput(rA);
+uint64_t DecodeStage::fwdsrcA(D * dreg, M * mreg, W * wreg, ExecuteStage * xstage, uint64_t srcA, uint64_t valA){
+	if (srcA == xstage->gete_dstE()) return xstage->gete_valE();
+	if (srcA == mreg->getdstE) return mreg->getvalE();
+	if (srcA == wreg->getdstE) return wreg->getvalE();
+	return valA;
 }
 
-void DecodeStage::fwdsrcB(uint64_t rB, D * dreg){
+void DecodeStage::fwdsrcB(uint64_t rB, D * dreg, M * mreg, W * wreg, E * ereg){
 	dreg->getrB()->setInput(rB);
 }
 

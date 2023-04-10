@@ -1,5 +1,6 @@
 class ExecuteStage: public Stage {
   private:
+        uint64_t valE, dstE;
         void setMInput(M * mreg, uint64_t stat, 
         uint64_t icode, uint64_t Cnd, uint64_t valE, uint64_t valA, 
         uint64_t dstE, uint64_t dstM);
@@ -15,4 +16,6 @@ class ExecuteStage: public Stage {
         uint64_t getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE);
         uint64_t ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_t aluB); 
         void CC(bool value, uint64_t ccNum); 
+        uint64_t gete_dstE();
+        uint64_t gete_valE();
 };
