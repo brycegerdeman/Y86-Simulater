@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "WritebackStage.C": "cpp",
+        "FetchStage.C": "cpp",
+        "Memory.C": "cpp",
+        "MemoryStage.C": "cpp",
+        "ExecuteStage.C": "cpp"
+    }
+}
