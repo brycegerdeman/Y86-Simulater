@@ -24,7 +24,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	valA = ereg->getvalA()->getOutput();
 	dstM = ereg->getdstM()->getOutput();
 	dstE = ereg->getdstE()->getOutput();
-		
+	setvalE(ereg, mreg, valE);
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
 	return false;
 }
@@ -58,4 +58,10 @@ void ExecuteStage::setMInput(M * mreg, uint64_t stat, uint64_t icode, uint64_t C
 	mreg->getdstE()->setInput(dstE);	
 	mreg->getdstM()->setInput(dstM);	
 }
+
+void ExecuteStage::setvalE(E * ereg, M * mreg, uint64_t &valE) {
+	valE = ereg->getvalC()->getOutput();
+	mreg->getvalE()->setInput(valE);
+} 
+
 

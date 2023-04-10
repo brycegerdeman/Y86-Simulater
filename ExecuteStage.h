@@ -7,4 +7,5 @@ class ExecuteStage: public Stage {
   public:
       bool doClockLow(PipeReg ** pregs, Stage ** stages);
       void doClockHigh(PipeReg ** pregs);
+      void setvalE(E * ereg, M * mreg, uint64_t &valE);
 };
