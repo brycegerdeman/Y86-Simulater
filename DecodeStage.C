@@ -22,7 +22,6 @@ bool DecodeStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	E * ereg = (E *) pregs[EREG];
 	M * mreg = (M *) pregs[EREG];
 	W * wreg = (W *) pregs[EREG];
-	ExecuteStage * xstage = (ExecuteStage *) stages[ESTAGE];
 
 	uint64_t stat = dreg->getstat()->getOutput(),
  		icode = dreg->geticode()->getOutput(),
@@ -42,8 +41,8 @@ bool DecodeStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	dstE = getdstE(icode, rB);
 	dstM = getdstM(icode, rA);
 
-	fwdsrcA(dreg, mreg, wreg, xstage, srcA, valA);
-	fwdsrcB(dreg, mreg, wreg, xstage, srcB, valB);
+	fwdsrcA(dreg, mreg, wreg, stages, srcA, valA);
+	fwdsrcB(dreg, mreg, wreg, stages, srcB, valB);
 
 	setEInput(ereg, stat, icode, ifun, valC, valA, valB, dstE, dstM, srcA, srcB);
 	return false;
@@ -103,14 +102,16 @@ uint64_t DecodeStage::getdstM(uint64_t icode, uint64_t rA){
 	return RNONE;
 }
 
-uint64_t DecodeStage::fwdsrcA(D * dreg, M * mreg, W * wreg, ExecuteStage * xstage, uint64_t srcA, uint64_t valA){
+uint64_t DecodeStage::fwdsrcA(D * dreg, M * mreg, W * wreg, Stage ** stages, uint64_t srcA, uint64_t valA){
+	ExecuteStage * xstage = (ExecuteStage *) stages[ESTAGE];
 	if (srcA == xstage->gete_dstE()) return xstage->gete_valE();
 	if (srcA == mreg->getdstE()->getOutput()) return mreg->getvalE()->getOutput();
 	if (srcA == wreg->getdstE()->getOutput()) return wreg->getvalE()->getOutput();
 	return dreg->getrA()->getOutput();
 }
 
-uint64_t DecodeStage::fwdsrcB(D * dreg, M * mreg, W * wreg, ExecuteStage * xstage, uint64_t srcB, uint64_t valB){
+uint64_t DecodeStage::fwdsrcB(D * dreg, M * mreg, W * wreg, Stage ** stages, uint64_t srcB, uint64_t valB){
+	ExecuteStage * xstage = (ExecuteStage *) stages[ESTAGE];
 	if (srcB == xstage->gete_dstE()) return xstage->gete_valE();
 	if (srcB == mreg->getdstE()->getOutput()) return mreg->getvalE()->getOutput();
 	if (srcB == wreg->getdstE()->getOutput()) return wreg->getvalE()->getOutput();

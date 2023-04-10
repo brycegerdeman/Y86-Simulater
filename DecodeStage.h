@@ -11,6 +11,6 @@ class DecodeStage: public Stage {
       uint64_t getsrcB(uint64_t icode, uint64_t rB);
       uint64_t getdstE(uint64_t icode, uint64_t rB);
       uint64_t getdstM(uint64_t icode, uint64_t rA);
-      uint64_t fwdsrcA(D * dreg, M * mreg, W * wreg, ExecuteStage * xstage, uint64_t srcA, uint64_t valA);
-      uint64_t fwdsrcB(D * dreg, M * mreg, W * wreg, ExecuteStage * xstage, uint64_t srcB, uint64_t valB);
+      uint64_t fwdsrcA(D * dreg, M * mreg, W * wreg, Stage ** stages, uint64_t srcA, uint64_t valA);
+      uint64_t fwdsrcB(D * dreg, M * mreg, W * wreg, Stage ** stages, uint64_t srcB, uint64_t valB);
 };
