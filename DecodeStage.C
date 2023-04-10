@@ -12,6 +12,7 @@
 #include "DecodeStage.h"
 #include "ExecuteStage.h"
 #include "Status.h"
+#include "Simulate.h"
 #include "Debug.h"
 
 
@@ -19,6 +20,10 @@
 bool DecodeStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	D * dreg = (D *) pregs[DREG];
 	E * ereg = (E *) pregs[EREG];
+	M * mreg = (M *) pregs[EREG];
+	W * wreg = (W *) pregs[EREG];
+	ExecuteStage * xstage = (ExecuteStage *) stages[ESTAGE];
+
 	uint64_t stat = dreg->getstat()->getOutput(),
  		icode = dreg->geticode()->getOutput(),
 		ifun = dreg->getifun()->getOutput(),
@@ -36,8 +41,9 @@ bool DecodeStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	srcB = getsrcB(icode, rB);
 	dstE = getdstE(icode, rB);
 	dstM = getdstM(icode, rA);
-	fwdsrcA(rA, dreg);
-	fwdsrcB(rB, dreg);
+
+	fwdsrcA(dreg, mreg, wreg, xstage, srcA, valA);
+	fwdsrcB(dreg, mreg, wreg, xstage, srcB, valB);
 
 	setEInput(ereg, stat, icode, ifun, valC, valA, valB, dstE, dstM, srcA, srcB);
 	return false;
@@ -100,7 +106,7 @@ uint64_t DecodeStage::getdstM(uint64_t icode, uint64_t rA){
 uint64_t DecodeStage::fwdsrcA(D * dreg, M * mreg, W * wreg, ExecuteStage * xstage, uint64_t srcA, uint64_t valA){
 	if (srcA == xstage->gete_dstE()) return xstage->gete_valE();
 	if (srcA == mreg->getdstE()->getOutput()) return mreg->getvalE()->getOutput();
-	if (srcA == wreg->getdstE()) return wreg->getvalE()->getOutput();
+	if (srcA == wreg->getdstE()->getOutput()) return wreg->getvalE()->getOutput();
 	return dreg->getrA()->getOutput();
 }
 
