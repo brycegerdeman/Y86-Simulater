@@ -6,6 +6,7 @@
 #include "M.h"
 #include "E.h"
 #include "Stage.h"
+#include "Instructions.h"
 #include "ExecuteStage.h"
 #include "Status.h"
 #include "Debug.h"
@@ -59,9 +60,55 @@ void ExecuteStage::setMInput(M * mreg, uint64_t stat, uint64_t icode, uint64_t C
 	mreg->getdstM()->setInput(dstM);	
 }
 
+/* 
+ * setvalE
+ */
 void ExecuteStage::setvalE(E * ereg, M * mreg, uint64_t &valE) {
 	valE = ereg->getvalC()->getOutput();
 	mreg->getvalE()->setInput(valE);
 } 
 
+/*
+ * getaluA
+ */
+uint64_t ExecuteStage::getaluA(uint64_t icode, uint64_t valA, uint64_t valC) {
+	if (icode == IRRMOVQ || icode == IOPQ) return valA;
+	if (icode == IIRMOVQ || icode == IRMMOVQ || icode == IMRMOVQ) return valC;
+	if (icode == ICALL || icode == IPUSHQ) return -8;
+	if (icode == IRET || icode == IPOPQ) return 8;
+	return 0;
+}
 
+/*
+ * getaluB
+ */
+uint64_t ExecuteStage::getaluB(uint64_t icode, uint64_t valB) {
+	if (icode == IRMMOVQ || icode == IMRMOVQ || icode == IOPQ ||
+		icode == ICALL || icode == IPUSHQ || icode == IRET || 
+		icode == IPOPQ) return valB;
+	if (icode == IRRMOVQ || icode == IIRMOVQ) return 0;
+	return 0;
+}
+
+/*
+ * getalufun
+ */
+uint64_t ExecuteStage::getalufun(uint64_t icode, uint64_t ifun) {
+	if (icode == IOPQ) return ifun; 
+	return ADDQ;
+}
+
+/*
+ * setcc
+ */
+bool ExecuteStage::setcc(uint64_t icode) { 
+	return (icode == IOPQ);
+}
+
+/*
+ * getdstE
+ */
+uint64_t ExecuteStage::getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE) { 
+	if (icode == IRRMOVQ && !Cnd) return RNONE;
+	return dstE;
+}
