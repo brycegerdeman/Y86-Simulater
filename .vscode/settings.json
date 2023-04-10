@@ -8,6 +8,7 @@
         "DecodeStage.C": "cpp",
         "ConditionCodes.C": "cpp",
         "Tools.C": "cpp",
-        "Simulate.C": "cpp"
+        "Simulate.C": "cpp",
+        "RegisterFile.C": "cpp"
     }
 }
