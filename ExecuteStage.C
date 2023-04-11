@@ -170,9 +170,9 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	if (ifun == XORQ) {
 		uint64_t out = aluA ^ aluB;
 		if (setcc(icode)) {
-			CC(out == 0, ZF);
-			CC(out < 0, SF);
-			CC(false, OF);
+			CC(ZF, out == 0);
+			CC(SF, out < 0);
+			CC(OF, false);
 		}
 		return out;
 	}
@@ -183,7 +183,7 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 /*
  * CC
  */
-void ExecuteStage::CC(bool value, uint64_t ccNum) {
+void ExecuteStage::CC(uint64_t ccNum, bool value) {
 	ConditionCodes * codes = codes->getInstance();
 	bool error = false;
 	codes->setConditionCode(ccNum, value, error);
