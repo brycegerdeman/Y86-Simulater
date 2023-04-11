@@ -170,9 +170,9 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	if (ifun == XORQ) {
 		uint64_t out = aluA ^ aluB;
 		if (setcc(icode)) {
-			CC(ZF, out == 0);
-			CC(SF, out < 0);
-			CC(OF, false);
+			CC(out == 0, ZF);
+			CC(out < 0, SF);
+			CC(false, OF);
 		}
 		return out;
 	}
@@ -186,7 +186,7 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 void ExecuteStage::CC(bool value, uint64_t ccNum) {
 	ConditionCodes * codes = codes->getInstance();
 	bool error = false;
-	codes->setConditionCode(value, ccNum, error);
+	codes->setConditionCode(ccNum, value, error);
 }
 
 uint64_t ExecuteStage::gete_dstE(){
