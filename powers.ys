@@ -1,0 +1,132 @@
+.pos 0
+
+irmovq 1, %rax
+
+nop
+nop
+nop
+addq %rax, %rcx
+nop
+nop
+nop
+addq %rcx, %rcx
+
+nop
+nop
+nop
+addq %rcx, %rdx
+nop
+nop
+nop
+addq %rdx, %rdx
+
+nop
+nop
+nop
+addq %rdx, %rbx
+nop
+nop
+nop
+addq %rbx, %rbx
+
+nop
+nop
+nop
+addq %rbx, %rsp
+nop
+nop
+nop
+addq %rsp, %rsp
+
+nop
+nop
+nop
+addq %rsp, %rbp
+nop
+nop
+nop
+addq %rbp, %rbp
+
+nop
+nop
+nop
+addq %rbp, %rsi
+nop
+nop
+nop
+addq %rsi, %rsi
+
+nop
+nop
+nop
+addq %rsi, %rdi
+nop
+nop
+nop
+addq %rdi, %rdi
+
+nop
+nop
+nop
+addq %rdi, %r8
+nop
+nop
+nop
+addq %r8, %r8
+
+nop
+nop
+nop
+addq %r8, %r9
+nop
+nop
+nop
+addq %r9, %r9
+
+nop
+nop
+nop
+addq %r9, %r10
+nop
+nop
+nop
+addq %r10, %r10
+
+nop
+nop
+nop
+addq %r10, %r11
+nop
+nop
+nop
+addq %r11, %r11
+
+nop
+nop
+nop
+addq %r11, %r12
+nop
+nop
+nop
+addq %r12, %r12
+
+nop
+nop
+nop
+addq %r12, %r13
+nop
+nop
+nop
+addq %r13, %r13
+
+nop
+nop
+nop
+addq %r13, %r14
+nop
+nop
+nop
+addq %r14, %r14
+
+halt
+
