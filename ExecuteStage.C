@@ -114,13 +114,6 @@ uint64_t ExecuteStage::getalufun(uint64_t icode, uint64_t ifun) {
 }
 
 /*
- * setcc
- */
-bool ExecuteStage::setcc(uint64_t icode) { 
-	return (icode == IOPQ);
-}
-
-/*
  * getdstE
  */
 uint64_t ExecuteStage::getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE) { 
@@ -190,10 +183,23 @@ void ExecuteStage::CC(uint64_t ccNum, bool value) {
 	codes->setConditionCode(value, ccNum, error);
 }
 
+/*
+ * setcc
+ */
+bool ExecuteStage::setcc(uint64_t icode) { 
+	return (icode == IOPQ);
+}
+
+/*
+ * gete_dstE
+ */
 uint64_t ExecuteStage::gete_dstE(){
 	return dstE;
 }
 
+/*
+ * gete_valE
+ */
 uint64_t ExecuteStage::gete_valE(){
 	return valE;
 }
