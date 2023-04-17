@@ -1,4 +1,2 @@
 *.o
-./lab5
-./.vscode
-
+.vscode
