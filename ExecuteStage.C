@@ -21,7 +21,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	M * mreg = (M *) pregs[MREG];	
 	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0,
 	dstM = 0, valC = 0, valB = 0, ifun = 0;
-	uint64_t aluA = 0, aluB = 0, alufun = 0, dstE = 0, valE = 0; 
+	uint64_t aluA = 0, aluB = 0, alufun = 0;
 
 	stat = ereg->getstat()->getOutput();
 	icode = ereg->geticode()->getOutput();
@@ -39,7 +39,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	alufun = getalufun(icode, ifun);
 	if (setcc(icode)) valE = ALU(icode, alufun, aluA, aluB);
 	else valE = aluA;
-	e_dstE = getdstE(icode, Cnd, dstE);
+	dstE = getdstE(icode, Cnd, dstE);
 
 
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
@@ -178,12 +178,12 @@ bool ExecuteStage::setcc(uint64_t icode) {
  * gete_dstE
  */
 uint64_t ExecuteStage::gete_dstE(){
-	return e_dstE;
+	return dstE;
 }
 
 /*
  * gete_valE
  */
 uint64_t ExecuteStage::gete_valE(){
-	return e_valE;
+	return valE;
 }
