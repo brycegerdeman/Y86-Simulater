@@ -21,8 +21,8 @@
 bool DecodeStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	D * dreg = (D *) pregs[DREG];
 	E * ereg = (E *) pregs[EREG];
-	M * mreg = (M *) pregs[EREG];
-	W * wreg = (W *) pregs[EREG];
+	M * mreg = (M *) pregs[MREG];
+	W * wreg = (W *) pregs[WREG];
 
 	uint64_t stat = dreg->getstat()->getOutput(),
  		icode = dreg->geticode()->getOutput(),
@@ -42,13 +42,15 @@ bool DecodeStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	bool error = false;
 	uint64_t rvalA = reg->readRegister(srcA, error);
 	uint64_t rvalB = reg->readRegister(srcB, error);
+	
+	/*
 	std::cout << std::hex << "\nrvalA" <<  rvalA << std::endl;
-
 	ExecuteStage * xstage = (ExecuteStage *) stages[ESTAGE];
 	std::cout << std::hex << "\nsrcA" <<  srcA << std::endl;
 	std::cout << std::hex << "\nedstE" << xstage->gete_dstE() << std::endl;
 	std::cout << std::hex << "\nwdstE" << wreg->getdstE()->getOutput() << std::endl;
 	std::cout << std::hex << "\nmdstE" << mreg->getdstE()->getOutput() << std::endl;
+	*/
 
 	valA = fwdsrcA(mreg, wreg, stages, srcA, rvalA);
 	valB = fwdsrcB(mreg, wreg, stages, srcB, rvalB);
