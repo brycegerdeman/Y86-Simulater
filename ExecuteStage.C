@@ -40,6 +40,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	if (setcc(icode)) valE = ALU(icode, alufun, aluA, aluB);
 	else valE = aluA;
 	dstE = getdstE(icode, Cnd, dstE);
+	Cnd = cond(icode, ifun);
 
 
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
@@ -186,4 +187,11 @@ uint64_t ExecuteStage::gete_dstE(){
  */
 uint64_t ExecuteStage::gete_valE(){
 	return valE;
+}
+
+/*
+ * cond
+ */
+uint64_t ExecuteStage::cond(uint64_t icode, uint64_t ifun) {
+	return 0;
 }
