@@ -5,7 +5,10 @@
 #include "PipeReg.h"
 #include "M.h"
 #include "E.h"
+#include "Tools.h"
 #include "Stage.h"
+#include "Instructions.h"
+#include "ConditionCodes.h"
 #include "ExecuteStage.h"
 #include "Status.h"
 #include "Debug.h"
@@ -16,15 +19,29 @@
 bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	E * ereg = (E *) pregs[EREG];	
 	M * mreg = (M *) pregs[MREG];	
-	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0, valE = 0, 
-		dstE = 0, dstM = 0;
+	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0,
+	dstM = 0, valC = 0, valB = 0, ifun = 0;
+	uint64_t aluA = 0, aluB = 0, alufun = 0;
 
 	stat = ereg->getstat()->getOutput();
 	icode = ereg->geticode()->getOutput();
+	ifun = ereg->getifun()->getOutput();
 	valA = ereg->getvalA()->getOutput();
+	valB = ereg->getvalB()->getOutput();
+	valC = ereg->getvalC()->getOutput();
 	dstM = ereg->getdstM()->getOutput();
 	dstE = ereg->getdstE()->getOutput();
+
 	setvalE(ereg, mreg, valE);
+
+	aluA = getaluA(icode, valA, valC);
+	aluB = getaluB(icode, valB);
+	alufun = getalufun(icode, ifun);
+	if (setcc(icode)) valE = ALU(icode, alufun, aluA, aluB);
+	else valE = aluA;
+	dstE = getdstE(icode, Cnd, dstE);
+
+
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
 	return false;
 }
@@ -35,7 +52,6 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
  */
 void ExecuteStage::doClockHigh(PipeReg ** pregs) {
 	M * mreg = (M *) pregs[MREG];	
-	
 	mreg->getstat()->normal();	
 	mreg->geticode()->normal();	
 	mreg->getCnd()->normal();
@@ -59,9 +75,115 @@ void ExecuteStage::setMInput(M * mreg, uint64_t stat, uint64_t icode, uint64_t C
 	mreg->getdstM()->setInput(dstM);	
 }
 
+/* 
+ * setvalE
+ */
 void ExecuteStage::setvalE(E * ereg, M * mreg, uint64_t &valE) {
 	valE = ereg->getvalC()->getOutput();
 	mreg->getvalE()->setInput(valE);
 } 
 
+/*
+ * getaluA
+ */
+uint64_t ExecuteStage::getaluA(uint64_t icode, uint64_t valA, uint64_t valC) {
+	if (icode == IRRMOVQ || icode == IOPQ) return valA;
+	if (icode == IIRMOVQ || icode == IRMMOVQ || icode == IMRMOVQ) return valC;
+	if (icode == ICALL || icode == IPUSHQ) return -8;
+	if (icode == IRET || icode == IPOPQ) return 8;
+	return 0;
+}
 
+/*
+ * getaluB
+ */
+uint64_t ExecuteStage::getaluB(uint64_t icode, uint64_t valB) {
+	if (icode == IRMMOVQ || icode == IMRMOVQ || icode == IOPQ ||
+		icode == ICALL || icode == IPUSHQ || icode == IRET || 
+		icode == IPOPQ) return valB;
+	if (icode == IRRMOVQ || icode == IIRMOVQ) return 0;
+	return 0;
+}
+
+/*
+ * getalufun
+ */
+uint64_t ExecuteStage::getalufun(uint64_t icode, uint64_t ifun) {
+	if (icode == IOPQ) return ifun; 
+	return ADDQ;
+}
+
+/*
+ * getdstE
+ */
+uint64_t ExecuteStage::getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE) { 
+	if (icode == IRRMOVQ && !Cnd) return RNONE;
+	return dstE;
+}
+
+/*
+ * ALU
+ */
+uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_t aluB) {
+	uint64_t out = 0;
+
+	// ADD
+	if (ifun == ADDQ) {
+		out = aluA + aluB; 
+		CC(OF, (Tools::sign(aluA) == 0 && Tools::sign(aluB) == 0 && Tools::sign(out) == 1) || 
+			   (Tools::sign(aluA) == 1 && Tools::sign(aluB) == 1 && Tools::sign(out) == 0)); 
+	}
+
+	// SUB
+	if (ifun == SUBQ) {
+		out = aluB - aluA; 
+		CC(OF, (Tools::sign(out) == Tools::sign(aluA)) && 
+				(Tools::sign(aluA) != Tools::sign(aluB)));
+	}
+
+	// AND
+	if (ifun == ANDQ) {
+		out = aluA & aluB;
+		CC(OF, false);
+	}
+
+	// XOR
+	if (ifun == XORQ) {
+		out = aluA ^ aluB;
+		CC(OF, false);
+	}
+
+	CC(ZF, out == 0);
+	CC(SF, Tools::sign(out) == 1);
+	return out;
+}
+
+/*
+ * CC
+ */
+void ExecuteStage::CC(uint64_t ccNum, bool value) {
+	ConditionCodes * codes = codes->getInstance();
+	bool error = false;
+	codes->setConditionCode(value, ccNum, error);
+}
+
+/*
+ * setcc
+ */
+bool ExecuteStage::setcc(uint64_t icode) { 
+	return (icode == IOPQ);
+}
+
+/*
+ * gete_dstE
+ */
+uint64_t ExecuteStage::gete_dstE(){
+	return dstE;
+}
+
+/*
+ * gete_valE
+ */
+uint64_t ExecuteStage::gete_valE(){
+	return valE;
+}

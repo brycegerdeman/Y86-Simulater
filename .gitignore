@@ -1,4 +1,6 @@
 *.o
 ./lab5
 ./.vscode
-
+./Outputs
+./yis
+./yas
