@@ -37,19 +37,21 @@ bool DecodeStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 		srcA = getsrcA(icode, rA), 
 		srcB = getsrcB(icode, rB);
 	
-	std::cout << std::hex << "\n\n\n\n\n\n" << std::endl;
-	std::cout << std::hex << rA << std::endl;
-	std::cout << std::hex << srcA << std::endl;
 
 	RegisterFile * reg = reg->getInstance();
 	bool error = false;
 	uint64_t rvalA = reg->readRegister(srcA, error);
 	uint64_t rvalB = reg->readRegister(srcB, error);
+	std::cout << std::hex << "\nrvalA" <<  rvalA << std::endl;
 
-	std::cout << std::hex << rvalA << std::endl;
+	ExecuteStage * xstage = (ExecuteStage *) stages[ESTAGE];
+	std::cout << std::hex << "\nsrcA" <<  srcA << std::endl;
+	std::cout << std::hex << "\nedstE" << xstage->gete_dstE() << std::endl;
+	std::cout << std::hex << "\nwdstE" << wreg->getdstE()->getOutput() << std::endl;
+	std::cout << std::hex << "\nmdstE" << mreg->getdstE()->getOutput() << std::endl;
+
 	valA = fwdsrcA(mreg, wreg, stages, srcA, rvalA);
 	valB = fwdsrcB(mreg, wreg, stages, srcB, rvalB);
-	std::cout << std::hex << valA << std::endl;
 
 	setEInput(ereg, stat, icode, ifun, valC, valA, valB, dstE, dstM, srcA, srcB);
 	return false;
