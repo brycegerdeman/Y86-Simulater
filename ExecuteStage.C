@@ -130,8 +130,8 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	// ADD
 	if (ifun == ADDQ) {
 		out = aluA + aluB; 
-		CC(OF, (aluA > 0 && aluB > 0 && out < 0) || 
-				(aluA < 0 && aluB < 0 && out > 0));
+		CC(OF, (Tools::sign(aluA) == 0 && Tools::sign(aluB) == 0 && Tools::sign(out) == 1) || 
+			   (Tools::sign(aluA) == 1 && Tools::sign(aluB) == 1 && Tools::sign(out) == 0)); 
 	}
 
 	// SUB
