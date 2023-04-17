@@ -1,2 +1,5 @@
 *.o
 .vscode
+./Outputs
+./yis
+./yas
