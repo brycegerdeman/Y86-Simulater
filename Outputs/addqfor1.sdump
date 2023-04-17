@@ -259,7 +259,7 @@ E: valB: 0000000000000000 dstE: 4 dstM: f srcA: f srcB: f
 M: stat: 1 icode: 6 Cnd: 0 valE: ffffffffffffffff valA: 0000000000000003 dstE: 3 dstM: f
 W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: fffffffffffffffc
 %rsp: 0000000000000000 %rbp: 0000000000000000 %rsi: 0000000000000000 %rdi: 0000000000000000
 % r8: 0000000000000000 % r9: 0000000000000000 %r10: 0000000000000000 %r11: 0000000000000000
@@ -280,7 +280,7 @@ E: valB: 0000000000000000 dstE: 5 dstM: f srcA: f srcB: f
 M: stat: 1 icode: 3 Cnd: 0 valE: 0000000000000005 valA: 0000000000000000 dstE: 4 dstM: f
 W: stat: 1 icode: 6 valE: ffffffffffffffff valM: 0000000000000000 dstE: 3 dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: fffffffffffffffc
 %rsp: 0000000000000000 %rbp: 0000000000000000 %rsi: 0000000000000000 %rdi: 0000000000000000
 % r8: 0000000000000000 % r9: 0000000000000000 %r10: 0000000000000000 %r11: 0000000000000000
@@ -301,7 +301,7 @@ E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
 M: stat: 1 icode: 3 Cnd: 0 valE: fffffffffffffffb valA: 0000000000000000 dstE: 5 dstM: f
 W: stat: 1 icode: 3 valE: 0000000000000005 valM: 0000000000000000 dstE: 4 dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: ffffffffffffffff
 %rsp: 0000000000000000 %rbp: 0000000000000000 %rsi: 0000000000000000 %rdi: 0000000000000000
 % r8: 0000000000000000 % r9: 0000000000000000 %r10: 0000000000000000 %r11: 0000000000000000
@@ -322,7 +322,7 @@ E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
 M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
 W: stat: 1 icode: 3 valE: fffffffffffffffb valM: 0000000000000000 dstE: 5 dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: ffffffffffffffff
 %rsp: 0000000000000005 %rbp: 0000000000000000 %rsi: 0000000000000000 %rdi: 0000000000000000
 % r8: 0000000000000000 % r9: 0000000000000000 %r10: 0000000000000000 %r11: 0000000000000000
@@ -343,7 +343,7 @@ E: valB: fffffffffffffffb dstE: 5 dstM: f srcA: 4 srcB: 5
 M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
 W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: ffffffffffffffff
 %rsp: 0000000000000005 %rbp: fffffffffffffffb %rsi: 0000000000000000 %rdi: 0000000000000000
 % r8: 0000000000000000 % r9: 0000000000000000 %r10: 0000000000000000 %r11: 0000000000000000
@@ -574,7 +574,7 @@ E: valB: 0000000000000000 dstE: a dstM: f srcA: f srcB: f
 M: stat: 1 icode: 6 Cnd: 0 valE: fffffffffffffffe valA: 7fffffffffffffff dstE: 9 dstM: f
 W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: ffffffffffffffff
 %rsp: 0000000000000005 %rbp: 0000000000000000 %rsi: 8000000000000000 %rdi: 0000000000000000
 % r8: 7fffffffffffffff % r9: 7fffffffffffffff %r10: 0000000000000000 %r11: 0000000000000000
@@ -595,7 +595,7 @@ E: valB: 0000000000000000 dstE: b dstM: f srcA: f srcB: f
 M: stat: 1 icode: 3 Cnd: 0 valE: 8000000000000000 valA: 0000000000000000 dstE: a dstM: f
 W: stat: 1 icode: 6 valE: fffffffffffffffe valM: 0000000000000000 dstE: 9 dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: ffffffffffffffff
 %rsp: 0000000000000005 %rbp: 0000000000000000 %rsi: 8000000000000000 %rdi: 0000000000000000
 % r8: 7fffffffffffffff % r9: 7fffffffffffffff %r10: 0000000000000000 %r11: 0000000000000000
@@ -616,7 +616,7 @@ E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
 M: stat: 1 icode: 3 Cnd: 0 valE: 8000000000000001 valA: 0000000000000000 dstE: b dstM: f
 W: stat: 1 icode: 3 valE: 8000000000000000 valM: 0000000000000000 dstE: a dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: ffffffffffffffff
 %rsp: 0000000000000005 %rbp: 0000000000000000 %rsi: 8000000000000000 %rdi: 0000000000000000
 % r8: 7fffffffffffffff % r9: fffffffffffffffe %r10: 0000000000000000 %r11: 0000000000000000
@@ -637,7 +637,7 @@ E: valB: 0000000000000000 dstE: f dstM: f srcA: f srcB: f
 M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
 W: stat: 1 icode: 3 valE: 8000000000000001 valM: 0000000000000000 dstE: b dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: ffffffffffffffff
 %rsp: 0000000000000005 %rbp: 0000000000000000 %rsi: 8000000000000000 %rdi: 0000000000000000
 % r8: 7fffffffffffffff % r9: fffffffffffffffe %r10: 8000000000000000 %r11: 0000000000000000
@@ -658,7 +658,7 @@ E: valB: 8000000000000001 dstE: b dstM: f srcA: a srcB: b
 M: stat: 1 icode: 1 Cnd: 0 valE: 0000000000000000 valA: 0000000000000000 dstE: f dstM: f
 W: stat: 1 icode: 1 valE: 0000000000000000 valM: 0000000000000000 dstE: f dstM: f
 
-ZF: 0 SF: 0 OF: 0
+ZF: 0 SF: 1 OF: 0
 %rax: 0000000000000001 %rcx: 0000000000000003 %rdx: 0000000000000003 %rbx: ffffffffffffffff
 %rsp: 0000000000000005 %rbp: 0000000000000000 %rsi: 8000000000000000 %rdi: 0000000000000000
 % r8: 7fffffffffffffff % r9: fffffffffffffffe %r10: 8000000000000000 %r11: 8000000000000001

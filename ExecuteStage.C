@@ -125,45 +125,37 @@ uint64_t ExecuteStage::getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE) {
  * ALU
  */
 uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_t aluB) {
+	uint64_t out = 0;
+
 	// ADD
 	if (ifun == ADDQ) {
-		uint64_t out = aluA + aluB; 
-		CC(ZF, out == 0);
-		CC(SF, out < 0);
+		out = aluA + aluB; 
 		CC(OF, (aluA > 0 && aluB > 0 && out < 0) || 
 				(aluA < 0 && aluB < 0 && out > 0));
-		return out;	
 	}
 
 	// SUB
 	if (ifun == SUBQ) {
-		uint64_t out = aluB - aluA; 
-		CC(ZF, out == 0);
-		CC(SF, out < 0);
+		out = aluB - aluA; 
 		CC(OF, (Tools::sign(out) == Tools::sign(aluA)) && 
 				(Tools::sign(aluA) != Tools::sign(aluB)));
-		return out;
 	}
 
 	// AND
 	if (ifun == ANDQ) {
-		uint64_t out = aluA & aluB;
-		CC(ZF, out == 0);
-		CC(SF, out < 0);
+		out = aluA & aluB;
 		CC(OF, false);
-		return out;
 	}
 
 	// XOR
 	if (ifun == XORQ) {
-		uint64_t out = aluA ^ aluB;
-		CC(ZF, out == 0);
-		CC(SF, out < 0);
+		out = aluA ^ aluB;
 		CC(OF, false);
-		return out;
 	}
 
-	return 0;
+	CC(ZF, out == 0);
+	CC(SF, Tools::sign(out) == 1);
+	return out;
 }
 
 /*
