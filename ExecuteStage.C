@@ -193,5 +193,20 @@ uint64_t ExecuteStage::gete_valE(){
  * cond
  */
 uint64_t ExecuteStage::cond(uint64_t icode, uint64_t ifun) {
+	if (icode != IJXX && icode != ICMOVXX) return 0;
+
+	bool error = false;
+	ConditionCodes * codes = codes->getInstance();
+	bool zf = codes->getConditionCode(ZF, error);
+	bool sf = codes->getConditionCode(SF, error);
+	bool of = codes->getConditionCode(OF, error);
+
+	if (ifun == UNCOND) return 1;
+	if (ifun == LESSEQ) return (sf ^ of) | zf;
+	if (ifun == LESS) return (sf ^ of);
+	if (ifun == EQUAL) return zf;
+	if (ifun == NOTEQUAL) return !zf;
+	if (ifun == GREATER) return !(sf ^ of) & !zf;
+	if (ifun == GREATEREQ) return !(sf ^ of);
 	return 0;
 }

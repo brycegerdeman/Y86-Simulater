@@ -319,7 +319,7 @@ F: predPC: 067
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 7 valC: 8000000000000000 valP: 067
 E: stat: 1 icode: 3 ifun: 0 valC: 8000000000000000 valA: aaaaaaaaaaaaaaaa
 E: valB: aaaaaaaaaaaaaaaa dstE: 6 dstM: f srcA: f srcB: f
-M: stat: 1 icode: 2 Cnd: 0 valE: aaaaaaaaaaaaaaaa valA: aaaaaaaaaaaaaaaa dstE: f dstM: f
+M: stat: 1 icode: 2 Cnd: 1 valE: aaaaaaaaaaaaaaaa valA: aaaaaaaaaaaaaaaa dstE: f dstM: f
 W: stat: 1 icode: 6 valE: 0000000000000000 valM: 0000000000000000 dstE: 5 dstM: f
 
 ZF: 1 SF: 0 OF: 0
@@ -403,7 +403,7 @@ F: predPC: 07f
 D: stat: 1 icode: 3 ifun: 0 rA: f rB: 9 valC: 7fffffffffffffff valP: 07f
 E: stat: 1 icode: 3 ifun: 0 valC: 7fffffffffffffff valA: aaaaaaaaaaaaaaaa
 E: valB: aaaaaaaaaaaaaaaa dstE: 8 dstM: f srcA: f srcB: f
-M: stat: 1 icode: 2 Cnd: 0 valE: aaaaaaaaaaaaaaaa valA: aaaaaaaaaaaaaaaa dstE: f dstM: f
+M: stat: 1 icode: 2 Cnd: 1 valE: aaaaaaaaaaaaaaaa valA: aaaaaaaaaaaaaaaa dstE: f dstM: f
 W: stat: 1 icode: 6 valE: 0000000000000000 valM: 0000000000000000 dstE: 7 dstM: f
 
 ZF: 1 SF: 0 OF: 1
