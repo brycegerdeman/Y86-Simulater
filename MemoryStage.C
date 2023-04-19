@@ -7,6 +7,7 @@
 #include "W.h"
 #include "Stage.h"
 #include "MemoryStage.h"
+#include "Instructions.h"
 #include "Status.h"
 #include "Debug.h"
 
@@ -55,3 +56,17 @@ void MemoryStage::setWInput(W * wreg, uint64_t stat, uint64_t icode, uint64_t va
 	wreg->getdstE()->setInput(dstE);
 	wreg->getdstM()->setInput(dstM);
 }
+
+/* 
+ * addr
+ */
+uint64_t MemoryStage::addr(M * mreg) {
+	uint64_t M_icode = mreg->geticode()->getOutput();
+	uint64_t M_valA = mreg->getvalA()->getOutput();
+	uint64_t M_valE = mreg->getvalE()->getOutput();
+
+	if (M_icode == IRMMOVQ || M_icode == IPUSHQ || M_icode == ICALL || M_icode == IMRMOVQ) return M_valE;
+	if (M_icode == IPOPQ || M_icode == IRET) return M_valA;
+	return 0;
+}
+
