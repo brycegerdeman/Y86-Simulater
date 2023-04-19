@@ -20,7 +20,7 @@ bool MemoryStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	M * mreg = (M *) pregs[MREG];
 	W * wreg = (W *) pregs[WREG];
 	Memory * mem = mem->getInstance();
-	uint64_t stat = SAOK, icode = 0, valE = 0, valA = 0, valM = 0, dstE = 0, dstM = 0;
+	uint64_t stat = SAOK, icode = 0, valE = 0, valA = 0, dstE = 0, dstM = 0;
 	bool error = false;
 
 	stat = mreg->getstat()->getOutput(); 
@@ -30,6 +30,7 @@ bool MemoryStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	dstM = mreg->getdstM()->getOutput();
 	valA = mreg->getvalA()->getOutput();
 
+	valM = 0;
 	if (mem_read(mreg)) valM = mem->getLong(addr(mreg), error);
 	if (mem_write(mreg)) mem->putLong(valA ,addr(mreg), error);
 
@@ -87,3 +88,9 @@ bool MemoryStage::mem_write(M * mreg) {
 	return (M_icode == IRMMOVQ || M_icode == IPUSHQ || M_icode == ICALL);
 }
 
+/*
+ * getm_valM
+ */
+uint64_t MemoryStage::getm_valM(){
+	return valM;
+}
