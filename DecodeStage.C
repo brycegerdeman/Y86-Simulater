@@ -107,6 +107,7 @@ uint64_t DecodeStage::getdstM(uint64_t icode, uint64_t rA){
 uint64_t DecodeStage::fwdsrcA(M * mreg, W * wreg, Stage ** stages, uint64_t srcA, 
 	uint64_t rvalA) {
 	ExecuteStage * xstage = (ExecuteStage *) stages[ESTAGE];
+	if (srcA == RNONE) return 0;
 	if (srcA == xstage->gete_dstE()) return xstage->gete_valE();
 	if (srcA == mreg->getdstE()->getOutput()) return mreg->getvalE()->getOutput();
 	if (srcA == wreg->getdstE()->getOutput()) return wreg->getvalE()->getOutput();
