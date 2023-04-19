@@ -116,6 +116,7 @@ uint64_t DecodeStage::fwdsrcA(M * mreg, W * wreg, Stage ** stages, uint64_t srcA
 uint64_t DecodeStage::fwdsrcB(M * mreg, W * wreg, Stage ** stages, uint64_t srcB, 
 	uint64_t rvalB) {
 	ExecuteStage * xstage = (ExecuteStage *) stages[ESTAGE];
+	if (srcB == RNONE) return 0;
 	if (srcB == xstage->gete_dstE()) return xstage->gete_valE();
 	if (srcB == mreg->getdstE()->getOutput()) return mreg->getvalE()->getOutput();
 	if (srcB == wreg->getdstE()->getOutput()) return wreg->getvalE()->getOutput();
