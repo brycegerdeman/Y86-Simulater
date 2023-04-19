@@ -1,7 +1,25 @@
       .pos 0
-#Put your code here. You'll need some 
-#initialization code and then five chunks
-#of code that are basically identical.
+irmovq list, %rax;
+nop
+nop
+nop
+mrmovq (%rax), %rbx;
+nop
+nop
+nop
+rrmovq %rbx, %rsp;
+nop
+nop
+nop
+andq %rbx, %rbx; 
+nop
+nop
+nop
+irmovq $0, %rsb;
+nop
+nop
+nop
+
 
       .align 8
 list: .quad -2            #at end: 2
