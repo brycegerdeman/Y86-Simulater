@@ -8,7 +8,7 @@ class ExecuteStage: public Stage {
   public:
         bool doClockLow(PipeReg ** pregs, Stage ** stages);
         void doClockHigh(PipeReg ** pregs);
-        void setvalE(E * ereg, M * mreg, uint64_t &valE);
+        void setvalE(E * ereg, M * mreg, uint64_t valE);
         uint64_t getaluA(uint64_t icode, uint64_t valA, uint64_t valC);
         uint64_t getaluB(uint64_t icode, uint64_t valB);
         uint64_t getalufun(uint64_t icode, uint64_t ifun);

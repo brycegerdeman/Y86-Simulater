@@ -33,7 +33,7 @@ bool MemoryStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	if (mem_read(mreg)) valM = mem->getLong(addr(mreg), error);
 	if (mem_write(mreg)) mem->putLong(valA ,addr(mreg), error);
 
-	setWInput(wreg, stat, icode, valE, valM, dstE, dstM);
+	setWInput(wreg, stat, icode, mreg->getvalE()->getOutput(), valM, dstE, dstM);
 	return false;
 }
 

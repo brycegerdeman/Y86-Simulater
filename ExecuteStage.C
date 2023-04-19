@@ -33,12 +33,13 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	dstE = ereg->getdstE()->getOutput();
 
 	setvalE(ereg, mreg, valE);
-
 	aluA = getaluA(icode, valA, valC);
 	aluB = getaluB(icode, valB);
 	alufun = getalufun(icode, ifun);
+
 	if (setcc(icode)) valE = ALU(icode, alufun, aluA, aluB);
 	else valE = aluA;
+
 	Cnd = cond(icode, ifun);
 	dstE = getdstE(icode, Cnd, dstE);
 
@@ -79,7 +80,7 @@ void ExecuteStage::setMInput(M * mreg, uint64_t stat, uint64_t icode, uint64_t C
 /* 
  * setvalE
  */
-void ExecuteStage::setvalE(E * ereg, M * mreg, uint64_t &valE) {
+void ExecuteStage::setvalE(E * ereg, M * mreg, uint64_t valE) {
 	valE = ereg->getvalC()->getOutput();
 	mreg->getvalE()->setInput(valE);
 } 
