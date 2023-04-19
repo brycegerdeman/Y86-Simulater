@@ -39,8 +39,8 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	alufun = getalufun(icode, ifun);
 	if (setcc(icode)) valE = ALU(icode, alufun, aluA, aluB);
 	else valE = aluA;
-	dstE = getdstE(icode, Cnd, dstE);
 	Cnd = cond(icode, ifun);
+	dstE = getdstE(icode, Cnd, dstE);
 
 
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
