@@ -37,8 +37,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	aluB = getaluB(icode, valB);
 	alufun = getalufun(icode, ifun);
 
-	if (setcc(icode)) valE = ALU(icode, alufun, aluA, aluB);
-	else valE = aluA;
+	valE = ALU(icode, alufun, aluA, aluB);
 
 	Cnd = cond(icode, ifun);
 	dstE = getdstE(icode, Cnd, dstE);
@@ -131,31 +130,52 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	// ADD
 	if (ifun == ADDQ) {
 		out = aluA + aluB; 
-		CC(OF, (Tools::sign(aluA) == 0 && Tools::sign(aluB) == 0 && Tools::sign(out) == 1) || 
-			   (Tools::sign(aluA) == 1 && Tools::sign(aluB) == 1 && Tools::sign(out) == 0)); 
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, Tools::sign(out) == 1);
+			CC(OF, (Tools::sign(aluA) == 0 && Tools::sign(aluB) == 0 && Tools::sign(out) == 1) || 
+				(Tools::sign(aluA) == 1 && Tools::sign(aluB) == 1 && Tools::sign(out) == 0)); 
+		}
+		return out;
 	}
+
 
 	// SUB
 	if (ifun == SUBQ) {
 		out = aluB - aluA; 
-		CC(OF, (Tools::sign(out) == Tools::sign(aluA)) && 
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, Tools::sign(out) == 1);
+			CC(OF, (Tools::sign(out) == Tools::sign(aluA)) && 
 				(Tools::sign(aluA) != Tools::sign(aluB)));
+		}
+		return out;
 	}
 
 	// AND
 	if (ifun == ANDQ) {
 		out = aluA & aluB;
-		CC(OF, false);
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, Tools::sign(out) == 1);
+			CC(OF, false);
+		}
+		return out;
 	}
 
 	// XOR
 	if (ifun == XORQ) {
 		out = aluA ^ aluB;
-		CC(OF, false);
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, Tools::sign(out) == 1);
+			CC(OF, false);
+		}
+		return out;
 	}
 
-	CC(ZF, out == 0);
-	CC(SF, Tools::sign(out) == 1);
+	// ADD
+	out = aluA + aluB; 
 	return out;
 }
 
