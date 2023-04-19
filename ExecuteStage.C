@@ -43,7 +43,6 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	Cnd = cond(icode, ifun);
 	dstE = getdstE(icode, Cnd, dstE);
 
-
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
 	return false;
 }
