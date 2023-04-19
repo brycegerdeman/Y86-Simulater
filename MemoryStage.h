@@ -7,4 +7,6 @@ class MemoryStage: public Stage {
       bool doClockLow(PipeReg ** pregs, Stage ** stages);
       void doClockHigh(PipeReg ** pregs);
       uint64_t addr(M * mreg); 
+      bool mem_read(M * mreg);
+      bool mem_write(M * mreg);
 };

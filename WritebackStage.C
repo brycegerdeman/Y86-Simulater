@@ -29,6 +29,9 @@ void WritebackStage::doClockHigh(PipeReg ** pregs) {
 
 	uint64_t W_valE = wreg->getvalE()->getOutput();
 	uint64_t W_dstE = wreg->getdstE()->getOutput();
+	uint64_t W_dstM = wreg->getdstM()->getOutput();
+	uint64_t W_valM = wreg->getvalM()->getOutput();
 	bool error = false;
 	regfile->writeRegister(W_valE, W_dstE, error);
+	regfile->writeRegister(W_valM, W_dstM, error);
 }
