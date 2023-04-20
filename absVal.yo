@@ -1,0 +1,218 @@
+0x000:                      | .pos 0
+0x000: 30f09001000000000000 | irmovq list, %rax   # Put address into pointer
+0x00a: 10                   | nop
+0x00b: 30fd0000000000000000 | irmovq $0, %r13     # Set operation register to 0
+0x015: 10                   | nop
+0x016: 10                   | nop
+                            | 
+                            | 
+                            | 
+                            | 
+                            | ###########################################################################
+                            | 
+0x017: 50e00000000000000000 | mrmovq 0(%rax), %r14 # Move value at pointer into r14
+0x021: 10                   | nop
+0x022: 10                   | nop
+0x023: 10                   | nop
+0x024: 62ee                 | andq %r14, %r14     # and r14 to set flags
+0x026: 10                   | nop
+0x027: 10                   | nop
+0x028: 10                   | nop
+0x029: 22ed                 | cmovl %r14, %r13    # Move the number to the r13 if it is negative
+0x02b: 10                   | nop
+0x02c: 10                   | nop
+0x02d: 10                   | nop
+0x02e: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x030: 10                   | nop
+0x031: 10                   | nop
+0x032: 10                   | nop
+0x033: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x035: 10                   | nop
+0x036: 10                   | nop
+0x037: 10                   | nop
+0x038: 40e00000000000000000 | rmmovq %r14, 0(%rax)
+0x042: 10                   | nop
+0x043: 10                   | nop
+0x044: 10                   | nop
+0x045: 30fd0000000000000000 | irmovq $0, %r13     # reset operataion register
+0x04f: 10                   | nop
+0x050: 10                   | nop
+0x051: 10                   | nop
+0x052: 30f80800000000000000 | irmovq $8, %r8      # increment stack pointer
+0x05c: 10                   | nop
+0x05d: 10                   | nop
+0x05e: 10                   | nop
+0x05f: 6080                 | addq %r8, %rax    
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | ###########################################################################
+                            | 
+0x061: 50e00000000000000000 | mrmovq 0(%rax), %r14 # Move value at pointer into r14
+0x06b: 10                   | nop
+0x06c: 10                   | nop
+0x06d: 10                   | nop
+0x06e: 62ee                 | andq %r14, %r14     # and r14 to set flags
+0x070: 10                   | nop
+0x071: 10                   | nop
+0x072: 10                   | nop
+0x073: 22ed                 | cmovl %r14, %r13    # Move the number to the r13 if it is negative
+0x075: 10                   | nop
+0x076: 10                   | nop
+0x077: 10                   | nop
+0x078: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x07a: 10                   | nop
+0x07b: 10                   | nop
+0x07c: 10                   | nop
+0x07d: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x07f: 10                   | nop
+0x080: 10                   | nop
+0x081: 10                   | nop
+0x082: 40e00000000000000000 | rmmovq %r14, 0(%rax)
+0x08c: 10                   | nop
+0x08d: 10                   | nop
+0x08e: 10                   | nop
+0x08f: 30fd0000000000000000 | irmovq $0, %r13     # reset operataion register
+0x099: 10                   | nop
+0x09a: 10                   | nop
+0x09b: 10                   | nop
+0x09c: 30f80800000000000000 | irmovq $8, %r8      # increment stack pointer
+0x0a6: 10                   | nop
+0x0a7: 10                   | nop
+0x0a8: 10                   | nop
+0x0a9: 6080                 | addq %r8, %rax 
+                            | 
+                            | ###########################################################################
+                            | 
+0x0ab: 50e00000000000000000 | mrmovq 0(%rax), %r14 # Move value at pointer into r14
+0x0b5: 10                   | nop
+0x0b6: 10                   | nop
+0x0b7: 10                   | nop
+0x0b8: 62ee                 | andq %r14, %r14     # and r14 to set flags
+0x0ba: 10                   | nop
+0x0bb: 10                   | nop
+0x0bc: 10                   | nop
+0x0bd: 22ed                 | cmovl %r14, %r13    # Move the number to the r13 if it is negative
+0x0bf: 10                   | nop
+0x0c0: 10                   | nop
+0x0c1: 10                   | nop
+0x0c2: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x0c4: 10                   | nop
+0x0c5: 10                   | nop
+0x0c6: 10                   | nop
+0x0c7: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x0c9: 10                   | nop
+0x0ca: 10                   | nop
+0x0cb: 10                   | nop
+0x0cc: 40e00000000000000000 | rmmovq %r14, 0(%rax)
+0x0d6: 10                   | nop
+0x0d7: 10                   | nop
+0x0d8: 10                   | nop
+0x0d9: 30fd0000000000000000 | irmovq $0, %r13     # reset operataion register
+0x0e3: 10                   | nop
+0x0e4: 10                   | nop
+0x0e5: 10                   | nop
+0x0e6: 30f80800000000000000 | irmovq $8, %r8      # increment stack pointer
+0x0f0: 10                   | nop
+0x0f1: 10                   | nop
+0x0f2: 10                   | nop
+0x0f3: 6080                 | addq %r8, %rax 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | ###########################################################################
+                            | 
+0x0f5: 50e00000000000000000 | mrmovq 0(%rax), %r14 # Move value at pointer into r14
+0x0ff: 10                   | nop
+0x100: 10                   | nop
+0x101: 10                   | nop
+0x102: 62ee                 | andq %r14, %r14     # and r14 to set flags
+0x104: 10                   | nop
+0x105: 10                   | nop
+0x106: 10                   | nop
+0x107: 22ed                 | cmovl %r14, %r13    # Move the number to the r13 if it is negative
+0x109: 10                   | nop
+0x10a: 10                   | nop
+0x10b: 10                   | nop
+0x10c: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x10e: 10                   | nop
+0x10f: 10                   | nop
+0x110: 10                   | nop
+0x111: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x113: 10                   | nop
+0x114: 10                   | nop
+0x115: 10                   | nop
+0x116: 40e00000000000000000 | rmmovq %r14, 0(%rax)
+0x120: 10                   | nop
+0x121: 10                   | nop
+0x122: 10                   | nop
+0x123: 30fd0000000000000000 | irmovq $0, %r13     # reset operataion register
+0x12d: 10                   | nop
+0x12e: 10                   | nop
+0x12f: 10                   | nop
+0x130: 30f80800000000000000 | irmovq $8, %r8      # increment stack pointer
+0x13a: 10                   | nop
+0x13b: 10                   | nop
+0x13c: 10                   | nop
+0x13d: 6080                 | addq %r8, %rax 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | ###########################################################################
+                            | 
+0x13f: 50e00000000000000000 | mrmovq 0(%rax), %r14 # Move value at pointer into r14
+0x149: 10                   | nop
+0x14a: 10                   | nop
+0x14b: 10                   | nop
+0x14c: 62ee                 | andq %r14, %r14     # and r14 to set flags
+0x14e: 10                   | nop
+0x14f: 10                   | nop
+0x150: 10                   | nop
+0x151: 22ed                 | cmovl %r14, %r13    # Move the number to the r13 if it is negative
+0x153: 10                   | nop
+0x154: 10                   | nop
+0x155: 10                   | nop
+0x156: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x158: 10                   | nop
+0x159: 10                   | nop
+0x15a: 10                   | nop
+0x15b: 61de                 | subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+0x15d: 10                   | nop
+0x15e: 10                   | nop
+0x15f: 10                   | nop
+0x160: 40e00000000000000000 | rmmovq %r14, 0(%rax)
+0x16a: 10                   | nop
+0x16b: 10                   | nop
+0x16c: 10                   | nop
+0x16d: 30fd0000000000000000 | irmovq $0, %r13     # reset operataion register
+0x177: 10                   | nop
+0x178: 10                   | nop
+0x179: 10                   | nop
+0x17a: 30f80800000000000000 | irmovq $8, %r8      # increment stack pointer
+0x184: 10                   | nop
+0x185: 10                   | nop
+0x186: 10                   | nop
+0x187: 6080                 | addq %r8, %rax 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+                            | 
+0x190:                      |       .align 8
+0x190: feffffffffffffff     | list: .quad -2            #at end: 2
+0x198: 0500000000000000     |       .quad 5             #at end: 5 
+0x1a0: f1ffffffffffffff     |       .quad -15           #at end: f
+0x1a8: 0000000000000000     |       .quad 0             #at end: 0
+0x1b0: ffffffffffffffff     |       .quad -1            #at end: 1
