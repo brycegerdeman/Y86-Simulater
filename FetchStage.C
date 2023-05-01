@@ -31,8 +31,7 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	W * wreg = (W *) pregs[WREG];
 	D * dreg = (D *) pregs[DREG];
 
-	uint64_t f_pc = 0, icode = 0, ifun = 0, valC = 0, valP = 0, 
-	mem_icode = 0, mem_ifun = 0;
+	uint64_t f_pc = 0, icode = 0, ifun = 0, valC = 0, valP = 0;
 	uint64_t rA = RNONE, rB = RNONE, stat = SAOK;
 	bool need_regId = false, need_valC = false;
 
