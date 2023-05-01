@@ -42,13 +42,9 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	f_pc = selectPC(freg, mreg, wreg); 
 	uint64_t byte0 = mem->getByte(f_pc, imem_error);
 
-	icode = Tools::getBits(byte0, 4, 7);
-	ifun = Tools::getBits(byte0, 0, 3);
-	mem_icode = mreg->geticode()->getOutput();
-	//mem_ifun = mreg->getifun()->getOutput();
-	//need_regId = needRegIds(icode);
-	icode = ficode(imem_error, icode);
-	ifun = fifun(imem_error, ifun);
+	icode = ficode(imem_error, Tools::getBits(byte0, 4, 7));
+	ifun = fifun(imem_error, Tools::getBits(byte0, 0, 3));
+
 	need_valC = needValC(icode);
 	stat = fstat(imem_error, icode, instrValid(icode));
 
@@ -192,25 +188,25 @@ uint64_t FetchStage::buildValC(uint8_t bytes[LONGSIZE]) {
 	return Tools::buildLong(bytes);
 }
 
-bool instrValid(uint64_t f_icode) {
+bool FetchStage::instrValid(uint64_t f_icode) {
 	return (f_icode == INOP || f_icode == IHALT || f_icode == IRRMOVQ || f_icode == IIRMOVQ 
 			|| f_icode == IRMMOVQ || f_icode == IMRMOVQ || f_icode == IOPQ || f_icode == IJXX 
 			|| f_icode == ICALL || f_icode == IRET || f_icode == IPUSHQ || f_icode == IPOPQ);
 }
 
-bool fstat(bool mem_error, uint64_t f_icode, bool insrt_valid) {
+bool FetchStage::fstat(bool mem_error, uint64_t f_icode, bool insrt_valid) {
 	if (mem_error) return SADR;
 	if (!(insrt_valid)) return SINS;
 	if (f_icode == IHALT) return SHLT;
 	return SAOK;
 }
 
-uint64_t ficode(bool mem_error, uint64_t mem_icode) {
+uint64_t FetchStage::ficode(bool mem_error, uint64_t mem_icode) {
 	if(mem_error) return INOP;
 	return mem_icode;
 }
 
-uint64_t fifun(bool mem_error, uint64_t mem_ifun) {
+uint64_t FetchStage::fifun(bool mem_error, uint64_t mem_ifun) {
 	if (mem_error) return FNONE;
 	return mem_ifun;
 }

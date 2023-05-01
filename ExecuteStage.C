@@ -11,6 +11,7 @@
 #include "Instructions.h"
 #include "ConditionCodes.h"
 #include "ExecuteStage.h"
+#include "MemoryStage.h"
 #include "Status.h"
 #include "Debug.h"
 
@@ -39,8 +40,10 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	aluB = getaluB(icode, valB);
 	alufun = getalufun(icode, ifun);
 
+	MemoryStage * mstage = (MemoryStage *) stages[MSTAGE];
 	uint64_t W_stat = wreg->getstat()->getOutput();
-	valE = ALU(icode, alufun, aluA, aluB, stat, W_stat);
+	uint64_t m_stat = mstage->getm_stat();
+	valE = ALU(icode, alufun, aluA, aluB, m_stat, W_stat);
 
 	Cnd = cond(icode, ifun);
 	dstE = getdstE(icode, Cnd, dstE);
