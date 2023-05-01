@@ -20,4 +20,5 @@ class ExecuteStage: public Stage {
         uint64_t cond(uint64_t icode, uint64_t ifun); 
         uint64_t gete_dstE();
         uint64_t gete_valE();
+        bool calculateControlSignals(uint64_t m_stat, uint64_t W_stat);
 };
