@@ -27,8 +27,8 @@ bool MemoryStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	icode = mreg->geticode()->getOutput(); 
 	valE = mreg->getvalE()->getOutput(); 
 	dstE = mreg->getdstE()->getOutput(); 
-	dstM = mreg->getdstM()->getOutput();
-	valA = mreg->getvalA()->getOutput();
+	dstM = mreg->getdstM()->getOutput(); 
+	valA = mreg->getvalA()->getOutput(); 
 
 	valM = 0;
 	if (mem_read(mreg)) valM = mem->getLong(addr(mreg), mem_error);

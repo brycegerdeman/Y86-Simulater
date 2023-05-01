@@ -193,7 +193,7 @@ bool FetchStage::instrValid(uint64_t f_icode) {
 			|| f_icode == ICALL || f_icode == IRET || f_icode == IPUSHQ || f_icode == IPOPQ);
 }
 
-bool FetchStage::fstat(bool mem_error, uint64_t f_icode, bool insrt_valid) {
+uint64_t FetchStage::fstat(bool mem_error, uint64_t f_icode, bool insrt_valid) {
 	if (mem_error) return SADR;
 	if (!(insrt_valid)) return SINS;
 	if (f_icode == IHALT) return SHLT;
