@@ -16,4 +16,8 @@ class FetchStage: public Stage {
 
 	bool needValC(uint64_t f_icode);
 	uint64_t buildValC(uint8_t bytes[8]);
+     bool instrValid(uint64_t f_icode);
+     bool fstat(uint64_t mem_error, uint64_t f_icode, bool insrt_valid);
+     uint64_t ficode(bool mem_error, uint64_t mem_icode);   
+     uint64_t fifun(bool mem_error, uint64_t mem_ifun);
 };
