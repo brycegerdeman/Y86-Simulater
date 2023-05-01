@@ -5,6 +5,7 @@
 #include "PipeReg.h"
 #include "M.h"
 #include "E.h"
+#include "W.h"
 #include "Tools.h"
 #include "Stage.h"
 #include "Instructions.h"
@@ -19,6 +20,7 @@
 bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	E * ereg = (E *) pregs[EREG];	
 	M * mreg = (M *) pregs[MREG];	
+	W * wreg = (W *) pregs[WREG];	
 	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0,
 	dstM = 0, valC = 0, valB = 0, ifun = 0;
 	uint64_t aluA = 0, aluB = 0, alufun = 0;
@@ -37,7 +39,8 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	aluB = getaluB(icode, valB);
 	alufun = getalufun(icode, ifun);
 
-	valE = ALU(icode, alufun, aluA, aluB);
+	uint64_t W_stat = wreg->getstat()->getOutput();
+	valE = ALU(icode, alufun, aluA, aluB, stat, W_stat);
 
 	Cnd = cond(icode, ifun);
 	dstE = getdstE(icode, Cnd, dstE);
@@ -124,13 +127,14 @@ uint64_t ExecuteStage::getdstE(uint64_t icode, uint64_t Cnd, uint64_t dstE) {
 /*
  * ALU
  */
-uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_t aluB) {
+uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, 
+	uint64_t aluB, uint64_t m_stat, uint64_t W_stat) {
 	uint64_t out = 0;
 
 	// ADD
 	if (ifun == ADDQ) {
 		out = aluA + aluB; 
-		if (setcc(icode)) {
+		if (setcc(icode, m_stat, W_stat)) {
 			CC(ZF, out == 0);
 			CC(SF, Tools::sign(out) == 1);
 			CC(OF, (Tools::sign(aluA) == 0 && Tools::sign(aluB) == 0 && Tools::sign(out) == 1) || 
@@ -143,7 +147,7 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	// SUB
 	if (ifun == SUBQ) {
 		out = aluB - aluA; 
-		if (setcc(icode)) {
+		if (setcc(icode, m_stat, W_stat)) {
 			CC(ZF, out == 0);
 			CC(SF, Tools::sign(out) == 1);
 			CC(OF, (Tools::sign(out) == Tools::sign(aluA)) && 
@@ -155,7 +159,7 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	// AND
 	if (ifun == ANDQ) {
 		out = aluA & aluB;
-		if (setcc(icode)) {
+		if (setcc(icode, m_stat, W_stat)) {
 			CC(ZF, out == 0);
 			CC(SF, Tools::sign(out) == 1);
 			CC(OF, false);
@@ -166,7 +170,7 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	// XOR
 	if (ifun == XORQ) {
 		out = aluA ^ aluB;
-		if (setcc(icode)) {
+		if (setcc(icode, m_stat, W_stat)) {
 			CC(ZF, out == 0);
 			CC(SF, Tools::sign(out) == 1);
 			CC(OF, false);
@@ -191,8 +195,9 @@ void ExecuteStage::CC(uint64_t ccNum, bool value) {
 /*
  * setcc
  */
-bool ExecuteStage::setcc(uint64_t icode) { 
-	return (icode == IOPQ);
+bool ExecuteStage::setcc(uint64_t icode, uint64_t m_stat, uint64_t W_stat) { 
+	return (icode == IOPQ) && (m_stat != SADR && m_stat != SINS && m_stat != SHLT)
+		&& (W_stat != SADR && W_stat != SINS && W_stat != SHLT);
 }
 
 /*
@@ -210,7 +215,7 @@ uint64_t ExecuteStage::gete_valE(){
 }
 
 /*
- * cond
+ * con
  */
 uint64_t ExecuteStage::cond(uint64_t icode, uint64_t ifun) {
 	if (icode != IJXX && icode != ICMOVXX) return 0;
