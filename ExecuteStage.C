@@ -33,14 +33,14 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	dstE = ereg->getdstE()->getOutput();
 
 	setvalE(ereg, mreg, valE);
-
 	aluA = getaluA(icode, valA, valC);
 	aluB = getaluB(icode, valB);
 	alufun = getalufun(icode, ifun);
-	if (setcc(icode)) valE = ALU(icode, alufun, aluA, aluB);
-	else valE = aluA;
-	dstE = getdstE(icode, Cnd, dstE);
 
+	valE = ALU(icode, alufun, aluA, aluB);
+
+	Cnd = cond(icode, ifun);
+	dstE = getdstE(icode, Cnd, dstE);
 
 	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
 	return false;
@@ -78,7 +78,7 @@ void ExecuteStage::setMInput(M * mreg, uint64_t stat, uint64_t icode, uint64_t C
 /* 
  * setvalE
  */
-void ExecuteStage::setvalE(E * ereg, M * mreg, uint64_t &valE) {
+void ExecuteStage::setvalE(E * ereg, M * mreg, uint64_t valE) {
 	valE = ereg->getvalC()->getOutput();
 	mreg->getvalE()->setInput(valE);
 } 
@@ -130,31 +130,52 @@ uint64_t ExecuteStage::ALU(uint64_t icode, uint64_t ifun, uint64_t aluA, uint64_
 	// ADD
 	if (ifun == ADDQ) {
 		out = aluA + aluB; 
-		CC(OF, (Tools::sign(aluA) == 0 && Tools::sign(aluB) == 0 && Tools::sign(out) == 1) || 
-			   (Tools::sign(aluA) == 1 && Tools::sign(aluB) == 1 && Tools::sign(out) == 0)); 
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, Tools::sign(out) == 1);
+			CC(OF, (Tools::sign(aluA) == 0 && Tools::sign(aluB) == 0 && Tools::sign(out) == 1) || 
+				(Tools::sign(aluA) == 1 && Tools::sign(aluB) == 1 && Tools::sign(out) == 0)); 
+		}
+		return out;
 	}
+
 
 	// SUB
 	if (ifun == SUBQ) {
 		out = aluB - aluA; 
-		CC(OF, (Tools::sign(out) == Tools::sign(aluA)) && 
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, Tools::sign(out) == 1);
+			CC(OF, (Tools::sign(out) == Tools::sign(aluA)) && 
 				(Tools::sign(aluA) != Tools::sign(aluB)));
+		}
+		return out;
 	}
 
 	// AND
 	if (ifun == ANDQ) {
 		out = aluA & aluB;
-		CC(OF, false);
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, Tools::sign(out) == 1);
+			CC(OF, false);
+		}
+		return out;
 	}
 
 	// XOR
 	if (ifun == XORQ) {
 		out = aluA ^ aluB;
-		CC(OF, false);
+		if (setcc(icode)) {
+			CC(ZF, out == 0);
+			CC(SF, Tools::sign(out) == 1);
+			CC(OF, false);
+		}
+		return out;
 	}
 
-	CC(ZF, out == 0);
-	CC(SF, Tools::sign(out) == 1);
+	// ADD
+	out = aluA + aluB; 
 	return out;
 }
 
@@ -186,4 +207,26 @@ uint64_t ExecuteStage::gete_dstE(){
  */
 uint64_t ExecuteStage::gete_valE(){
 	return valE;
+}
+
+/*
+ * cond
+ */
+uint64_t ExecuteStage::cond(uint64_t icode, uint64_t ifun) {
+	if (icode != IJXX && icode != ICMOVXX) return 0;
+
+	bool error = false;
+	ConditionCodes * codes = codes->getInstance();
+	bool zf = codes->getConditionCode(ZF, error);
+	bool sf = codes->getConditionCode(SF, error);
+	bool of = codes->getConditionCode(OF, error);
+
+	if (ifun == UNCOND) return 1;
+	if (ifun == LESSEQ) return (sf ^ of) | zf;
+	if (ifun == LESS) return (sf ^ of);
+	if (ifun == EQUAL) return zf;
+	if (ifun == NOTEQUAL) return !zf;
+	if (ifun == GREATER) return !(sf ^ of) & !zf;
+	if (ifun == GREATEREQ) return !(sf ^ of);
+	return 0;
 }

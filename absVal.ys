@@ -1,0 +1,218 @@
+.pos 0
+irmovq list, %rax   # Put address into pointer
+nop
+irmovq $0, %r13     # Set operation register to 0
+nop
+nop
+
+
+
+
+###########################################################################
+
+mrmovq 0(%rax), %r14 # Move value at pointer into r14
+nop
+nop
+nop
+andq %r14, %r14     # and r14 to set flags
+nop
+nop
+nop
+cmovl %r14, %r13    # Move the number to the r13 if it is negative
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+rmmovq %r14, 0(%rax)
+nop
+nop
+nop
+irmovq $0, %r13     # reset operataion register
+nop
+nop
+nop
+irmovq $8, %r8      # increment stack pointer
+nop
+nop
+nop
+addq %r8, %rax    
+
+
+
+
+
+
+
+
+###########################################################################
+
+mrmovq 0(%rax), %r14 # Move value at pointer into r14
+nop
+nop
+nop
+andq %r14, %r14     # and r14 to set flags
+nop
+nop
+nop
+cmovl %r14, %r13    # Move the number to the r13 if it is negative
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+rmmovq %r14, 0(%rax)
+nop
+nop
+nop
+irmovq $0, %r13     # reset operataion register
+nop
+nop
+nop
+irmovq $8, %r8      # increment stack pointer
+nop
+nop
+nop
+addq %r8, %rax 
+
+###########################################################################
+
+mrmovq 0(%rax), %r14 # Move value at pointer into r14
+nop
+nop
+nop
+andq %r14, %r14     # and r14 to set flags
+nop
+nop
+nop
+cmovl %r14, %r13    # Move the number to the r13 if it is negative
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+rmmovq %r14, 0(%rax)
+nop
+nop
+nop
+irmovq $0, %r13     # reset operataion register
+nop
+nop
+nop
+irmovq $8, %r8      # increment stack pointer
+nop
+nop
+nop
+addq %r8, %rax 
+
+
+
+
+
+###########################################################################
+
+mrmovq 0(%rax), %r14 # Move value at pointer into r14
+nop
+nop
+nop
+andq %r14, %r14     # and r14 to set flags
+nop
+nop
+nop
+cmovl %r14, %r13    # Move the number to the r13 if it is negative
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+rmmovq %r14, 0(%rax)
+nop
+nop
+nop
+irmovq $0, %r13     # reset operataion register
+nop
+nop
+nop
+irmovq $8, %r8      # increment stack pointer
+nop
+nop
+nop
+addq %r8, %rax 
+
+
+
+
+
+
+###########################################################################
+
+mrmovq 0(%rax), %r14 # Move value at pointer into r14
+nop
+nop
+nop
+andq %r14, %r14     # and r14 to set flags
+nop
+nop
+nop
+cmovl %r14, %r13    # Move the number to the r13 if it is negative
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+subq %r13, %r14     # r14 = r14 - r13    EX: (-2 - -2) or (5 - 0)
+nop
+nop
+nop
+rmmovq %r14, 0(%rax)
+nop
+nop
+nop
+irmovq $0, %r13     # reset operataion register
+nop
+nop
+nop
+irmovq $8, %r8      # increment stack pointer
+nop
+nop
+nop
+addq %r8, %rax 
+
+
+
+
+
+
+
+      .align 8
+list: .quad -2            #at end: 2
+      .quad 5             #at end: 5 
+      .quad -15           #at end: f
+      .quad 0             #at end: 0
+      .quad -1            #at end: 1
