@@ -59,13 +59,24 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
  */
 void ExecuteStage::doClockHigh(PipeReg ** pregs) {
 	M * mreg = (M *) pregs[MREG];	
-	mreg->getstat()->normal();	
-	mreg->geticode()->normal();	
-	mreg->getCnd()->normal();
-	mreg->getvalE()->normal();
-	mreg->getvalA()->normal();
-	mreg->getdstE()->normal();
-	mreg->getdstM()->normal();
+
+	if (M_bubble == false) {
+		mreg->getstat()->normal();	
+		mreg->geticode()->normal();	
+		mreg->getCnd()->normal();
+		mreg->getvalE()->normal();
+		mreg->getvalA()->normal();
+		mreg->getdstE()->normal();
+		mreg->getdstM()->normal();
+	} else {
+		mreg->getstat()->bubble(SAOK);
+		mreg->geticode()->bubble(INOP);
+		mreg->getCnd()->bubble();
+		mreg->getvalE()->bubble();
+		mreg->getvalA()->bubble();
+		mreg->getdstE()->bubble(RNONE);
+		mreg->getdstM()->bubble(RNONE);
+	}
 }
 
 /* 
