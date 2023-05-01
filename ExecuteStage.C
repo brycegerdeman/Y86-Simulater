@@ -44,6 +44,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	uint64_t W_stat = wreg->getstat()->getOutput();
 	uint64_t m_stat = mstage->getm_stat();
 	valE = ALU(icode, alufun, aluA, aluB, m_stat, W_stat);
+	M_bubble = calculateControlSignals(m_stat, W_stat);
 
 	Cnd = cond(icode, ifun);
 	dstE = getdstE(icode, Cnd, dstE);
@@ -218,7 +219,7 @@ uint64_t ExecuteStage::gete_valE(){
 }
 
 /*
- * con
+ * cond
  */
 uint64_t ExecuteStage::cond(uint64_t icode, uint64_t ifun) {
 	if (icode != IJXX && icode != ICMOVXX) return 0;
@@ -237,4 +238,12 @@ uint64_t ExecuteStage::cond(uint64_t icode, uint64_t ifun) {
 	if (ifun == GREATER) return !(sf ^ of) & !zf;
 	if (ifun == GREATEREQ) return !(sf ^ of);
 	return 0;
+}
+
+/*
+ * calculateControlSignals
+ */
+bool ExecuteStage::calculateControlSignals(uint64_t m_stat, uint64_t W_stat) {
+	return (m_stat == SADR || m_stat == SINS || m_stat == SHLT) 
+		|| (W_stat == SADR || W_stat == SINS || W_stat == SHLT);
 }
