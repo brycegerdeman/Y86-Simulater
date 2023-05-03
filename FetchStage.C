@@ -48,26 +48,29 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	icode = ficode(mem_error, Tools::getBits(byte0, 4, 7));
 	ifun = fifun(mem_error, Tools::getBits(byte0, 0, 3));
 
+
 	need_valC = needValC(icode);
+	if (need_valC) {
+		uint8_t bytes[LONGSIZE];
+		uint8_t offset = 2;
+		if (icode == IJXX) offset = 1;
+
+		for (int i = 0; i < LONGSIZE; i++) {
+			bytes[i] = mem->getByte(f_pc + offset + i, mem_error);
+		}	
+		valC = buildValC(bytes);
+	}
+
 	stat = fstat(mem_error, icode, instrValid(icode));
 
 	need_regId = needRegIds(icode);
 	uint64_t byte1 = mem->getByte(f_pc + 1, mem_error);
 	if (need_regId) getRegIds(byte1, rA, rB);
-	
+
 	DecodeStage * dstage = (DecodeStage *) stages[DSTAGE];
 	ExecuteStage * estage = (ExecuteStage *) stages[ESTAGE];
 	calculateControlSignals(ereg->geticode()->getOutput(), 
 		ereg->getdstM()->getOutput(), dstage->getd_srcA(), dstage->getd_srcB(), estage->gete_Cnd());
-
-	if (need_valC) {
-		uint8_t bytes[LONGSIZE];
-		for (int i = 0; i < LONGSIZE; i++) {
-			bytes[i] = mem->getByte(f_pc + 2 + i, mem_error);
-		}	
-		valC = buildValC(bytes);
-	}
-
 
 	valP = PCincrement(f_pc, need_regId, need_valC);
 	freg->getpredPC()->setInput(predictPC(valP, icode, valC));
