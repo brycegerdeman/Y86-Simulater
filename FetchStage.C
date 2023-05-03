@@ -36,26 +36,26 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	bool need_regId = false, need_valC = false;
 
 	Memory * mem = mem->getInstance();
-	bool imem_error = false;
+	bool mem_error = false;
 
 	f_pc = selectPC(freg, mreg, wreg); 
-	uint64_t byte0 = mem->getByte(f_pc, imem_error);
+	uint64_t byte0 = mem->getByte(f_pc, mem_error);
 
-	icode = ficode(imem_error, Tools::getBits(byte0, 4, 7));
-	ifun = fifun(imem_error, Tools::getBits(byte0, 0, 3));
+	icode = ficode(mem_error, Tools::getBits(byte0, 4, 7));
+	ifun = fifun(mem_error, Tools::getBits(byte0, 0, 3));
 
 	need_valC = needValC(icode);
-	stat = fstat(imem_error, icode, instrValid(icode));
+	stat = fstat(mem_error, icode, instrValid(icode));
 
-	uint64_t byte1 = mem->getByte(f_pc + 1, imem_error);
+	need_regId = needRegIds(icode);
+	uint64_t byte1 = mem->getByte(f_pc + 1, mem_error);
 	if (need_regId) getRegIds(byte1, rA, rB);
-
-
 	
+
 	if (need_valC) {
 		uint8_t bytes[LONGSIZE];
 		for (int i = 0; i < LONGSIZE; i++) {
-			bytes[i] = mem->getByte(f_pc + 2 + i, imem_error);
+			bytes[i] = mem->getByte(f_pc + 2 + i, mem_error);
 		}	
 		valC = buildValC(bytes);
 	}
@@ -126,10 +126,7 @@ uint64_t FetchStage::predictPC(uint64_t valP, uint64_t icode, uint64_t valC) {
  * PCincrement
  */ 
 uint64_t FetchStage::PCincrement(uint64_t f_pc, bool needRegIds, bool needValC) {
-	if (needRegIds && needValC) return f_pc + 10;
-	if (!needRegIds && needValC) return f_pc + 9;	
-	if (needRegIds && !needValC) return f_pc + 2;	
-	return f_pc + 1;		
+	return f_pc + 1 + (needRegIds ? 1 : 0) + (needValC ? 8 : 0);
 }
 
 /*
@@ -167,9 +164,6 @@ void FetchStage::getRegIds(uint64_t byte1, uint64_t &rA, uint64_t &rB) {
 	rA = Tools::getBits(byte1, 4, 7);
 	rB = Tools::getBits(byte1, 0, 3);
 }
-
-
-
 
 /*
  * needValC
