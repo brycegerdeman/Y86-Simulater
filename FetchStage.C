@@ -203,3 +203,11 @@ uint64_t FetchStage::fifun(bool mem_error, uint64_t mem_ifun) {
 	if (mem_error) return FNONE;
 	return mem_ifun;
 }
+
+bool getF_stall(uint64_t E_icode, uint64_t E_dstM, uint64_t d_srcA, uint64_t d_srcB) {
+	return (E_icode == IMRMOVQ || E_icode == IPOPQ) && (E_dstM == d_srcA || E_dstM == d_srcB);
+}
+
+bool getD_stall(uint64_t E_icode, uint64_t E_dstM, uint64_t d_srcA, uint64_t d_srcB) {
+	return (E_icode == IMRMOVQ || E_icode == IPOPQ) && (E_dstM == d_srcA || E_dstM == d_srcB);
+}
