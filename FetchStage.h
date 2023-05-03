@@ -24,8 +24,14 @@ class FetchStage: public Stage {
   uint64_t fstat(bool mem_error, uint64_t f_icode, bool insrt_valid);
   uint64_t ficode(bool mem_error, uint64_t mem_icode);   
   uint64_t fifun(bool mem_error, uint64_t mem_ifun);
-  bool getF_stall(uint64_t E_icode, uint64_t E_dstM, uint64_t d_srcA, uint64_t d_srcB);
+
   bool getD_stall(uint64_t E_icode, uint64_t E_dstM, uint64_t d_srcA, uint64_t d_srcB);
-  void calculateControlSignals(uint64_t E_icode, uint64_t E_dstM, uint64_t d_srcA, uint64_t d_srcB, uint64_t e_Cnd);
-  bool getD_bubble(uint64_t E_icode, uint64_t e_Cnd);
+  bool getF_stall(uint64_t E_icode, uint64_t E_dstM, uint64_t d_srcA, 
+	    uint64_t d_srcB, uint64_t D_icode, uint64_t M_icode);
+  bool getD_bubble(uint64_t E_icode, uint64_t e_Cnd, 
+      uint64_t E_dstM, uint64_t d_srcA, uint64_t d_srcB, 
+      uint64_t D_icode, uint64_t M_icode);
+  void calculateControlSignals(uint64_t E_icode, uint64_t E_dstM,
+      uint64_t d_srcA, uint64_t d_srcB, uint64_t e_Cnd, uint64_t D_icode, 
+      uint64_t M_icode);
 };
