@@ -12,6 +12,7 @@
 #include "Instructions.h"
 #include "Tools.h"
 #include "FetchStage.h"
+#include "ExecuteStage.h"
 #include "DecodeStage.h"
 #include "Status.h"
 #include "Debug.h"
@@ -55,8 +56,9 @@ bool FetchStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	if (need_regId) getRegIds(byte1, rA, rB);
 	
 	DecodeStage * dstage = (DecodeStage *) stages[DSTAGE];
+	ExecuteStage * estage = (ExecuteStage *) stages[ESTAGE];
 	calculateControlSignals(ereg->geticode()->getOutput(), 
-		ereg->getdstM()->getOutput(), dstage->getd_srcA(), dstage->getd_srcB());
+		ereg->getdstM()->getOutput(), dstage->getd_srcA(), dstage->getd_srcB(), estage->gete_Cnd());
 
 	if (need_valC) {
 		uint8_t bytes[LONGSIZE];
@@ -88,7 +90,7 @@ void FetchStage::doClockHigh(PipeReg ** pregs) {
 		freg->getpredPC()->normal();
 	}
 
-	if (!D_stall) {
+	if (!D_stall && !D_bubble) {
 		dreg->getstat()->normal();
 		dreg->geticode()->normal();
 		dreg->getifun()->normal();
@@ -96,6 +98,16 @@ void FetchStage::doClockHigh(PipeReg ** pregs) {
 		dreg->getrB()->normal();
 		dreg->getvalC()->normal();
 		dreg->getvalP()->normal();
+	}
+
+	if (D_bubble) {
+		dreg->getstat()->bubble(SAOK);
+		dreg->geticode()->bubble(INOP);
+		dreg->getifun()->bubble();
+		dreg->getrA()->bubble(RNONE);
+		dreg->getrB()->bubble(RNONE);
+		dreg->getvalC()->bubble();
+		dreg->getvalP()->bubble();
 	}
 }
 
@@ -223,7 +235,13 @@ bool FetchStage::getD_stall(uint64_t E_icode, uint64_t E_dstM, uint64_t d_srcA, 
 	return (E_icode == IMRMOVQ || E_icode == IPOPQ) && (E_dstM == d_srcA || E_dstM == d_srcB);
 }
 
-void FetchStage::calculateControlSignals(uint64_t E_icode, uint64_t E_dstM, uint64_t d_srcA, uint64_t d_srcB) {
+void FetchStage::calculateControlSignals(uint64_t E_icode, uint64_t E_dstM,
+		uint64_t d_srcA, uint64_t d_srcB, uint64_t e_Cnd) {
 	F_stall = getF_stall(E_icode, E_dstM, d_srcA, d_srcB);
 	D_stall = getD_stall(E_icode, E_dstM, d_srcA, d_srcB);
+	D_bubble = getD_bubble(E_icode, e_Cnd);
+}
+
+bool FetchStage::getD_bubble(uint64_t E_icode, uint64_t e_Cnd) {
+	return (E_icode == IJXX && !e_Cnd);
 }

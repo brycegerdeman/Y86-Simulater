@@ -22,7 +22,7 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	E * ereg = (E *) pregs[EREG];	
 	M * mreg = (M *) pregs[MREG];	
 	W * wreg = (W *) pregs[WREG];	
-	uint64_t stat = SAOK, icode = 0, Cnd = 0, valA = 0,
+	uint64_t stat = SAOK, icode = 0, valA = 0,
 	dstM = 0, valC = 0, valB = 0, ifun = 0;
 	uint64_t aluA = 0, aluB = 0, alufun = 0;
 
@@ -46,10 +46,10 @@ bool ExecuteStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	valE = ALU(icode, alufun, aluA, aluB, m_stat, W_stat);
 	M_bubble = calculateControlSignals(m_stat, W_stat);
 
-	Cnd = cond(icode, ifun);
-	dstE = getdstE(icode, Cnd, dstE);
+	e_Cnd = cond(icode, ifun);
+	dstE = getdstE(icode, e_Cnd, dstE);
 
-	setMInput(mreg, stat, icode, Cnd, valE, valA, dstE, dstM);
+	setMInput(mreg, stat, icode, e_Cnd, valE, valA, dstE, dstM);
 	return false;
 }
 
@@ -257,4 +257,8 @@ uint64_t ExecuteStage::cond(uint64_t icode, uint64_t ifun) {
 bool ExecuteStage::calculateControlSignals(uint64_t m_stat, uint64_t W_stat) {
 	return (m_stat == SADR || m_stat == SINS || m_stat == SHLT) 
 		|| (W_stat == SADR || W_stat == SINS || W_stat == SHLT);
+}
+
+uint64_t ExecuteStage::gete_Cnd() {
+	return e_Cnd;
 }
