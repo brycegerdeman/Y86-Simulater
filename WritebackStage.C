@@ -4,6 +4,7 @@
 #include "PipeRegField.h"
 #include "PipeReg.h"
 #include "Stage.h"
+#include "Status.h"
 #include "W.h"
 #include "WritebackStage.h"
 #include "Status.h"
@@ -16,8 +17,8 @@
  */
 bool WritebackStage::doClockLow(PipeReg ** pregs, Stage ** stages) {
 	W * wreg = (W *) pregs[WREG];
-	uint64_t icode = wreg->geticode()->getOutput();	
-	return (icode == IHALT);
+	uint64_t stat = wreg->getstat()->getOutput();
+	return (stat != SAOK);
 }
 
 /* 
