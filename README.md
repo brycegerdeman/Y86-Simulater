@@ -1,6 +1,6 @@
-#Y86-Simulator
+# Y86-Simulator
 
-###Installation
+### Installation
 
-#####Cloning the Repository
+##### Cloning the Repository
 `git clone https://github.com/brycegerdeman/Y86-Simulater.git`
