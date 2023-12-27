@@ -47,7 +47,7 @@ files, which contain the Y86 assembly code for the simulator.
   ```
   - The '.yo' file contains the assembly instructions for the simulator
 #### 3. Run 'yess with the '.yo' File:
-  -Execute the simulator with the '.yo' file as an argument:
+  - Execute the simulator with the '.yo' file as an argument:
   `./yess <yourfile.yo>`
   - Replace <yourfile.yo> with the path to you '.yo' file
 #### 4. Interpreting Output:
@@ -58,4 +58,10 @@ files, which contain the Y86 assembly code for the simulator.
     - Processor Flags
     - Memory State: A hexadecimal dump of memory contents
     - Cycle Info: icode, ifun, stat, predPC
+   
+
+### Note
+- The exact behavior and output of 'yess' depend on the instructions in the '.yo' file and how 'yess' is programmed to interpret them.
+
+This README assumes that 'yess' is properly built and is capable of interpreting '.yo' files containing Y86 assembly instructions. For detailed usage and advanced options, refer to the source code or contact the repository maintainers.
  
